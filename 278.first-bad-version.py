@@ -20,16 +20,17 @@ class Solution:
         l = 1
         r = n
 
-        while l < r:
+        while l <= r:
             mid = (l + r) // 2
             if isBadVersion(mid):
-                r = mid
-                # r can be bad version as the single bad in this check
+                # sanity check
+                if mid == 1 or (mid - 1 >= 1 and not isBadVersion(mid - 1)):
+                    return mid
+
+                r = mid - 1
             else:
                 l = mid + 1
                 # l cannot be bad, otherwise all versions afterward will be bad either
-
-        return l
 
 
 # @lc code=end

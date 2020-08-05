@@ -6,7 +6,10 @@ def binarysearch(nums, target):
         mid = (l + r) // 2
 
         if nums[mid] == target:
+            # usually need to consider sanity check before returning mid.
             return mid
+            # if sanity check doesn't pass, it needs to move left or right here to do next check
+
         elif nums[mid] < target:
             l = mid + 1
         elif nums[mid] > target:
