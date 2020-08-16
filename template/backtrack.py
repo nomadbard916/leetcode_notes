@@ -10,6 +10,7 @@ class Solution:
         # it's convenient to give backtrack function defaults, so there's no need to remember to add them on first calling
         def backtrack(current_path=[], option_list=[]):
             if ending_condition:
+                # can do result updating here
                 return
 
             # sanity check should be done after ending condition

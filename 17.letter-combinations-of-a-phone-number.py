@@ -28,23 +28,20 @@ class Solution:
             "9": "wxyz",
         }
 
-        def backtrack(current_path: str = "", current_index: int = 0):
+        def backtrack(current_path="", current_index=0):
             # ending condition: out of bound
-            if current_index > ans_length:
-                return
-            # ending condition: current path is one of the answers
             if len(current_path) == ans_length:
                 ans_container.append(current_path)
                 return
 
-            # try to make option list
             current_digit = digits[current_index]
             current_letters = dl_map[current_digit]
 
+            # there may be no need for checking range, as for loop guarantees option list inbound
             for letter in current_letters:
-                # make decision: update visited path
-                updated_path = current_path + letter
-                backtrack(updated_path, current_index + 1)
+                update_path = current_path + letter
+
+                backtrack(update_path, current_index + 1)
 
         backtrack()
 
