@@ -5,14 +5,17 @@ class Solution:
 
         # option list may not be provided explicitly,
         # but deferred implicitly for data manipulation convenience.
-        #  eg. #78 and #17 use 'index'
+        #  eg. #17, #78 and #79  use 'index'
 
         # it's convenient to give backtrack function defaults, so there's no need to remember to add them on first calling
         def backtrack(current_path=[], option_list=[]):
             if ending_condition:
                 return
 
+            # sanity check should be done after ending condition
+
             # record current path data into result list
+            # can be in the form by index manipulation
             result.append(current_path)
 
             for item in option_list:
@@ -22,7 +25,7 @@ class Solution:
 
                 #  go to next layer of decision tree
                 # sometimes the path and option lists can even be modified directly in calling backtrack()
-                backtrack(updated_path, option_list)
+                backtrack(updated_path, "updated options")
 
                 # cancel decision,
                 # or don't do anything when backtracking meets ending condition
