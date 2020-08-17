@@ -23,7 +23,7 @@ class Solution:
         r_depth = self.maxDepth(root.right)
 
         # postorder traversal
-        return max(l_depth, r_depth) + 1
+        return max(l_depth, r_depth) + 1  # +1 when roo exists
 
 
 # @lc code=end
