@@ -3,21 +3,23 @@ class Solution:
 
         result = []
 
+        # sanity check on data source
+
         # option list may not be provided explicitly,
         # but deferred implicitly for data manipulation convenience.
         #  eg. #17, #78 and #79  use 'index'
 
         # it's convenient to give backtrack function defaults, so there's no need to remember to add them on first calling
         def backtrack(current_path=[], option_list=[]):
-            if ending_condition:
-                # can do result updating here
+            if not sanity_check:
                 return
 
-            # sanity check should be done after ending condition
+            if ending_condition:
+                result.append(current_path)
+                return
 
             # record current path data into result list
             # can be in the form by index manipulation
-            result.append(current_path)
 
             for item in option_list:
                 # make decision, may need to do sanity check first
@@ -29,7 +31,8 @@ class Solution:
                 backtrack(updated_path, "updated options")
 
                 # cancel decision,
-                # or don't do anything when backtracking meets ending condition
+                # or don't do anything when backtracking is done with updated_path, ie. a clone of current_path
+
                 current_path.pop()
 
         backtrack()
