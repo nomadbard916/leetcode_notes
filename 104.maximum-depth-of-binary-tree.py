@@ -22,8 +22,11 @@ class Solution:
         l_depth = self.maxDepth(root.left)
         r_depth = self.maxDepth(root.right)
 
-        # postorder traversal
-        return max(l_depth, r_depth) + 1  # +1 when roo exists
+        # essentiall postorder traversal, i.e. result of current node
+        max_children_depth = max(l_depth, r_depth)
+
+        # the current node itself + deedpest children depth
+        return 1 + max_children_depth
 
 
 # @lc code=end
