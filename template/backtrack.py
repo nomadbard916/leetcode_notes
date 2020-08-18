@@ -11,6 +11,7 @@ class Solution:
 
         # it's convenient to give backtrack function defaults, so there's no need to remember to add them on first calling
         def backtrack(current_path=[], option_list=[]):
+            # working on current level
             if not sanity_check:
                 return
 
