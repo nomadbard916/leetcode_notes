@@ -27,7 +27,6 @@ class Solution:
 
         # traversing the whole tree, from the most basic child tree (even thinking of leaf node) then recursively going up
 
-        # preorder
         # ending condition: out of bound
         if root is None:
             return
@@ -40,6 +39,7 @@ class Solution:
         left_search = self.lowestCommonAncestor(root.left, p, q)
         right_search = self.lowestCommonAncestor(root.right, p, q)
 
+        # postorder
         # searching on a child tree must have four resulting conditions:
         # out of bound
         if left_search is None and right_search is None:
