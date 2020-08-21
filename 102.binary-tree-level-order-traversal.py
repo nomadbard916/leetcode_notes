@@ -27,11 +27,13 @@ class Solution:
             current_level = []
             length = len(q)
 
+            # check each node in this level
             for i in range(length):
+                # current level operation
                 current_node = q.popleft()
-
                 current_level.append(current_node.val)
 
+                # check next level and put nodes into queue
                 if current_node.left:
                     q.append(current_node.left)
                 if current_node.right:
