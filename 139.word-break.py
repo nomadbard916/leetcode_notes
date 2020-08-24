@@ -21,18 +21,21 @@ class Solution:
         def backtrack(option_list=s):
             option_length = len(option_list)
 
-            if option_list in DPtable:
-                return DPtable[option_list]
-
+            # ending condition: the ramaining string exist in wordDict
             if option_list in wordDict:
                 DPtable[option_list] = True
                 return True
 
-            for i in range(0, option_length):
-                checking = option_list[:i]
-                checkable = option_list[i:]
+            # ending condition: the ramaining string is already recorded to be breakable
+            if option_list in DPtable:
+                return DPtable[option_list]
 
-                if checkable in wordDict and backtrack(checking):
+            for i in range(0, option_length):
+                # checking from the end, the recursively checking the previous parts
+                checking = option_list[i:]
+                checkable = option_list[:i]
+
+                if checking in wordDict and backtrack(checkable):
                     DPtable[option_list] = True
                     return True
 
