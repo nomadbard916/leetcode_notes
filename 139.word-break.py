@@ -6,26 +6,40 @@
 
 # @lc code=start
 class Solution:
+    # https://songhuiming.github.io/pages/2018/03/18/leetcode-139-word-break/
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-        # ! DRAFT
-        s_length = len(s)
+        #  slicing and checking string recursively and record the substring in "used" dict
+        # return true when the whole string is done comparison
+        s_length: int = len(s)
+
+        DPtable: dict = {}
 
         # sanity check
-        if s_length < len(min(wordDict, key=len)):
+        if s_length == 0 or len(wordDict) == 0:
             return False
 
-        def backtrack(current_path="", option_list=wordDict):
-            if current_path == s:
+        def backtrack(option_list=s):
+            option_length = len(option_list)
+
+            if option_list in DPtable:
+                return DPtable[option_list]
+
+            if option_list in wordDict:
+                DPtable[option_list] = True
                 return True
 
-            # ending condition: out of bound
-            if len(current_path) > s_length:
-                return
+            for i in range(0, option_length):
+                checking = option_list[:i]
+                checkable = option_list[i:]
 
-            for word in option_list:
-                backtrack(current_path + word, option_list)
+                if checkable in wordDict and backtrack(checking):
+                    DPtable[option_list] = True
+                    return True
 
+            DPtable[option_list] = False
             return False
+
+        return backtrack()
 
 
 # @lc code=end
