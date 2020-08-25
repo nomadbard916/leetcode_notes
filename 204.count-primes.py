@@ -9,20 +9,22 @@ class Solution:
     def countPrimes(self, n: int) -> int:
         #  sieve of Eratosthenes:
         # the biggest prime factor of n must not exceed sqrt(n)
+        # https://ithelp.ithome.com.tw/articles/10223005
+
+        # though it's good, but who can remember it?
+        # let's only take the essence of tabulation
 
         # sanity check
         if n <= 2:
             return 0
 
-        is_prime: list = [1] * n
-        is_prime[0], is_prime[1] = 0, 0
+        is_prime: list = [True] * n
+        is_prime[0], is_prime[1] = False, False
 
-        # from first prime (2) to sqrt(n)+1
-        for i in range(2, int(n ** 0.5) + 1):
-            if is_prime[i] == 1:
-                # mark all the multiples of this prime to be non-prime,
-                #  starting from square of it
-                is_prime[i * i : n : i] = [0] * len(is_prime[i * i : n : i])
+        for i in range(2, n):
+            if is_prime[i]:
+                # mark all the multiples of i as non-prime
+                is_prime[i * 2 : n : i] = [False] * len(is_prime[i * 2 : n : i])
 
         return sum(is_prime)
 
