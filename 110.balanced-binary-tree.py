@@ -13,6 +13,7 @@
 #         self.right = right
 class Solution:
     def isBalanced(self, root: TreeNode) -> bool:
+        # refer to # 111, 104
         def height(root):
             if root is None:
                 return 0
@@ -21,6 +22,7 @@ class Solution:
         if root is None:
             return True
 
+        # postorder
         if abs(height(root.left) - height(root.right)) > 1:
             return False
 
