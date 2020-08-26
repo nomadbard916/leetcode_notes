@@ -21,10 +21,10 @@ class Solution:
         if root is None:
             return True
 
-        if abs(DFS(root.left) - DFS(root.right)) <= 1:
-            return self.isBalanced(root.left) and self.isBalanced(root.right)
+        if abs(DFS(root.left) - DFS(root.right)) > 1:
+            return False
 
-        return False
+        return self.isBalanced(root.left) and self.isBalanced(root.right)
 
 
 # @lc code=end
