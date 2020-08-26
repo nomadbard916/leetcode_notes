@@ -18,29 +18,33 @@
 #         self.right = right
 class Solution:
     def sortedListToBST(self, head: ListNode) -> TreeNode:
-        # sanity check
-        if head is None:
-            return head
+        # it's indeed ok to use fast and slow nodes, but this method's too trivial
+        # just turn the linked list to list and follow 108
 
-        pre_mid, slow, fast = None, head, head
+        def solution_108(nums):
+            length = len(nums)
 
-        while fast and fast.next:
-            fast = fast.next.next
-            pre_mid = slow
-            slow = slow.next
+            # sanity check
+            if length == 0:
+                return None
+            if length == 1:
+                return TreeNode(nums[0])
 
-        if pre_mid:
-            pre_mid.next = None
+            mid = length // 2
+            root = TreeNode(nums[mid])
 
-        mid = TreeNode(slow.val)
+            root.left = solution_108(nums[:mid])
+            root.right = solution_108(nums[mid + 1 :])
 
-        if slow == fast:
-            return mid
+            return root
 
-        mid.left = self.sortedListToBST(head)
-        mid.right = self.sortedListToBST(slow.next)
+        nums = []
 
-        return mid
+        while head:
+            nums.append(head.val)
+            head = head.next
+
+        return solution_108(nums)
 
 
 # @lc code=end
