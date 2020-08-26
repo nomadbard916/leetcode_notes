@@ -13,15 +13,15 @@
 #         self.right = right
 class Solution:
     def isBalanced(self, root: TreeNode) -> bool:
-        def DFS(root):
+        def height(root):
             if root is None:
                 return 0
-            return max(DFS(root.left), DFS(root.right)) + 1
+            return max(height(root.left), height(root.right)) + 1
 
         if root is None:
             return True
 
-        if abs(DFS(root.left) - DFS(root.right)) > 1:
+        if abs(height(root.left) - height(root.right)) > 1:
             return False
 
         return self.isBalanced(root.left) and self.isBalanced(root.right)
