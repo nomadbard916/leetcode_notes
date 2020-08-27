@@ -10,6 +10,23 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        
+        # # sol 1
+        # n = len(nums)
+        # a = [0] * n
+        # for i in range(n):
+        #     a[(i + k) % n] = nums[i]
+
+        # nums[:] = a
+
+        # sol 2
+        # avoid exceeding
+        real_k = k % len(nums)
+        reversed_nums = list(reversed(nums))
+        l = reversed_nums[:real_k]
+        r = reversed_nums[real_k:]
+
+        nums[:] = list(reversed(l)) + list(reversed(r))
+
+
 # @lc code=end
 
