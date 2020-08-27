@@ -27,6 +27,8 @@ class Solution:
 
         # nums[:] = list(reversed(l)) + list(reversed(r))
 
+        # sol 3: cyclic replacements with prev, curr, next
+
 
 # @lc code=end
 
