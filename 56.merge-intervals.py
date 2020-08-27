@@ -7,8 +7,8 @@
 # @lc code=start
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        # append the first period, then check if the following ones can be combined with the previous one
-        # combine or append new, then repeatedly check every one until the last
+        # append the first period, then check if the following ones can be combined with the previous one;
+        # combine or append new (compare only two intervals at once), then repeatedly check every one until the last
 
         # sanity check
         if not intervals:
@@ -19,10 +19,7 @@ class Solution:
         ans = []
         ans.append(intervals[0])
 
-        for i, current_interval in enumerate(intervals):
-            if i == 0:  # already processed initially
-                continue
-
+        for i, current_interval in enumerate(intervals, start=1):
             prev_interval = ans[-1]
 
             if current_interval[0] <= prev_interval[1]:
