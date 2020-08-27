@@ -12,15 +12,17 @@
 #         self.next = next
 class Solution:
     def deleteDuplicates(self, head: ListNode) -> ListNode:
-        current = head
+        # head is certain, therefore memorize it for returning purpose
+        initial_head = head
 
-        while current:
-            if current.next and current.next.val == current.val:
-                current.next = current.next.next
+        while head:
+            # only check the next node from currently traversed node
+            if head.next and head.next.val == head.val:
+                head.next = head.next.next
             else:
-                current = current.next
+                head = head.next
 
-        return head
+        return initial_head
 
 
 # @lc code=end
