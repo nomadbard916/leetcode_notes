@@ -10,7 +10,7 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        # # sol 1
+        # # sol 1: find the relationship between old and new position
         # n = len(nums)
         # a = [0] * n
         # for i in range(n):
