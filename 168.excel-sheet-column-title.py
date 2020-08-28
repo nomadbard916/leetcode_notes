@@ -28,6 +28,11 @@ class Solution:
 
         return s
 
+        # sol 2
+        # if n == 0:
+        #     return ''
+        # return self.convertToTitle((n-1)/26) + chr((n-1)%26 + 65)
+
 
 # @lc code=end
 
