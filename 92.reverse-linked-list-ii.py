@@ -20,20 +20,22 @@ class Solution:
     def reverseBetween(self, head: ListNode, m: int, n: int) -> ListNode:
         dummy = ListNode()
 
+        # without recording it here, it may be lost if m == 1
         dummy.next = head
-        prev, curr = dummy, dummy.next
+        prev = dummy
 
         # looping to locate partial head and prev and memorize them
-        for _ in range(m - 1):
-            prev, curr = curr, curr.next
+        for _ in range(1, m):
+            prev, head = head, head.next
 
-        before_reverse, first_reversed = prev, curr
+        before_reverse, first_reversed = prev, head
 
+        # looping until just out of reverse range
         for _ in range(n - m + 1):
-            curr.next, prev, curr = prev, curr, curr.next
+            head.next, prev, head = prev, head, head.next
 
         # reestablish links
-        before_reverse.next, first_reversed.next = prev, curr
+        before_reverse.next, first_reversed.next = prev, head
 
         return dummy.next
 
