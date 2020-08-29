@@ -20,7 +20,7 @@ class Solution:
     def reverseBetween(self, head: ListNode, m: int, n: int) -> ListNode:
         dummy = ListNode()
 
-        # without recording it here, it may be lost if m == 1
+        # without recording it here, it may be lost if m == 1 as prev.next is not updated in the process
         dummy.next = head
         prev = dummy
 
