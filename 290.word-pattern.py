@@ -10,7 +10,7 @@ class Solution:
         char_word: dict = {}
         word_char: dict = {}
 
-        words = str.split()
+        words = str.split(" ")
 
         # sanity check
         if len(words) != len(pattern):
@@ -23,12 +23,16 @@ class Solution:
                     return False
                 else:
                     char_word[c] = w
-                    char_word[w] = c
+                    word_char[w] = c
             else:
                 if char_word[c] != w:
                     return False
 
         return True
+
+        # sol 2
+        # str, pattern = str.split(), list(pattern)
+        # return list(map(str.find, str)) == list(map(pattern.find, pattern))
 
 
 # @lc code=end
