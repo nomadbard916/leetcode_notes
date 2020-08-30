@@ -18,6 +18,7 @@ class Solution:
 
         # as final head is uncertain
         pre = dummy = ListNode()
+        dummy.next = head
 
         while head and head.next:
             next_node = head.next
