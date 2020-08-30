@@ -10,6 +10,8 @@ class Solution:
         dummy_node = ListNode()
         # in most scenarios, using previous node then defer current is better than using current node directly when there needs a dummy node as outside watcher
         prev_node = dummy_node
+        # for safety's reason, it's better to link the dummy to the original list immediately on definition to avoid missing iteration of prev_node.next in loop
+        dummy_node.next = head
 
         # set some pre-condition before entering loop, eg. carry = 0
 
