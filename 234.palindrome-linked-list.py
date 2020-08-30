@@ -17,20 +17,12 @@ class Solution:
         if not head or not head.next:
             return True
 
-        tmp_list = []
+        container = []
         while head:
-            tmp_list.append(head.val)
+            container.append(head.val)
             head = head.next
 
-        l, r = 0, len(tmp_list) - 1
-
-        while l < r:
-            if tmp_list[l] != tmp_list[r]:
-                return False
-            l += 1
-            r -= 1
-
-        return True
+        return container == container[::-1]
 
 
 # @lc code=end
