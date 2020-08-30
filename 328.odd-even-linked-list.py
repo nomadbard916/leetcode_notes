@@ -12,6 +12,8 @@
 #         self.next = next
 class Solution:
     def oddEvenList(self, head: ListNode) -> ListNode:
+        # refer to # 86 for two list chaining
+
         # odd/even index follow the first one?
         # !! not meaning odd/even value
         # space O(1) -> in place

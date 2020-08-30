@@ -12,6 +12,8 @@
 #         self.next = next
 class Solution:
     def partition(self, head: ListNode, x: int) -> ListNode:
+        # refer to # 328 for odd even list chaining
+
         # use dummy nodes as outsiders and start from dummy
         before_node = dummy_before = ListNode()
         after_node = dummy_after = ListNode()
@@ -29,7 +31,7 @@ class Solution:
             head = head.next
 
         # when the traversal is done, so are the linking of two lists
-        # but still need to cut the link for after list
+        # but still need to cut the link for after list (the after_node here is the last node of the list)
         # and link before and after lists together
         after_node.next = None
         before_node.next = dummy_after.next
