@@ -13,7 +13,8 @@
 #         self.right = right
 class Solution:
     def levelOrderBottom(self, root: TreeNode) -> List[List[int]]:
-        # use implementation in # 102 and reverse is also feasible
+        # see # 102 for implementation using queue
+        # just traverse top-down as in 102 and reverse is also feasible
 
         if not root:
             return root
