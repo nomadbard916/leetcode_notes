@@ -10,6 +10,7 @@ class Solution:
         # tabulation; mn is wrong here, see the description (7*3 mistaken to be n*m)
         table = [[0 for x in range(m)] for y in range(n)]
 
+        # every other grid should be the sum of (x-1, y), (x, y-1) following the restricted moving direction
         for x in range(m):
             for y in range(n):
                 # first row and column should all be 1
