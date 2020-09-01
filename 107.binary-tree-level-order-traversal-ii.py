@@ -25,9 +25,9 @@ class Solution:
             if root is None:
                 return
 
-            previous_depth = len(ans)
+            traversed_depth = len(ans)
             # already go down to next layer
-            if current_depth > previous_depth:
+            if current_depth > traversed_depth:
                 ans.insert(0, [])
 
             # preorder
