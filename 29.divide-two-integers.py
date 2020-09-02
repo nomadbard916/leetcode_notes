@@ -24,6 +24,7 @@ class Solution:
             power = 1
             temp_divisor = divisor
 
+            # acceleration
             while dividend >= temp_divisor << 1:
                 power <<= 1
                 temp_divisor <<= 1
