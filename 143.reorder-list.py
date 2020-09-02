@@ -11,7 +11,7 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    def reorderList(self, head: ListNode) -> None:
+    def reorderList(self, current_head: ListNode) -> None:
         """
         Do not return anything, modify head in-place instead.
         """
@@ -20,31 +20,36 @@ class Solution:
         # then concat two iteratively
 
         # sanity check:  length of list should be >= 3
-        if head is None or head.next is None or head.next.next is None:
-            return head
+        if (
+            current_head is None
+            or current_head.next is None
+            or current_head.next.next is None
+        ):
+            return current_head
 
         # find mid and cut list from half
-        fast = slow = head
+        fast = slow = current_head
 
         while fast and fast.next:
             fast, slow = fast.next.next, slow.next
 
-        head1, head2 = head, slow.next
+        head1, head2 = current_head, slow.next
         slow.next = None
 
         # reverse latter half list with head2
         dummy = ListNode()
         dummy.next = head2
 
-        p = head2.next
+        current_head = head2.next
         head2.next = None
 
-        while p:
-            temp = p
+        while current_head:
+            next_node = current_head.next
 
-            p = p.next
-            temp.next = dummy.next
-            dummy.next = temp
+            current_head.next = dummy.next
+            dummy.next = current_head
+
+            current_head = next_node
 
         head2 = dummy.next
 
