@@ -22,15 +22,15 @@ class Solution:
 
         while dividend >= divisor:
             power = 1
-            temp_divisor = divisor
+            current_divisor = divisor
 
             # acceleration
-            while dividend >= temp_divisor << 1:
-                power <<= 1
-                temp_divisor <<= 1
+            while dividend >= current_divisor:
+                dividend -= current_divisor  # get remaining part of dividend
+                result += power
 
-            dividend -= temp_divisor  # remaining part of divisor
-            result += power
+                power <<= 1
+                current_divisor <<= 1
 
         result *= sign
 
