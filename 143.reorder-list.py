@@ -41,8 +41,7 @@ class Solution:
         head2.next = None
 
         while current_head:
-            next_node = current_head.next
-            previous_head = dummy.next
+            next_node, previous_head = current_head.next, dummy.next
 
             current_head.next, dummy.next = previous_head, current_head
 
@@ -51,13 +50,16 @@ class Solution:
         head2 = dummy.next
 
         #  merge two lined list head1 and head2
-        p1, p2 = head1, head2
+        current_node_1, current_node_2 = head1, head2
 
-        while p2:
-            temp1, temp2 = p1.next, p2.next
+        # list1's node count must be more than list2
 
-            p1.next, p2.next = p2, temp1
-            p1, p2 = temp1, temp2
+        while current_node_2:
+            next_node_1, next_node_2 = current_node_1.next, current_node_2.next
+
+            current_node_1.next, current_node_2.next = current_node_2, next_node_1
+
+            current_node_1, current_node_2 = next_node_1, next_node_2
 
         # not a feasible solution
         # but it's good example why list may not be a good container for this solution:
