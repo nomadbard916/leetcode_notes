@@ -13,7 +13,7 @@ class Solution:
         MIN_INT = -(2 ** 31)
         MAX_INT = 2 ** 31 - 1
 
-        sign = 1 if (dividend > 0) is (divisor > 0) else -1
+        sign = 1 if (dividend > 0) == (divisor > 0) else -1
 
         dividend = abs(dividend)
         divisor = abs(divisor)
@@ -21,15 +21,16 @@ class Solution:
         result = 0
 
         while dividend >= divisor:
-            power = 1
+            # need to start from power 1 every time as it cannot be certain exactly how many timed divisor need to be multiplied
+            current_power = 1
             current_divisor = divisor
 
             # acceleration
             while dividend >= current_divisor:
                 dividend -= current_divisor  # get remaining part of dividend
-                result += power
+                result += current_power
 
-                power <<= 1
+                current_power <<= 1
                 current_divisor <<= 1
 
         result *= sign
