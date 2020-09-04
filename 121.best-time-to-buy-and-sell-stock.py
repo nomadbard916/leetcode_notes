@@ -10,11 +10,10 @@ class Solution:
         current_profit = 0
         bought_price = float("INF")
 
-        for p in prices:
-            if p < bought_price:
-                bought_price = p
-            else:
-                current_profit = max(current_profit, p - bought_price)
+        for current_p in prices:
+            bought_price = min(current_p, bought_price)
+
+            current_profit = max(current_profit, current_p - bought_price)
 
         return current_profit
 
