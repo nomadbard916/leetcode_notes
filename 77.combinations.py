@@ -15,8 +15,8 @@ class Solution:
                 ans.append(current_path)
                 return
 
-            for i in range(len(option_list)):
-                updated_path = current_path + [option_list[i]]
+            for i, num in enumerate(option_list):
+                updated_path = current_path + [num]
                 updated_option = option_list[i + 1 :]
 
                 backtrack(updated_path, updated_option)
