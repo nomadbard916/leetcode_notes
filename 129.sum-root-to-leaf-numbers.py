@@ -15,26 +15,29 @@ class TreeNode:
 
 class Solution:
     def sumNumbers(self, root: TreeNode) -> int:
+        if root is None:
+            return 0
+
         list_container = []
 
         def DFS(root=root, current_path=[]):
+            updated_path = current_path + [str(root.val)]
+
             if root.left is None and root.right is None:
-                list_container.append(current_path)
+                list_container.append(updated_path)
                 return
 
-            # preorder
-            updated_path = current_path + [root.val]
-            DFS(root.left, updated_path)
-            DFS(root.right, updated_path)
+            if root.left:
+                DFS(root.left, updated_path)
+
+            if root.right:
+                DFS(root.right, updated_path)
 
         DFS()
 
-        value_container = []
-        for num_list in list_container:
-            # each item in num_list is int here
-            value_container.append(int("".join(num_list)))
+        int_container = list(map(lambda x: int("".join(x)), list_container))
 
-        return sum(value_container)
+        return sum(int_container)
 
 
 # @lc code=end
