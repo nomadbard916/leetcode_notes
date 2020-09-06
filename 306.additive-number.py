@@ -25,10 +25,9 @@ class Solution:
                 return True
 
             for i, digit in enumerate(option_list):
-                # pruning
                 current_str = option_list[: i + 1]
 
-                # eg. 1023
+                # eliminating 00
                 if current_str[0] == "0" and len(current_str) != 1:
                     continue
 
