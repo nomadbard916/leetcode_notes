@@ -9,8 +9,21 @@ from math import sqrt
 # @lc code=start
 class Solution:
     def mySqrt(self, x: int) -> int:
+        # cf. # 34
+        # [l, r)
+        l, r = 0, x + 1
 
-        return int(sqrt(x))
+        while l < r:
+            mid = (l + r) // 2
+
+            if mid ** 2 == x:
+                return mid
+            elif mid ** 2 < x:
+                l = mid + 1
+            else:
+                r = mid
+
+        return l - 1
 
 
 # @lc code=end
