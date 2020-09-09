@@ -14,26 +14,43 @@ class ListNode:
 
 class Solution:
     def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
-        # what if head or tail is deleted?
-
-        # head can be uncertain -> use dummy node
-        dummy = ListNode()
+        dummy = fast = slow = ListNode()
         dummy.next = head
 
-        fast = slow = dummy
-
-        # get the interval then continue
-        # iterate n times so that slow is exactly the node before deleted node
+        # make the gap between fast and slow with fast starting first
         for _ in range(n + 1):
             fast = fast.next
 
-        while fast:
+        # move fast until reaching null node, thus guaranteeing the gap between fast and slow
+        while fast is not None:
             fast = fast.next
             slow = slow.next
 
+        # when slow is well positioned, just point the link to the correct node
         slow.next = slow.next.next
 
         return dummy.next
+
+        # sol2: 2-pass
+        # # what if head or tail is deleted?
+        # # head can be uncertain -> use dummy node
+        # dummy = ListNode()
+        # dummy.next = head
+
+        # fast = slow = dummy
+
+        # # get the interval then continue
+        # # iterate n times so that slow is exactly the node before deleted node
+        # for _ in range(n + 1):
+        #     fast = fast.next
+
+        # while fast:
+        #     fast = fast.next
+        #     slow = slow.next
+
+        # slow.next = slow.next.next
+
+        # return dummy.next
 
 
 # @lc code=end
