@@ -12,19 +12,19 @@ class Solution:
         # record path and update option list in the process
 
         ans = []
-        length = len(nums)
+        LEN = len(nums)
 
         # traverse with path and option list
         # index (when combined with len(nums)) can represent option list
         def traverse(current_path: list = [], starting_index: int = 0):
             # ending condition:
             # when index reaches out of bottom of decision tree
-            if starting_index > length:
+            if starting_index > LEN:
                 return
 
             ans.append(current_path)
 
-            for i in range(starting_index, length):
+            for i in range(starting_index, LEN):
                 current_num = nums[i]
 
                 # update path list after current_num is traversed
@@ -36,6 +36,14 @@ class Solution:
         traverse()
 
         return ans
+
+        # sol2
+        # result = [[]]
+
+        # for num in nums:
+        #     result += [curr + [num] for curr in result]
+
+        # return result
 
 
 # @lc code=end
