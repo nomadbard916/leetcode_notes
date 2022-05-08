@@ -19,7 +19,7 @@ class Solution:
         if candidates[0] > target:
             return ans
 
-        def backtrack(current_path, previous_c=0, current_sum=0):
+        def backtrack(current_path: list, previous_c: int, current_sum: int):
             # sanity check: out of bound
             if current_sum > target:
                 return
@@ -45,7 +45,9 @@ class Solution:
                 backtrack(updated_path, current_c, updated_sum)
 
         current_path = []
-        backtrack(current_path)
+        previous_c = 0
+        current_sum = 0
+        backtrack(current_path, previous_c, current_sum)
 
         return ans
 
