@@ -6,11 +6,16 @@
 
 # @lc code=start
 # Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
+from typing import List
+
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
 class Solution:
     def pathSum(self, root: TreeNode, sum: int) -> List[List[int]]:
         paths = []
@@ -18,7 +23,7 @@ class Solution:
         if root is None:
             return paths
 
-        def DFS(root=root, current_sum=0, current_path=[]):
+        def DFS(current_path: list, root=root, current_sum=0):
             if root is None:
                 return
 
@@ -32,14 +37,14 @@ class Solution:
                 return
 
             if root.left:
-                DFS(root.left, updated_sum, updated_path)
+                DFS(updated_path, root.left, updated_sum)
             if root.right:
-                DFS(root.right, updated_sum, updated_path)
+                DFS(updated_path, root.right, updated_sum)
 
-        DFS()
+        current_path = []
+        DFS(current_path)
 
         return paths
 
 
 # @lc code=end
-

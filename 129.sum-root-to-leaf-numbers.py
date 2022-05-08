@@ -20,7 +20,7 @@ class Solution:
 
         list_container = []
 
-        def DFS(root=root, current_path=[]):
+        def DFS(current_path: list, root=root):
             updated_path = current_path + [str(root.val)]
 
             if root.left is None and root.right is None:
@@ -28,12 +28,13 @@ class Solution:
                 return
 
             if root.left:
-                DFS(root.left, updated_path)
+                DFS(updated_path, root.left)
 
             if root.right:
-                DFS(root.right, updated_path)
+                DFS(updated_path, root.right)
 
-        DFS()
+        current_path = []
+        DFS(current_path)
 
         int_container = list(map(lambda x: int("".join(x)), list_container))
 
@@ -41,4 +42,3 @@ class Solution:
 
 
 # @lc code=end
-

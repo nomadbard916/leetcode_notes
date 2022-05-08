@@ -10,7 +10,7 @@ class Solution:
         #  eg. #17, #78 and #79  use 'index'
 
         # it's convenient to give backtrack function defaults, so there's no need to remember to add them on first calling
-        def backtrack(current_path=[], option_list=[]):
+        def backtrack(current_path, option_list):
             # working on current level
             if not sanity_check:
                 return
@@ -36,6 +36,8 @@ class Solution:
 
                 current_path.pop()
 
-        backtrack()
+        current_path = []
+        option_list = []
+        backtrack(current_path, option_list)
 
         return result

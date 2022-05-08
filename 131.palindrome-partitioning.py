@@ -27,7 +27,7 @@ class Solution:
         def is_palindrome(string: str):
             return string == string[::-1]
 
-        def backtrack(option_list=s, current_path=[]):
+        def backtrack(current_path: list, option_list=s):
             option_length = len(option_list)
 
             # ending condition: the option list is all partitioned, ie option_length== 0
@@ -46,12 +46,12 @@ class Solution:
                     updated_path = current_path + [checking]
 
                     # checkable will be '' when i reaches option_length
-                    backtrack(checkable, updated_path)
+                    backtrack(updated_path, checkable)
 
-        backtrack()
+        current_path = []
+        backtrack(current_path)
 
         return ans
 
 
 # @lc code=end
-

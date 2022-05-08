@@ -5,6 +5,9 @@
 #
 
 # @lc code=start
+from typing import List
+
+
 class Solution:
     def permuteUnique(self, nums: List[int]) -> List[List[int]]:
         perm_n = len(nums)
@@ -15,7 +18,7 @@ class Solution:
 
         nums.sort()
 
-        def backtrack(current_path=[], option_list=nums):
+        def backtrack(current_path, option_list=nums):
 
             if len(current_path) == perm_n and current_path not in ans:
                 ans.append(current_path)
@@ -31,10 +34,10 @@ class Solution:
 
                 backtrack(updated_path, updated_options)
 
-        backtrack()
+        current_path = []
+        backtrack(current_path)
 
         return ans
 
 
 # @lc code=end
-

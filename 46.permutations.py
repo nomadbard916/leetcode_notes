@@ -11,7 +11,7 @@ class Solution:
 
         ans = []
 
-        def backtrack(current_path=[]):
+        def backtrack(current_path):
             if len(current_path) == perm_n:
                 ans.append(current_path)
                 return
@@ -24,10 +24,10 @@ class Solution:
 
                 backtrack(updated_path)
 
-        backtrack()
+        current_path = []
+        backtrack(current_path)
 
         return ans
 
 
 # @lc code=end
-

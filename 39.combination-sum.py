@@ -5,6 +5,9 @@
 #
 
 # @lc code=start
+from typing import List
+
+
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
         ans = []
@@ -16,10 +19,11 @@ class Solution:
         if candidates[0] > target:
             return ans
 
-        def backtrack(current_path=[], previous_c=0, current_sum=0):
+        def backtrack(current_path, previous_c=0, current_sum=0):
             # sanity check: out of bound
             if current_sum > target:
                 return
+
             # ending condition: combination found
             if current_sum == target:
                 ans.append(current_path)
@@ -40,10 +44,10 @@ class Solution:
 
                 backtrack(updated_path, current_c, updated_sum)
 
-        backtrack()
+        current_path = []
+        backtrack(current_path)
 
         return ans
 
 
 # @lc code=end
-
