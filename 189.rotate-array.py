@@ -27,8 +27,11 @@ class Solution:
 
         # nums[:] = list(reversed(l)) + list(reversed(r))
 
-        # sol 3: cyclic replacements with prev, curr, next
+        # sol 3 with two-pointer, in-place:
+        # https://ithelp.ithome.com.tw/articles/10213291
+        # 1. reverse the whole list
+        # 2. reverse left part until index k-1
+        # 3. reverse right part starting index k
 
 
 # @lc code=end
-
