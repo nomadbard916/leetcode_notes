@@ -17,21 +17,38 @@ class Solution:
         :type n: int
         :rtype: int
         """
-        l = 1
-        r = n
+        if n == 1:
+            return 1
 
-        while l <= r:
+        l, r = 1, n
+
+        # sol1
+        while l < r:
             mid = (l + r) // 2
             if isBadVersion(mid):
-                # sanity check
-                if mid == 1 or (mid - 1 >= 1 and not isBadVersion(mid - 1)):
-                    return mid
-
-                r = mid - 1
+                r = mid
             else:
                 l = mid + 1
-                # l cannot be bad, otherwise all versions afterward will be bad either
+        # when l == r, it is the first bad version
+        return l
+
+        # sol2 is also good, but takes a bit more code.
+
+        # while l <= r:
+        #     mid = (l + r) // 2
+        #     if isBadVersion(mid):
+        #         # sanity check
+        #         mid_is_first = mid == 1
+
+        #         pre_mid = mid - 1
+        #         pre_mid_not_bad = not isBadVersion(pre_mid)
+        #         if mid_is_first or (pre_mid >= 1 and pre_mid_not_bad):
+        #             return mid
+
+        #         r = mid - 1
+        #     else:
+        #         l = mid + 1
+        #         # l cannot be bad, otherwise all versions afterward will be bad either
 
 
 # @lc code=end
-
