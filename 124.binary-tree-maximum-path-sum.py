@@ -19,7 +19,7 @@ class TreeNode:
 class Solution:
     # see also #113
     # integer instead of float('int')
-    ans = -(2**10)
+    ans = -(2**99)
 
     def maxPathSum(self, root: Optional[TreeNode]) -> int:
         def dfs(node):
