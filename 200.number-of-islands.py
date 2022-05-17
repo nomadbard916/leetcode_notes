@@ -13,27 +13,28 @@ class Solution:
         # find the first island piece 1 and update counter,
         # modify it as 0 then iterate 4-direction of it,
         # until there's no way to expend
-        length = len(grid)
-        width = len(grid[0])
+        LENGTH = len(grid)
+        WIDTH = len(grid[0])
 
         def dfs(grid, i, j):
             grid[i][j] = "0"
-            # up
-            if i - 1 >= 0 and grid[i - 1][j] == "1":
+
+            upper_index = i - 1
+            if upper_index >= 0 and grid[upper_index][j] == "1":
                 dfs(grid, i - 1, j)
-            # down
-            if i + 1 < length and grid[i + 1][j] == "1":
+            lower_index = i + 1
+            if lower_index < LENGTH and grid[lower_index][j] == "1":
                 dfs(grid, i + 1, j)
-            # left
-            if j - 1 >= 0 and grid[i][j - 1] == "1":
+            left_index = j - 1
+            if left_index >= 0 and grid[i][left_index] == "1":
                 dfs(grid, i, j - 1)
-            # right
-            if j + 1 < width and grid[i][j + 1] == "1":
+            right_index = j + 1
+            if right_index < WIDTH and grid[i][right_index] == "1":
                 dfs(grid, i, j + 1)
 
         counter = 0
-        for i in range(length):
-            for j in range(width):
+        for i in range(LENGTH):
+            for j in range(WIDTH):
                 if grid[i][j] == "1":
                     counter += 1
                     dfs(grid, i, j)

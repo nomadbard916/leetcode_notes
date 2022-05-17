@@ -12,6 +12,7 @@ class Solution:
     def floodFill(
         self, image: List[List[int]], sr: int, sc: int, newColor: int
     ) -> List[List[int]]:
+        # comare with 200
         LENGTH, WIDTH = len(image), len(image[0])
         color = image[sr][sc]
 
@@ -22,14 +23,18 @@ class Solution:
             if image[r][c] == color:
                 image[r][c] = newColor
 
+                upper_index = r - 1
+                lower_index1 = r + 1
+                left_index = c - 1
+                right_index = c + 1
                 if r >= 1:
-                    dfs(r - 1, c)
+                    dfs(upper_index, c)
                 if r < LENGTH - 1:
-                    dfs(r + 1, c)
+                    dfs(lower_index1, c)
                 if c >= 1:
-                    dfs(r, c - 1)
+                    dfs(r, left_index)
                 if c < WIDTH - 1:
-                    dfs(r, c + 1)
+                    dfs(r, right_index)
 
         dfs(sr, sc)
 
