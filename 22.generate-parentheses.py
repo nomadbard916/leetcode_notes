@@ -10,22 +10,24 @@ from typing import List
 
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
-        # backtrack with DFS or BFS
-        res = []
-        self.dfs(res, n, n, "")
-        return res
+        # backtrack with DFS
+        ans = []
+        self.backtrack(ans, n, n, "")
+        return ans
 
-    def dfs(self, res, left_addable, right_addable, path):
+    def backtrack(
+        self, ans: list, left_addable: int, right_addable: int, current_path: str
+    ):
         # right can be added when there's more left than right
         if left_addable == 0 and right_addable == 0:
-            res.append(path)
+            ans.append(current_path)
             return
+
         if left_addable > 0:
-            self.dfs(res, left_addable - 1, right_addable, path + "(")
+            self.backtrack(ans, left_addable - 1, right_addable, current_path + "(")
         # add ) when there's more ( than )
         if left_addable < right_addable:
-            self.dfs(res, left_addable, right_addable - 1, path + ")")
+            self.backtrack(ans, left_addable, right_addable - 1, current_path + ")")
 
 
 # @lc code=end
-
