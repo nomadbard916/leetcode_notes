@@ -6,15 +6,15 @@
 
 # @lc code=start
 # Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
 
 
 class Solution:
     def hasCycle(self, head: ListNode) -> bool:
-        # initial state
+        # initial state for two pointer
         turtle = head
         hare = head
 
@@ -22,7 +22,8 @@ class Solution:
         # need to do sanity check for hare.next as hare can be already None
         while turtle and hare and hare.next:
             turtle = turtle.next
-            # sanity check should've been done here, but it's moved earlier to while loop condition
+            # sanity check should've been done here,
+            # but it's moved earlier to while loop condition
             hare = hare.next.next
 
             if turtle == hare:
@@ -30,6 +31,18 @@ class Solution:
 
         return False
 
+        # sol2: just iterate and check if the current object is already seen
+        # but it's with O(n) space complexity, compared to sol1's O(1)
+        # seen: dict = {}
+        # while head:
+        #     if id(head) in seen:
+        #         return True
+        #     else:
+        #         seen[id(head)] = True
+
+        #     head = head.next
+
+        # return False
+
 
 # @lc code=end
-
