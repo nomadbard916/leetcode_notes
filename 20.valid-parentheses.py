@@ -6,32 +6,27 @@
 
 # @lc code=start
 class Solution:
-    def isEqual(self, c1, c2):
+    def are_pair(self, c1, c2):
         if c1 == "(" and c2 == ")":
             return True
         elif c1 == "[" and c2 == "]":
             return True
-
         elif c1 == "{" and c2 == "}":
             return True
-
         else:
             return False
 
     def isValid(self, s: str) -> bool:
         stack = []
 
-        for character in s:
+        for current_char in s:
             if len(stack) != 0:
-                # check the last item
                 last_item = stack[-1]
-
-                # the last item in stack and the current character must be the same
-                if self.isEqual(last_item, character):
+                if self.are_pair(last_item, current_char):
                     stack.pop()
                     continue
 
-            stack.append(character)
+            stack.append(current_char)
 
         return len(stack) == 0
 
