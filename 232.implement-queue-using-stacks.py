@@ -1,5 +1,3 @@
-from collections import deque
-
 #
 # @lc app=leetcode id=232 lang=python3
 #
@@ -36,7 +34,9 @@ class MyQueue:
         Get the front element.
         """
         # inverse the sequence of stack items
-        # compared to # 255's push(), it's very hard to inverse sequence using only one stack,
+
+        # compared to # 225's push(),
+        # it's very hard to inverse sequence using only one stack,
         # therefore a second stack for taking out is needed
         if not self.outStack:
             while self.inStack:
@@ -59,4 +59,3 @@ class MyQueue:
 # param_3 = obj.peek()
 # param_4 = obj.empty()
 # @lc code=end
-

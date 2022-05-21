@@ -7,6 +7,8 @@ from collections import deque
 #
 
 # @lc code=start
+
+
 class MyStack:
     # don't use native methods of deque
     def __init__(self):
@@ -22,12 +24,12 @@ class MyStack:
         self.stack.append(x)
 
         # move all elements in front of x to after x
-        elements_ahead = len(self.stack) - 1
+        elements_ahead_count: int = len(self.stack) - 1
 
-        while elements_ahead > 0:
+        while elements_ahead_count > 0:
             current_first = self.stack.popleft()
             self.stack.append(current_first)
-            elements_ahead -= 1
+            elements_ahead_count -= 1
 
     def pop(self) -> int:
         """
@@ -48,7 +50,7 @@ class MyStack:
         Returns whether the stack is empty.
         """
 
-        return bool(not len(self.stack))
+        return bool(len(self.stack) == 0)
 
 
 # Your MyStack object will be instantiated and called as such:
@@ -58,4 +60,3 @@ class MyStack:
 # param_3 = obj.top()
 # param_4 = obj.empty()
 # @lc code=end
-
