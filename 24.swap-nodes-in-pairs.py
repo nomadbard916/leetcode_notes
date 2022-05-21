@@ -6,13 +6,21 @@
 
 # @lc code=start
 # Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
+from typing import Optional
+
+
+class ListNode:
+    def __init__(self, val=0, next=Optional[ListNode]):
+        self.val = val
+        self.next = next
+
+
 class Solution:
     def swapPairs(self, head: ListNode) -> ListNode:
-        # sanity check
+        # * don't be tricked by the example.
+        # the goal is to swap "in pair". don't consider swapping 4 nodes in once.
+
+        # sanity check: head and head.next should be considered in pair
         if head is None or head.next is None:
             return head
 
@@ -24,7 +32,9 @@ class Solution:
             next_node = head.next
 
             # assign next nodes for head, next_node and pre
-            head.next, next_node.next, pre.next = next_node.next, head, next_node
+            head.next = next_node.next
+            next_node.next = head
+            pre.next = next_node
 
             # go to next head
             pre, head = head, head.next
@@ -33,4 +43,3 @@ class Solution:
 
 
 # @lc code=end
-
