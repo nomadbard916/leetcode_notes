@@ -7,16 +7,20 @@
 # @lc code=start
 class Solution:
     def addBinary(self, a: str, b: str) -> str:
-        ans = ""
-        i, j, current_sum = len(a) - 1, len(b) - 1, 0
+        i, j, current_sum, ans = len(a) - 1, len(b) - 1, 0, ""
         while i >= 0 or j >= 0:
-            current_sum += int(a[i]) if i >= 0 else 0
-            current_sum += int(b[j]) if j >= 0 else 0
+            if i >= 0:
+                current_sum += int(a[i])
+            if j >= 0:
+                current_sum += int(b[j])
 
-            ans = str(current_sum % 2) + ans
+            remainder = current_sum % 2
+            carry = current_sum // 2
 
-            i, j, current_sum = i - 1, j - 1, current_sum // 2
+            # the current_sum here is actually carried over to next iteration
+            i, j, current_sum, ans = i - 1, j - 1, carry, str(remainder) + ans
 
+        # consider remaining carry
         if current_sum != 0:
             ans = str(current_sum) + ans
 
