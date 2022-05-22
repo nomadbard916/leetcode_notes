@@ -7,38 +7,34 @@
 # @lc code=start
 class Solution:
     def decodeString(self, s: str) -> str:
-        # binary state change with sequence -> queue or stack
-        # especially for brackets (think of stack immediately)
-
-        current_multiplier: int = 0
-        current_str = ""
+        curr_multiplier: int = 0
+        curr_str: str = ""
 
         stack = []
 
         for char in s:
             if char == "[":
-                stack.append(current_multiplier)
-                stack.append(current_str)
+                stack.append(curr_multiplier)
+                stack.append(curr_str)
 
                 # clear the temp string and multiplier
-                current_str = ""
-                current_multiplier = 0
-
+                curr_str = ""
+                curr_multiplier = 0
             elif char == "]":
-                prev_string = stack.pop()
+                # careful: when encountering '[', str is pushed on top of multiplier
+                prev_str = stack.pop()
                 recent_multiplier = stack.pop()
 
-                current_str = prev_string + current_str * recent_multiplier
+                curr_str = prev_str + curr_str * recent_multiplier
 
             elif char.isdigit():
-                # consider more then 1 digit together
-                current_multiplier = current_multiplier * 10 + int(char)
+                # considering digits >=10, every number adding need to x10,
+                # e.g. 123 = 1 * 10 * 10 + 2*10 +3
+                curr_multiplier = curr_multiplier * 10 + int(char)
+            else:  # must be alpha, after all the above have been considered
+                curr_str += char
 
-            else:  # must be alpha
-                current_str += char
-
-        return current_str
+        return curr_str
 
 
 # @lc code=end
-
