@@ -10,38 +10,32 @@ from typing import List
 
 class Solution:
     def evalRPN(self, tokens: List[str]) -> int:
-        # think of Japanese, which puts verb after subject and object.
         stack = []
 
-        for i in range(len(tokens)):
-            current_token = tokens[i]
-
-            # put numbers into stack
-            if current_token not in ["+", "-", "*", "/"]:
-                stack.append(int(current_token))
+        for token in tokens:
+            # put only numbers into stack
+            if token not in ["+", "-", "*", "/"]:
+                stack.append(int(token))
                 continue
 
+            # take numbers in pair, waiting to process with immediate operator
             a = stack.pop()
             b = stack.pop()
 
-            if current_token == "+":
+            if token == "+":
                 stack.append(a + b)
-
-            if current_token == "-":
+            if token == "-":
                 stack.append(b - a)
-
-            if current_token == "*":
+            if token == "*":
                 stack.append(a * b)
-
-            if current_token == "/":
-                # in Python, (-1)/2=-1
-                if a * b < 0:
-                    stack.append(-((-b) // a))
-                else:
+            if token == "/":
+                if a * b > 0:
                     stack.append(b // a)
+                else:
+                    # in Python, (-1)/2=-1
+                    stack.append(-((-b) // a))
 
         return stack.pop()
 
 
 # @lc code=end
-
