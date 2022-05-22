@@ -17,7 +17,7 @@ class MinStack:
         if current_min is None or current_min > x:
             current_min = x
 
-        # all the previous state of current_min are recorded,
+        # all the previous state of current_min are recorded (monotonic stack),
         # no need to worry about ordering
         self.stack.append((x, current_min))
 
