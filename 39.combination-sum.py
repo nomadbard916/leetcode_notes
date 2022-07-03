@@ -30,11 +30,6 @@ class Solution:
                 return
 
             for current_c in candidates:
-                # sanity check: out of bound.
-                # no need to check candidate after it
-                if current_c > target:
-                    break
-
                 # sanity check: avoid taking duplicated candidate
                 if current_c < previous_c:
                     continue
@@ -44,10 +39,7 @@ class Solution:
 
                 backtrack(updated_path, current_c, updated_sum)
 
-        current_path = []
-        previous_c = 0
-        current_sum = 0
-        backtrack(current_path, previous_c, current_sum)
+        backtrack([], 0, 0)
 
         return ans
 
