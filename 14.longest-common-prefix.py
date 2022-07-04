@@ -10,6 +10,9 @@ class Solution:
         if not strs:
             return ""
 
+        # min() and max() implies "sorted",
+        # i.e. anything in middle must have the common prefix,
+        # so we only need to check these two
         min_str = min(strs)
         max_str = max(strs)
 
@@ -21,4 +24,3 @@ class Solution:
 
 
 # @lc code=end
-
