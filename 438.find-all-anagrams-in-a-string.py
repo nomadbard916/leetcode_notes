@@ -17,21 +17,22 @@ class Solution:
         if LEN_P > LEN_S:
             return ans
 
-        # init counters, with s start from 'before' the first position p may fit in
+        # init counters, with s start from 'before' the first position p fully fits in
         # trick: update k, v in counter_s with sliding window
         # to avoid duplicated counter init
         counter_p, counter_s = Counter(p), Counter(s[: LEN_P - 1])
 
         for idx_r in range(LEN_P - 1, LEN_S):
-            # step right and include right into window
+            # let right step onto char first and include right as counted
             right_char_s = s[idx_r]
             counter_s[right_char_s] += 1
 
+            # locate left by substracting from right
             idx_l = idx_r - LEN_P + 1
             if counter_s == counter_p:
                 ans.append(idx_l)
 
-            # step right and exclude left from window
+            # exclude left from window to prepare for next iteration
             left_char_s = s[idx_l]
             counter_s[left_char_s] -= 1
 
