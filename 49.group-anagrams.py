@@ -7,31 +7,24 @@ from collections import defaultdict
 #
 
 # @lc code=start
-from typing import Collection
+from typing import List
 
 
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         ans = []
 
-        # sorted_strs = {}
-        sorted_strs = defaultdict(list)
+        # don't use ordinary dict as we need to initialize ad container to fill in
+        sorted_strs_by_group_key = defaultdict(list)
 
-        for s in strs:
-            sorted_str = "".join(sorted(s))
+        for str in strs:
+            sorted_str = "".join(sorted(str))
+            sorted_strs_by_group_key[sorted_str].append(str)
 
-            # if sorted_str not in sorted_strs:
-            #     sorted_strs[sorted_str] = []
-
-            # sorted_strs[sorted_str].append(s)
-
-            sorted_strs[sorted_str].append(s)
-
-        for v in sorted_strs.values():
+        for v in sorted_strs_by_group_key.values():
             ans.append(v)
 
         return ans
 
 
 # @lc code=end
-
