@@ -15,7 +15,7 @@ class Solution:
         rows_seen_nums = defaultdict(set)
         matrixes_seen_nums = defaultdict(set)
 
-        # every iteration goes 0..9, so we can just extract it beforehand
+        # every iteration goes 0..8, so we can just extract it beforehand
         matrix_range_iter = range(9)
         for i in matrix_range_iter:
             for j in matrix_range_iter:
@@ -33,10 +33,10 @@ class Solution:
 
                 # multiply by 10 to avoid key duplication.
                 # actually any multiplier >=3 can do the trick.
-                current_matrix: int = (i // 3) * 10 + j // 3
-                if current_num in matrixes_seen_nums[current_matrix]:
+                current_matrix_key: int = (i // 3) * 10 + j // 3
+                if current_num in matrixes_seen_nums[current_matrix_key]:
                     return False
-                matrixes_seen_nums[current_matrix].add(current_num)
+                matrixes_seen_nums[current_matrix_key].add(current_num)
 
         return True
         # sol2: tabulation from the very beginning
