@@ -19,24 +19,27 @@ class Node:
 
 
 class Solution:
-    def cloneGraph(self, node: Node) -> Optional[Node]:
-        return self.dfs(node, {})
+    visited: dict = {}
 
-    def dfs(self, node, visited) -> Optional[Node]:
+    def cloneGraph(self, node: Node) -> Optional[Node]:
+        return self.dfs(node)
+
+    def dfs(self, node: Node) -> Optional[Node]:
         if not node:
             return
-        if node in visited:
-            return visited[node]
+        if node in self.visited:
+            return self.visited[node]
 
         # clone the node with only value and empty neighbors
         node_clone = Node(node.val, [])
-        # record the node clone before dealing with neighbors
-        visited[node] = node_clone
+
+        # record the current node, which will be manipulated by reference later
+        self.visited[node] = node_clone
 
         # filling in neighbors for each node clone
         for neighbor in node.neighbors:
             # reaching the end first by dfs, then leveling up
-            neighbor_clone = self.dfs(neighbor, visited)
+            neighbor_clone = self.dfs(neighbor)
             if neighbor_clone:
                 node_clone.neighbors.append(neighbor_clone)
 
