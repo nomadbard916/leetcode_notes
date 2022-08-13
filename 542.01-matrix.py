@@ -12,14 +12,13 @@ from typing import List
 class Solution:
     def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
         # BFS
+
         m, n = len(mat), len(mat[0])
-        # fake a very big integer as inf
-        INF_INT = 2**99
 
         # assume every 1 is unreachable before actually calculating
-        distances = [[INF_INT] * n for _ in range(m)]
-        q = collections.deque()
+        distances = [[-1] * n for _ in range(m)]
 
+        q = collections.deque()
         # start from 0 to update 1, or time complexity will be high
         for i in range(m):
             for j in range(n):
@@ -44,7 +43,7 @@ class Solution:
                 cur_distance = distances[cur_y][cur_x]
                 # means it's cell '1' still at initial state,
                 # and should be visited exactly once
-                if distances[new_y][new_x] == INF_INT:
+                if distances[new_y][new_x] == -1:
                     distances[new_y][new_x] = cur_distance + 1
                     q.append((new_x, new_y))
 
