@@ -6,19 +6,22 @@
 
 # @lc code=start
 # Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
+from typing import Union
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
 
 
 class Solution:
     def lowestCommonAncestor(
-        self, root: "TreeNode", p: "TreeNode", q: "TreeNode"
-    ) -> "TreeNode":
-        # definition of BST: any left node must be smaller than its root, any right bigger than root
-        # recursively traverse
+        self, root: Union[TreeNode, None], p: "TreeNode", q: "TreeNode"
+    ) -> Union[TreeNode, None]:
+        # definition of BST:
+        # any left node must be smaller than its root, any right bigger than root
         if root is None:
             return
 
@@ -29,14 +32,12 @@ class Solution:
 
         # if both bigger than root:
         # common ancestor must be in right child tree
-        elif p.val > root.val and q.val > root.val:
+        if p.val > root.val and q.val > root.val:
             return self.lowestCommonAncestor(root.right, p, q)
+
         # if one bigger and the other smaller:
-        # they must be on different sides of root, therefore only root can be common ancestor
-        else:
-            # postorder
-            return root
+        # they must be on different sides of root, so only root can be common ancestor
+        return root
 
 
 # @lc code=end
-
