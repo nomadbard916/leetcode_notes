@@ -6,41 +6,42 @@
 
 # @lc code=start
 # Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
 class Solution:
+    ans: int = 0
+    count: int = 0
+
     def kthSmallest(self, root: TreeNode, k: int) -> int:
-        # brute force: traverse postorderly the tree and put elements into a t_list, then fetch t_list[-k]
-        # BST definition: any left child node must be smaller than its root node, and any right must be bigger than root
-        # inorder traversal and record k ordering in the process
+        # brute force:
+        # traverse postorderly the tree and put elements into a t_list,
+        # then fetch t_list[-k]
+
+        # in-order traversal for BST, and record k ordering in the process
         # when to update k value?
 
-        global ans, count
-        ans = 0
-        count = 0
-
-        def traverse(root):
-            # sanity check
+        def DFS(root):
             if root is None:
                 return
 
-            traverse(root.left)
+            DFS(root.left)
 
-            # in BST, as left child node must be smaller than parent rood node, the traversal count should be recorded here
-            global count, ans
-            count += 1
-            if count == k:
-                ans = root.val
+            # in BST, as left child node must be smaller than parent rood node,
+            # the traversal count should be recorded here
+            self.count += 1
+            if self.count == k:
+                self.ans = root.val
 
-            traverse(root.right)
+            DFS(root.right)
 
-        traverse(root)
+        DFS(root)
 
-        return ans
+        return self.ans
 
 
 # @lc code=end
-
