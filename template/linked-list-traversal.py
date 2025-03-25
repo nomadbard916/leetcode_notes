@@ -1,10 +1,12 @@
 # Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
 class Solution:
-    def traverse(self, head: ListNode) -> ListNode:
+    def traverse(self, head: ListNode | None) -> ListNode | None:
         # use a dummy node as outside watcher.
         # the resulting linked list should be dummy_node.next as it points to the newly produced head
         dummy_node = ListNode()
