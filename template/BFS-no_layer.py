@@ -9,7 +9,7 @@ class Solution:
         while queue:
             node = queue.popleft()
             # 由于没有记录 steps，因此我们肯定是不需要根据层的信息去判断的。否则就用带层的模板了。
-            if (node 是我们要找到的):
+            if (node ): #是我们要找到的
                 return node
             if node.right:
                 queue.append(node.right)

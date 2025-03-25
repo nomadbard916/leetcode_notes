@@ -15,7 +15,7 @@ class Solution:
             # 遍历当前层的所有节点
             for _ in range(size):
                 node = queue.popleft()
-                if step == k:
+                if steps == k:
                     ans.append(node)
                 if node.right:
                     queue.append(node.right)
