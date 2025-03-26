@@ -6,12 +6,16 @@
 
 # @lc code=start
 # Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
 class Solution:
-    def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
+    def mergeTwoLists(
+        self, l1: ListNode | None, l2: ListNode | None
+    ) -> ListNode | None:
         # each node move 1 step at once
         dummy = ListNode()
         prev = dummy
@@ -38,4 +42,3 @@ class Solution:
 
 
 # @lc code=end
-
