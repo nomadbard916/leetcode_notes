@@ -6,12 +6,14 @@
 
 # @lc code=start
 # Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
 class Solution:
-    def partition(self, head: ListNode, x: int) -> ListNode:
+    def partition(self, head: ListNode | None, x: int) -> ListNode | None:
         # refer to # 328 for odd even list chaining
 
         # use dummy nodes as outsiders and start from dummy
@@ -40,4 +42,3 @@ class Solution:
 
 
 # @lc code=end
-
