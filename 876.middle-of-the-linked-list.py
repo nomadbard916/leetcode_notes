@@ -25,6 +25,9 @@ class Solution:
             turtle = turtle.next
             hare = hare.next.next
 
+        # if there's even nodes, there will be two middle nodes
+        # the "turtle" returned is the latter node
+
         return turtle
 
 
