@@ -5,12 +5,15 @@
 #
 
 # @lc code=start
+from typing import List
+
+
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
-        slow: int = 0
-        fast: int = 1
+        slow = 0
+        fast = 1
 
-        LENGTH: int = len(nums)
+        LENGTH = len(nums)
 
         while slow < fast and slow < LENGTH and fast < LENGTH:
             if nums[fast] != nums[slow]:
@@ -23,4 +26,3 @@ class Solution:
 
 
 # @lc code=end
-
