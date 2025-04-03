@@ -15,6 +15,7 @@ class ListNode:
 class Solution:
     def deleteDuplicates(self, head: ListNode | None) -> ListNode | None:
         # similar to Q26
+        # can be answered with two pointers
 
         # head is certain, therefore memorize it for returning purpose
         initial_head: ListNode | None = head
