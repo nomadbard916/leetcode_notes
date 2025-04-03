@@ -6,14 +6,18 @@
 
 # @lc code=start
 # Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
 class Solution:
-    def deleteDuplicates(self, head: ListNode) -> ListNode:
+    def deleteDuplicates(self, head: ListNode | None) -> ListNode | None:
+        # similar to Q26
+
         # head is certain, therefore memorize it for returning purpose
-        initial_head = head
+        initial_head: ListNode | None = head
 
         while head:
             # only check the next node from currently traversed node
@@ -26,4 +30,3 @@ class Solution:
 
 
 # @lc code=end
-

@@ -10,6 +10,7 @@ from typing import List
 
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
+        # similar to Q83
         LENGTH = len(nums)
         if LENGTH == 0:
             return 0
