@@ -8,45 +8,50 @@
 # @lc code=start
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
-        need, window = {}, {}
+        char_cnt_needed = {}
+        # populate needed chars count mapping
         for c in t:
-            need[c] = need.get(c, 0) + 1
+            char_cnt_needed[c] = char_cnt_needed.get(c, 0) + 1
 
-        left, right, valid = 0, 0, 0
+        left, right, valid_chars_cnt = 0, 0, 0
 
         # record the starting index and length of
         # min covering substring
-        start = 0
-        length = float("inf")
+        res_start = 0
+        res_length = float("inf")
+        char_cnt_window = {}
         while right < len(s):
             # char-moving into window
             c = s[right]
             # enlarge the window
             right += 1
             # update data within window
-            if c in need:
-                window[c] = window.get(c, 0) + 1
-                if window[c] == need[c]:
-                    valid += 1
+            if c in char_cnt_needed:
+                char_cnt_window[c] = char_cnt_window.get(c, 0) + 1
+                if char_cnt_window[c] == char_cnt_needed[c]:
+                    valid_chars_cnt += 1
 
             # check if to shrink left window side
-            while valid == len(need):
+            while valid_chars_cnt == len(char_cnt_needed):
                 # update min covering substring
-                if right - left < length:
-                    start = left
-                    length = right - left
+                if right - left < res_length:
+                    res_start = left
+                    res_length = right - left
                 # char moving out of window
                 d = s[left]
                 # shrink the window
                 left += 1
                 # update data in window
-                if d in need:
-                    if window[d] == need[d]:
-                        valid -= 1
-                    window[d] -= 1
+                if d in char_cnt_needed:
+                    if char_cnt_window[d] == char_cnt_needed[d]:
+                        valid_chars_cnt -= 1
+                    char_cnt_window[d] -= 1
+
+        if res_length == float("inf"):
+            return ""
 
         # return min covering substring
-        return "" if length == float("inf") else s[start : start + length]
+        return s[res_start : res_start + res_length]
 
 
 # @lc code=end
