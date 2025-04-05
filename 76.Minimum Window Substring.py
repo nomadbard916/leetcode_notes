@@ -41,13 +41,13 @@ class Solution:
                     res_length = right - left
                 # char moving out of window
                 d = s[left]
-                # shrink the window
-                left += 1
                 # update data in window
                 if d in char_cnt_needed:
                     if char_cnt_window[d] == char_cnt_needed[d]:
                         valid_chars_cnt -= 1
                     char_cnt_window[d] -= 1
+                # shrink the window
+                left += 1
 
         if res_length == float("inf"):
             return ""
