@@ -4,13 +4,21 @@ def sliding_window(nums):
     window = []
 
     while right < len(nums):
+        curr_r_elm = nums[right]
+        window.append(curr_r_elm)
+
+        # manipulating window data
+
         # Expand the window
-        window.append(nums[right])
         right += 1
 
         while left < right and needs_shrink(window):
-            # Shrink the window
-            window.pop(0)
+            curr_l_elm = nums[left]
+            window.remove(curr_l_elm)
+
+            # manipulating window data
+
+            # shrink the window
             left += 1
 
     return result
