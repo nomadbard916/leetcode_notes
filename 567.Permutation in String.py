@@ -13,16 +13,19 @@ import collections
 
 class Solution:
     def checkInclusion(self, s1: str, s2: str) -> bool:
+        # * sliding window => two pointer
         need = collections.defaultdict(int)
         window = collections.defaultdict(int)
+        # fill in container first
         for c in s1:
             need[c] += 1
 
-        left, right, valid = 0, 0, 0
+        l, r = 0, 0
+        valid = 0
 
-        while right < len(s2):
-            c = s2[right]
-            right += 1
+        while r < len(s2):
+            c = s2[r]
+            r += 1
             # data manipulation in window
             if c in need:
                 window[c] += 1
@@ -30,12 +33,12 @@ class Solution:
                     valid += 1
 
             # check if to shrink left side of window
-            while right - left >= len(s1):
+            while r - l >= len(s1):
                 # determine if valid substring is found
                 if valid == len(need):
                     return True
-                d = s2[left]
-                left += 1
+                d = s2[l]
+                l += 1
                 # update data in window
                 if d in need:
                     if window[d] == need[d]:
