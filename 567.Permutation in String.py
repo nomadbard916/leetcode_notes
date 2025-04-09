@@ -24,6 +24,7 @@ class Solution:
         valid_chars_cnt = 0
 
         while r < len(s2):
+            # * step 1: keep enlarging the window until required chars count met
             c = s2[r]
             # data manipulation in window
             if c in need:
@@ -32,7 +33,9 @@ class Solution:
                     valid_chars_cnt += 1
             r += 1
 
-            # check if to shrink left side of window
+            # * step 2: check if to shrink left window side
+            # the window is actually a fixed length one,
+            # so we may change the "while" structure to "if"
             while r - l >= len(s1):
                 # determine if valid substring is found
                 if valid_chars_cnt == len(need):
