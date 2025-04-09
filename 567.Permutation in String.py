@@ -21,29 +21,29 @@ class Solution:
             need[c] += 1
 
         l, r = 0, 0
-        valid = 0
+        valid_chars_cnt = 0
 
         while r < len(s2):
             c = s2[r]
-            r += 1
             # data manipulation in window
             if c in need:
                 window[c] += 1
                 if window[c] == need[c]:
-                    valid += 1
+                    valid_chars_cnt += 1
+            r += 1
 
             # check if to shrink left side of window
             while r - l >= len(s1):
                 # determine if valid substring is found
-                if valid == len(need):
+                if valid_chars_cnt == len(need):
                     return True
                 d = s2[l]
-                l += 1
                 # update data in window
                 if d in need:
                     if window[d] == need[d]:
-                        valid -= 1
+                        valid_chars_cnt -= 1
                     window[d] -= 1
+                l += 1
         # substring not found
         return False
 
