@@ -17,6 +17,8 @@ class TreeNode:
 
 
 class Solution:
+    diameter = 0
+
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
         # essentially find the max sum of the depth in left and right child tree
         # cf. 104, 110, 124
@@ -24,19 +26,18 @@ class Solution:
         if not root:
             return 0
 
-        self.diameter = 0
-        self.get_depth(root)
+        self.max_depth(root)
 
         return self.diameter
 
-    def get_depth(self, root: Optional[TreeNode]):
-        """actually DFS, post-order"""
+    def max_depth(self, root: Optional[TreeNode]):
+        """actually DFS post-order, so we may know the info about each subtree"""
 
         if not root:
             return 0
 
-        left_depth = self.get_depth(root.left)
-        right_depth = self.get_depth(root.right)
+        left_depth = self.max_depth(root.left)
+        right_depth = self.max_depth(root.right)
 
         depth_sum = left_depth + right_depth
         self.diameter = max(self.diameter, depth_sum)
