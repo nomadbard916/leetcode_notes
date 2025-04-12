@@ -20,16 +20,18 @@ class Solution:
     def rightSideView(self, root: TreeNode) -> List[int]:
         # see only right nodes
         if root is None:
-            return root
+            return []
 
         ans = []
 
-        def DFS(root: TreeNode, current_level: int):
+        def DFS(root: TreeNode | None, current_level: int):
             if root is None:
                 return
 
-            # preorder, but as we only want to see right nodes...
-            # there should be only one rightmost node shown in ans
+            # Using pre-order traversal (root, right, left) ensures that:
+            # 1. We process the rightmost node of each level first
+            # 2. We only add a node to 'ans' if its level is not yet represented
+            # This guarantees that 'ans' will contain only the rightmost nodes
             if current_level == len(ans):
                 ans.append(root.val)
 
