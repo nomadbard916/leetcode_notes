@@ -7,6 +7,9 @@
 
 # @lc code=start
 # Definition for a binary tree node.
+from typing import Optional
+
+
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -19,7 +22,9 @@ class Solution:
     res = None
 
     def traverse(self, root):
-        # the pre-order operation is used to construct the path as the traversal goes deeper, and the post-order operation is used to backtrack and maintain the correct path state. This combination is necessary for the specific problem of finding the smallest string from leaf to root.
+        # the pre-order operation is used to construct the path as the traversal goes deeper,
+        # and the post-order operation is used to backtrack and maintain the correct path state.
+        # This combination is necessary for the specific problem of finding the smallest string from leaf to root.
         if root is None:
             return
 
@@ -44,7 +49,7 @@ class Solution:
         # Post-order: Remove current node's character from the path
         self.path = self.path[1:]
 
-    def smallestFromLeaf(self, root: Optional[TreeNode]) -> str:
+    def smallestFromLeaf(self, root: Optional[TreeNode]) -> str | None:
         self.traverse(root)
         return self.res
 
