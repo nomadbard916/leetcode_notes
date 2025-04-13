@@ -18,10 +18,11 @@ class TreeNode:
 
 
 class Solution:
-    path = ""
+    current_path = ""
     res = None
 
     def traverse(self, root):
+        ASCII_value_a = ord("a")
         # the pre-order operation is used to construct the path as the traversal goes deeper,
         # and the post-order operation is used to backtrack and maintain the correct path state.
         # This combination is necessary for the specific problem of finding the smallest string from leaf to root.
@@ -29,25 +30,24 @@ class Solution:
             return
 
         if root.left is None and root.right is None:
-            self.path = chr(ord("a") + root.val) + self.path
+            self.current_path = chr(ASCII_value_a + root.val) + self.current_path
 
-            s = self.path
             # update res
-            if self.res is None or self.res > s:
-                self.res = s
+            if self.res is None or self.res > self.current_path:
+                self.res = self.current_path
 
             # Remove current node's character from the path
-            self.path = self.path[1:]
+            self.current_path = self.current_path[1:]
             return
 
         # Pre-order: Add current node's character to the path
-        self.path = chr(ord("a") + root.val) + self.path
+        self.current_path = chr(ASCII_value_a + root.val) + self.current_path
 
         self.traverse(root.left)
         self.traverse(root.right)
 
         # Post-order: Remove current node's character from the path
-        self.path = self.path[1:]
+        self.current_path = self.current_path[1:]
 
     def smallestFromLeaf(self, root: Optional[TreeNode]) -> str | None:
         self.traverse(root)
