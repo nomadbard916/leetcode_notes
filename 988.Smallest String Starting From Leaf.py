@@ -45,13 +45,18 @@ class Solution:
             return
 
         # Pre-order: Add current node's character to the path
+        #  This ensures that as you go deeper into the tree,
+        # the path is constructed in the order from the current node down to the leaf.
         self.current_path = chr(ASCII_value_a + root.val) + self.current_path
 
         self.traverse(root.left)
         self.traverse(root.right)
 
         # Post-order: Remove current node's character from the path
+        #  This is necessary to ensure that when the traversal backtracks to the parent node,
+        # the path reflects the correct state without the current node's character.
         self.current_path = self.current_path[1:]
+        return
 
     def smallestFromLeaf(self, root: Optional[TreeNode]) -> str | None:
         self.traverse(root)
