@@ -22,18 +22,22 @@ class Solution:
     res = None
 
     def traverse(self, root):
-        ASCII_value_a = ord("a")
         # the pre-order operation is used to construct the path as the traversal goes deeper,
         # and the post-order operation is used to backtrack and maintain the correct path state.
         # This combination is necessary for the specific problem of finding the smallest string from leaf to root.
         if root is None:
             return
 
+        ASCII_value_a = ord("a")
+
         if root.left is None and root.right is None:
             self.current_path = chr(ASCII_value_a + root.val) + self.current_path
 
-            # update res
-            if self.res is None or self.res > self.current_path:
+            if self.res is None:
+                self.res = self.current_path
+
+            # update res if it exceeds current potential res
+            if self.res > self.current_path:
                 self.res = self.current_path
 
             # Remove current node's character from the path
