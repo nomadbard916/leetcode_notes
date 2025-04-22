@@ -136,8 +136,64 @@ def right_bound(nums: List[int], target: int) -> int:
     if left - 1 < 0 or left - 1 >= len(nums):
         return -1
     return left - 1 if nums[left - 1] == target else -1
-    # or if you want to emphasize it's searching right
+    # 由于 while 的结束条件为 right == left - 1，
+    # 所以你把上述代码中的 left - 1 都改成 right 也没有问题，这样可能更有利于看出来这是在「搜索右侧边界」
     # return right if nums[right] == target else -1
+
+
+# ! the ultimate comparison
+def binary_search(nums: List[int], target: int) -> int:
+    # 设置左右下标
+    left, right = 0, len(nums) - 1
+    while left <= right:
+        mid = left + (right - left) // 2
+        if nums[mid] < target:
+            left = mid + 1
+        elif nums[mid] > target:
+            right = mid - 1
+        elif nums[mid] == target:
+            # 找到目标值
+            return mid
+    # 没有找到目标值
+    return -1
+
+
+def left_bound(nums: List[int], target: int) -> int:
+    # 设置左右下标
+    left, right = 0, len(nums) - 1
+    while left <= right:
+        mid = left + (right - left) // 2
+        if nums[mid] < target:
+            left = mid + 1
+        elif nums[mid] > target:
+            right = mid - 1
+        elif nums[mid] == target:
+            # 存在目标值，缩小右边界
+            right = mid - 1
+    # 判断是否存在目标值
+    if left < 0 or left >= len(nums):
+        return -1
+    # 判断找到的左边界是否是目标值
+    return left if nums[left] == target else -1
+
+
+def right_bound(nums: List[int], target: int) -> int:
+    # 设置左右下标
+    left, right = 0, len(nums) - 1
+    while left <= right:
+        mid = left + (right - left) // 2
+        if nums[mid] < target:
+            left = mid + 1
+        elif nums[mid] > target:
+            right = mid - 1
+        elif nums[mid] == target:
+            # 存在目标值，缩小左边界
+            left = mid + 1
+    # 判断是否存在目标值
+    if right < 0 or right >= len(nums):
+        return -1
+    # 判断找到的右边界是否是目标值
+    return right if nums[right] == target else -1
 
 
 # from lucifer: 在实际的写代码过程中，我不会使用寻找满足条件的值模板，而是直接使用最左或者最右插入模板。
