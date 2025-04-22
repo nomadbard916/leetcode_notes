@@ -23,6 +23,7 @@ def binarysearch(nums, target):
 
 
 # 寻找左侧边界的二分搜索
+# [left, right)
 def left_bound(nums: List[int], target: int) -> int:
     left = 0
     # 注意
@@ -56,6 +57,32 @@ def left_bound(nums: List[int], target: int) -> int:
     # 如果想让 target 不存在时返回 -1 其实很简单，
     # 在返回的时候额外判断一下 nums[left] 是否等于 target 就行了，如果不等于，就说明 target 不存在。
     # 需要注意的是，访问数组索引之前要保证索引不越界。 如果索引越界，说明数组中无目标元素，返回 -1
+
+
+# [left, right]
+def left_bound(nums: List[int], target: int) -> int:
+    left, right = 0, len(nums) - 1
+    # 搜索区间为 [left, right]
+
+    while left <= right:
+        mid = left + (right - left) // 2
+        if nums[mid] < target:
+            # 搜索区间变为 [mid+1, right]
+            left = mid + 1
+        elif nums[mid] > target:
+            # 搜索区间变为 [left, mid-1]
+            right = mid - 1
+        elif nums[mid] == target:
+            # 收缩右侧边界
+            right = mid - 1
+
+    # 判断 target 是否存在于 nums 中
+    # 如果越界，target 肯定不存在，返回 -1
+    if left < 0 or left >= len(nums):
+        return -1
+
+    # 判断一下 nums[left] 是不是 target
+    return left if nums[left] == target else -1
 
 
 # 寻找右侧边界的二分查找
