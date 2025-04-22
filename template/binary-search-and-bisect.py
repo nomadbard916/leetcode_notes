@@ -86,6 +86,7 @@ def left_bound(nums: List[int], target: int) -> int:
 
 
 # 寻找右侧边界的二分查找
+# [left, right)
 def right_bound(nums, target):
     left, right = 0, len(nums)
     while left < right:
@@ -117,6 +118,26 @@ def right_bound(nums, target):
     return left - 1
     # 如果你想在 target 不存在时返回 -1，很简单，
     # 只要在最后判断一下 nums[left-1] 是不是 target 就行了
+
+
+# [left, right]
+def right_bound(nums: List[int], target: int) -> int:
+    left, right = 0, len(nums) - 1
+    while left <= right:
+        mid = left + (right - left) // 2
+        if nums[mid] < target:
+            left = mid + 1
+        elif nums[mid] > target:
+            right = mid - 1
+        elif nums[mid] == target:
+            # 这里改成收缩左侧边界即可
+            left = mid + 1
+    # 最后改成返回 left - 1
+    if left - 1 < 0 or left - 1 >= len(nums):
+        return -1
+    return left - 1 if nums[left - 1] == target else -1
+    # or if you want to emphasize it's searching right
+    # return right if nums[right] == target else -1
 
 
 # from lucifer: 在实际的写代码过程中，我不会使用寻找满足条件的值模板，而是直接使用最左或者最右插入模板。
