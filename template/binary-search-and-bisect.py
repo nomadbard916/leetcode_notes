@@ -61,6 +61,9 @@ def right_bound(nums, target):
     left, right = 0, len(nums)
     while left < right:
         mid = left + (right - left) // 2
+        # 为什么这个算法能够找到右侧边界？
+        # 当 nums[mid] == target 时，不要立即返回，而是增大「搜索区间」的左边界 left，
+        # 使得区间不断向右靠拢，达到锁定右侧边界的目的。
         if nums[mid] == target:
             # 注意
             left = mid + 1
@@ -69,7 +72,22 @@ def right_bound(nums, target):
         elif nums[mid] > target:
             right = mid
     # 注意
+    # 为什么最后返回 left - 1 而不像左侧边界的函数，返回 left？
+    # 而且我觉得这里既然是搜索右侧边界，应该返回 right 才对。
+
+    # 答：首先，while 循环的终止条件是 left == right，
+    # 所以 left 和 right 是一样的，你非要体现右侧的特点，
+    # 返回 right - 1 好了。
+
+    # 至于为什么要减一，这是搜索右侧边界的一个特殊点，
+    # 关键在锁定右边界时的这个条件判断：
+    # 因为我们对 left 的更新必须是 left = mid + 1，就是说 while 循环结束时，
+    # nums[left] 一定不等于 target 了，而 nums[left-1] 可能是 target。
+    # 至于为什么 left 的更新必须是 left = mid + 1，
+    # 当然是为了把 nums[mid] 排除出搜索区间，这里就不再赘述。
     return left - 1
+    # 如果你想在 target 不存在时返回 -1，很简单，
+    # 只要在最后判断一下 nums[left-1] 是不是 target 就行了
 
 
 # from lucifer: 在实际的写代码过程中，我不会使用寻找满足条件的值模板，而是直接使用最左或者最右插入模板。
