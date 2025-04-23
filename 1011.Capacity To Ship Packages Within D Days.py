@@ -6,10 +6,13 @@
 #
 
 # @lc code=start
+from typing import List
+
+
 class Solution:
     def shipWithinDays(self, weights: List[int], days: int) -> int:
-        left = max(weights)  # minimum possible capacity
-        right = sum(weights)  # maximum possible capacity
+        l = max(weights)  # minimum possible capacity
+        r = sum(weights)  # maximum possible capacity
 
         def can_ship_in_days(capacity: int) -> int:
             current_days = 1
@@ -24,14 +27,14 @@ class Solution:
             return current_days
 
         # Binary search for minimum capacity
-        while left < right:
-            mid = (left + right) // 2
+        while l < r:
+            mid = (l + r) // 2
             if (can_ship_in_days(mid)) <= days:
-                right = mid
+                r = mid
             else:
-                left = mid + 1
+                l = mid + 1
 
-        return left
+        return l
 
 
 # @lc code=end
