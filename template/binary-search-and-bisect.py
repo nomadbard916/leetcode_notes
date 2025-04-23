@@ -1,6 +1,7 @@
 import bisect
 
 
+# [left, right]
 def binarysearch(nums, target):
     l, r = 0, len(nums) - 1
 
@@ -22,7 +23,7 @@ def binarysearch(nums, target):
     return -1  # when not found
 
 
-# 寻找左侧边界的二分搜索
+# 寻找左侧边界的二分搜索, a most commonly seen solution
 # [left, right)
 def left_bound(nums: List[int], target: int) -> int:
     left = 0
@@ -85,7 +86,7 @@ def left_bound(nums: List[int], target: int) -> int:
     return left if nums[left] == target else -1
 
 
-# 寻找右侧边界的二分查找
+# 寻找右侧边界的二分查找, a most commonly seen solution
 # [left, right)
 def right_bound(nums, target):
     left, right = 0, len(nums)
@@ -141,7 +142,7 @@ def right_bound(nums: List[int], target: int) -> int:
     # return right if nums[right] == target else -1
 
 
-# ! the ultimate comparison
+# ! the ultimate comparison, all with [left, right]
 def binary_search(nums: List[int], target: int) -> int:
     # 设置左右下标
     left, right = 0, len(nums) - 1
