@@ -26,9 +26,15 @@ class Solution:
                 curr_total_h += math.ceil(pile / mid_speed)
             # bisect right
             if curr_total_h <= h:
+                # mid speed works, so let's search lower
                 max_speed = mid_speed - 1
             else:
+                # too slow, need to accelerate by searching higher
                 min_speed = mid_speed + 1
+
+        # loop ends with min_speed > max_speed
+        # min_speed will be the first speed that works
+        # max_speed will be the last speed that's too slow
 
         return min_speed
 
