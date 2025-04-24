@@ -34,7 +34,7 @@ class Solution:
 
         # loop ends with min_speed > max_speed
         # min_speed will be the first speed that works
-        # max_speed will be the last speed that's too slow
+        # max_speed will be the largest speed that's too slow
 
         return min_speed
 

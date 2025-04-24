@@ -27,10 +27,10 @@ class Solution:
             return current_days
 
         # Binary search for minimum capacity
-        while l < r:
+        while l <= r:
             mid = (l + r) // 2
             if (can_ship_in_days(mid)) <= days:
-                r = mid
+                r = mid - 1
             else:
                 l = mid + 1
 
