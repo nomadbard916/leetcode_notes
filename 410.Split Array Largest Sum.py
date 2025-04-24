@@ -12,14 +12,15 @@ class Solution:
         lo, hi = max(nums), sum(nums)
         while lo <= hi:
             mid = (lo + hi) // 2
-            tot, cnt = 0, 1
+            curr_arr_sum = 0
+            subarr_needed = 1
             for num in nums:
-                if tot + num <= mid:
-                    tot += num
+                if curr_arr_sum + num <= mid:
+                    curr_arr_sum += num
                 else:
-                    tot = num
-                    cnt += 1
-            if cnt <= k:
+                    curr_arr_sum = num
+                    subarr_needed += 1
+            if subarr_needed <= k:
                 hi = mid - 1
             else:
                 lo = mid + 1
