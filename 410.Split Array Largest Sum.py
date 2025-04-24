@@ -11,23 +11,28 @@ from typing import List
 
 class Solution:
     def splitArray(self, nums: List[int], k: int) -> int:
-        # min-possible maximum => right bound
+        # ! min-possible maximum => right bound
         lo, hi = max(nums), sum(nums)
         while lo <= hi:
+            # * checking valid split
             mid = (lo + hi) // 2
             curr_arr_sum = 0
             curr_subarr_cnt = 1
             for num in nums:
                 if curr_arr_sum + num <= mid:
                     curr_arr_sum += num
+                # When curr_arr_sum + num > mid, start new subarray
                 else:
                     curr_arr_sum = num
                     curr_subarr_cnt += 1
+
             if curr_subarr_cnt <= k:
                 hi = mid - 1
             else:
                 lo = mid + 1
-        # Need to add 1 since hi points to value just below answer
+
+        # When loop ends, hi points to value just below answer
+        # Adding 1 gives minimum valid maximum subarray sum
         return hi + 1
 
 
