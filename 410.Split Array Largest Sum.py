@@ -26,14 +26,16 @@ class Solution:
                     curr_arr_sum = num
                     curr_subarr_cnt += 1
 
+            # * adjusting bounds
             if curr_subarr_cnt <= k:
                 hi = mid - 1
             else:
                 lo = mid + 1
-
         # When loop ends, hi points to value just below answer
         # Adding 1 gives minimum valid maximum subarray sum
         return hi + 1
+
+    # Time Complexity: O(n × log(sum-max)) Space Complexity: O(1)
 
 
 # @lc code=end
