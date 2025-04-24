@@ -6,6 +6,9 @@
 #
 
 # @lc code=start
+from typing import List
+
+
 class Solution:
     def splitArray(self, nums: List[int], k: int) -> int:
         # min-possible maximum => right bound
@@ -13,18 +16,19 @@ class Solution:
         while lo <= hi:
             mid = (lo + hi) // 2
             curr_arr_sum = 0
-            subarr_needed = 1
+            curr_subarr_cnt = 1
             for num in nums:
                 if curr_arr_sum + num <= mid:
                     curr_arr_sum += num
                 else:
                     curr_arr_sum = num
-                    subarr_needed += 1
-            if subarr_needed <= k:
+                    curr_subarr_cnt += 1
+            if curr_subarr_cnt <= k:
                 hi = mid - 1
             else:
                 lo = mid + 1
-        return hi + 1  # Need to add 1 since hi points to value just below answer
+        # Need to add 1 since hi points to value just below answer
+        return hi + 1
 
 
 # @lc code=end
