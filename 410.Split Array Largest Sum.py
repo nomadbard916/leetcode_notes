@@ -14,11 +14,14 @@ class Solution:
         # ! min-possible maximum => right bound
         lo, hi = max(nums), sum(nums)
         while lo <= hi:
-            # * checking valid split
             mid = (lo + hi) // 2
+
+            # * checking valid split, greedy
             curr_arr_sum = 0
             curr_subarr_cnt = 1
+            # Linear scan through array to check if current guess (mid) works
             for num in nums:
+                # Greedily forms subarrays by adding numbers until sum exceeds mid
                 if curr_arr_sum + num <= mid:
                     curr_arr_sum += num
                 # When curr_arr_sum + num > mid, start new subarray
