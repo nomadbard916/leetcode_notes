@@ -22,7 +22,9 @@ class Solution:
         #     if cnt[c] < k:
         #         maxst = max(maxst, self.longestSubstring(s[st:i], k))
         #         st = i + 1
-        # there's still eed to check the last segment
+        # # there's still need to check the last segment,
+        # # as the focus was on "invlid" characters
+        # # while there are remaining segment not checked yet
         # return len(s) if st == 0 else max(maxst, self.longestSubstring(s[st:], k))
 
         # The idea is that any characters in the string that do not satisfy the requirement break the string in multiple parts that do not contain these characters, and for each part we should check the requirement again. There are similar solutions (not many), though most use string methods like split or count, which keep some important details hidden. Here I am also using Counter for short code but it’s just replacing a usual dictionary and a single obvious loop to calculate counts of letters.
