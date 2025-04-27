@@ -6,6 +6,9 @@
 #
 
 # @lc code=start
+from collections import defaultdict
+
+
 class Solution:
     def longestSubstring(self, s: str, k: int) -> int:
         # sol 1: divide and conquer
@@ -52,18 +55,16 @@ class Solution:
         for unique_target in range(1, max_unique_chars + 1):
             # Initialize sliding window
             start = 0
-            char_counts = {}
+            char_counts = defaultdict(int)
             unique_char_count = 0  # Number of unique chars in current window
             at_least_k_count = 0  # Number of chars appearing at least k times
 
             # Expand window in caterpillar form
             for end in range(LEN):
                 # Add the right character to our window
-                if s[end] not in char_counts:
-                    char_counts[s[end]] = 1
+                if char_counts[s[end]] == 0:
                     unique_char_count += 1
-                else:
-                    char_counts[s[end]] += 1
+                char_counts[s[end]] += 1
 
                 # Update count of chars appearing at least k times
                 if char_counts[s[end]] == k:
@@ -78,7 +79,6 @@ class Solution:
                     char_counts[s[start]] -= 1
                     if char_counts[s[start]] == 0:
                         unique_char_count -= 1
-                        del char_counts[s[start]]
 
                     # let left character step right
                     start += 1
