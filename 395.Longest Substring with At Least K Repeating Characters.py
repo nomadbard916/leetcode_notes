@@ -39,50 +39,52 @@ class Solution:
         # Concerning complexity, it is indeed formally O(N), like it was mentioned in another solution despite recursion, because at each level of recursion we look at maximum 2N characters, and there can be not more than 26 levels of recursion, because we remove at least one character from 26 possible characters each time we move to the next level.
 
         # sol 2: two pointers
-        if not s or k > len(s):
+        LEN = len(s)
+        if not s or k > LEN:
             return 0
         if k == 1:  # If k is 1, every character satisfies the condition
-            return len(s)
+            return LEN
 
         result = 0
-        max_unique = len(set(s))  # Maximum unique characters possible
+        max_unique_chars = len(set(s))
 
         # Try each possible count of unique characters
-        for unique_target in range(1, max_unique + 1):
+        for unique_target in range(1, max_unique_chars + 1):
             # Initialize sliding window
             start = 0
-            counts = {}
-            unique_count = 0  # Number of unique chars in current window
+            char_counts = {}
+            unique_char_count = 0  # Number of unique chars in current window
             at_least_k_count = 0  # Number of chars appearing at least k times
 
-            # Expand window
-            for end in range(len(s)):
+            # Expand window in caterpillar form
+            for end in range(LEN):
                 # Add the right character to our window
-                if s[end] not in counts:
-                    counts[s[end]] = 1
-                    unique_count += 1
+                if s[end] not in char_counts:
+                    char_counts[s[end]] = 1
+                    unique_char_count += 1
                 else:
-                    counts[s[end]] += 1
+                    char_counts[s[end]] += 1
 
                 # Update count of chars appearing at least k times
-                if counts[s[end]] == k:
+                if char_counts[s[end]] == k:
                     at_least_k_count += 1
 
-                # Contract window while we have too many unique chars
-                while unique_count > unique_target:
+                # shrink window while we have too many unique chars
+                while unique_char_count > unique_target:
                     # Remove the left character from our window
-                    if counts[s[start]] == k:
+                    if char_counts[s[start]] == k:
                         at_least_k_count -= 1
 
-                    counts[s[start]] -= 1
-                    if counts[s[start]] == 0:
-                        unique_count -= 1
-                        del counts[s[start]]
+                    char_counts[s[start]] -= 1
+                    if char_counts[s[start]] == 0:
+                        unique_char_count -= 1
+                        del char_counts[s[start]]
 
+                    # let left character step right
                     start += 1
 
                 # Check if all chars in the window appear at least k times
-                if unique_count == at_least_k_count:
+                if unique_char_count == at_least_k_count:
                     result = max(result, end - start + 1)
 
         return result
