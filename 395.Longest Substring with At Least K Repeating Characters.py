@@ -20,10 +20,14 @@ class Solution:
         #     # cannot be part of a valid answer.
         #     # These characters must be excluded entirely from any valid substring.
         #     if cnt[c] < k:
-        #         # the way it updates maxst is specifically when we encounter characters that have a frequency less than k.
+        #         # when the segment is broken due to char less than k which will be "divider",
+        #         # start checking recursively the previous segment in [st, i) to determine maxst
         #         maxst = max(maxst, self.longestSubstring(s[st:i], k))
         #         # move the pointer to next possible segment start after this invalid character
         #         st = i + 1
+        #
+        # # maxst is determined as "length of segment" in previously passed in [st:i) if st is 0 i.e as a whole until divider char
+        #
         # # there's still need to check the last segment,
         # # as the focus was on "invlid" characters
         # # while there are remaining segment not checked yet
