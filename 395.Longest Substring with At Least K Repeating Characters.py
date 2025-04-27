@@ -48,8 +48,9 @@ class Solution:
         if k == 1:  # If k is 1, every character satisfies the condition
             return LEN
 
-        result = 0
         max_unique_chars = len(set(s))
+
+        result = 0
 
         # Try each possible count of unique characters
         for unique_target in range(1, max_unique_chars + 1):
@@ -59,8 +60,9 @@ class Solution:
             unique_char_count = 0  # Number of unique chars in current window
             at_least_k_count = 0  # Number of chars appearing at least k times
 
-            # Expand window in caterpillar form
+            # ! Expand window in caterpillar form
             for end in range(LEN):
+                # * handle end char
                 # Add the right character to our window
                 if char_counts[s[end]] == 0:
                     unique_char_count += 1
@@ -70,9 +72,9 @@ class Solution:
                 if char_counts[s[end]] == k:
                     at_least_k_count += 1
 
-                # shrink window while we have too many unique chars
+                # ! shrink window while we have too many unique chars
                 while unique_char_count > unique_target:
-                    # Remove the left character from our window
+                    # * Remove the left character from our window
                     if char_counts[s[start]] == k:
                         at_least_k_count -= 1
 
@@ -83,7 +85,7 @@ class Solution:
                     # let left character step right
                     start += 1
 
-                # Check if all chars in the window appear at least k times
+                # ! Check if all chars in the window appear at least k times
                 if unique_char_count == at_least_k_count:
                     result = max(result, end - start + 1)
 
