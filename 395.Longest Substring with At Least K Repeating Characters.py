@@ -53,11 +53,14 @@ class Solution:
         result = 0
 
         # Try each possible count of unique characters
-        for unique_target in range(1, max_unique_chars + 1):
+        # If we allow any number of unique characters in our window,
+        # we can't ensure each unique character appears ≥ k times
+        # We need precise control over exactly how many unique characters are in our current window
+        for unique_char_cnt_target in range(1, max_unique_chars + 1):
             # Initialize sliding window
             start = 0
             char_counts = defaultdict(int)
-            unique_char_count = 0  # Number of unique chars in current window
+            curr_unique_char_count = 0  # Number of unique chars in current window
             at_least_k_count = 0  # Number of chars appearing at least k times
 
             # ! Expand window in caterpillar form
@@ -65,7 +68,7 @@ class Solution:
                 # * handle end char
                 # Add the right character to our window
                 if char_counts[s[end]] == 0:
-                    unique_char_count += 1
+                    curr_unique_char_count += 1
                 char_counts[s[end]] += 1
 
                 # Update count of chars appearing at least k times
@@ -73,20 +76,20 @@ class Solution:
                     at_least_k_count += 1
 
                 # ! shrink window while we have too many unique chars
-                while unique_char_count > unique_target:
+                while curr_unique_char_count > unique_char_cnt_target:
                     # * Remove the left character from our window
                     if char_counts[s[start]] == k:
                         at_least_k_count -= 1
 
                     char_counts[s[start]] -= 1
                     if char_counts[s[start]] == 0:
-                        unique_char_count -= 1
+                        curr_unique_char_count -= 1
 
                     # let left character step right
                     start += 1
 
                 # ! Check if all chars in the window appear at least k times
-                if unique_char_count == at_least_k_count:
+                if curr_unique_char_count == at_least_k_count:
                     result = max(result, end - start + 1)
 
         return result
