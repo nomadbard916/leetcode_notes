@@ -78,10 +78,14 @@ class Solution:
                 # ! shrink window while we have too many unique chars
                 while curr_unique_char_count > unique_char_cnt_target:
                     # * Remove the left character from our window
+                    # Because we're about to remove one occurrence of this character, it will no longer meet the k-requirement
                     if char_counts[s[start]] == k:
                         at_least_k_count -= 1
 
                     char_counts[s[start]] -= 1
+                    # If after decreasing, the character count becomes 0
+                    # We decrease the count of unique characters in our current window
+                    # Because this character no longer appears in our window at all
                     if char_counts[s[start]] == 0:
                         curr_unique_char_count -= 1
 
