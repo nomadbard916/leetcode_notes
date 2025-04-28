@@ -7,35 +7,36 @@
 
 # @lc code=start
 from collections import defaultdict
+import collections
 
 
 class Solution:
     def longestSubstring(self, s: str, k: int) -> int:
         # sol 1: divide and conquer
-        # # it's already O(n) here
-        # cnt = collections.Counter(s)
-        # # starting position of the current segment we are considering
-        # st = 0
-        # # max substring length found so far
-        # maxst = 0
-        # for i, c in enumerate(s):
-        #     # an character that appears fewer than k times int hte entire string
-        #     # cannot be part of a valid answer.
-        #     # These characters must be excluded entirely from any valid substring.
-        #     if cnt[c] < k:
-        #         # when the segment is broken due to char less than k which will be "divider",
-        #         # start checking recursively the previous segment in [st, i) to determine maxst
-        #         maxst = max(maxst, self.longestSubstring(s[st:i], k))
-        #         # move the pointer to next possible segment start after this invalid character
-        #         st = i + 1
-        #
-        # # maxst is determined as "length of segment" in previously passed in [st:i) if st is 0 i.e as a whole until divider char
-        #
-        # # there's still need to check the last segment,
-        # # as the focus was on "invlid" characters
-        # # while there are remaining segment not checked yet
-        # # in the final loop for valid segment, the answer is exactly as the string length
-        # return len(s) if st == 0 else max(maxst, self.longestSubstring(s[st:], k))
+        # it's already O(n) here
+        cnt = collections.Counter(s)
+        # starting position of the current segment we are considering
+        st = 0
+        # max substring length found so far
+        maxst = 0
+        for i, c in enumerate(s):
+            # an character that appears fewer than k times int hte entire string
+            # cannot be part of a valid answer.
+            # These characters must be excluded entirely from any valid substring.
+            if cnt[c] < k:
+                # when the segment is broken due to char less than k which will be "divider",
+                # start checking recursively the previous segment in [st, i) to determine maxst
+                maxst = max(maxst, self.longestSubstring(s[st:i], k))
+                # move the pointer to next possible segment start after this invalid character
+                st = i + 1
+
+        # maxst is determined as "length of segment" in previously passed in [st:i) if st is 0 i.e as a whole until divider char
+
+        # there's still need to check the last segment,
+        # as the focus was on "invlid" characters
+        # while there are remaining segment not checked yet
+        # in the final loop for valid segment, the answer is exactly as the string length
+        return len(s) if st == 0 else max(maxst, self.longestSubstring(s[st:], k))
 
         # The idea is that any characters in the string that do not satisfy the requirement break the string in multiple parts that do not contain these characters, and for each part we should check the requirement again. There are similar solutions (not many), though most use string methods like split or count, which keep some important details hidden. Here I am also using Counter for short code but it’s just replacing a usual dictionary and a single obvious loop to calculate counts of letters.
 
