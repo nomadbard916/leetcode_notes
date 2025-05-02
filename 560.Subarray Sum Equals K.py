@@ -36,13 +36,18 @@ class Solution:
         # sol2: plain prefix sum
         count = 0
         prefix_sum = 0
-        sum_count = {0: 1}  # Initialize with 0:1 for subarrays that start from index 0
+        # Dictionary mapping each prefix sum to its frequency
+        # Initialize with 0:1 for subarrays that start from index 0, an empty subarray (before the first element) has sum 0
+        # you also need to think about negative numbers
+        sum_count = {0: 1}
 
         for num in nums:
             # Update the running sum
             prefix_sum += num
 
-            # If (prefix_sum - k) exists in the hash map, it means we have subarrays that sum to k
+            # At each position, we check if (prefix_sum - k) exists in our dictionary
+            # If it does, it means there are subarrays ending at the current position that sum to k
+            # e.g. If sum_count[prefix_sum - k] has a value of two, it means there are two different previous positions in the array where the running sum had a value of prefix_sum - k. Each of these positions represents the point right before the start of a subarray that ends at our current position and sums to k.
             if prefix_sum - k in sum_count:
                 count += sum_count[prefix_sum - k]
 
