@@ -27,14 +27,24 @@ class Solution:
         for r in range(len(nums)):
             product *= nums[r]
 
-            if product >= k:
-                while product >= k and l <= r:
-                    product /= nums[l]
-                    l += 1
+            while product >= k and l <= r:
+                product //= nums[l]
+                l += 1
 
+            # Add count of valid subarrays ending at right pointer
+            # Each new position of right adds (right - left + 1) new subarrays
             res += r - l + 1
 
         return res
+
+        # Time Complexity: O(n) where n is the length of the array. Each element is added once and removed at most once.
+        # Space Complexity: O(1) as we only use a constant amount of extra space.
+
+        # A brute force approach would be to:
+        # 1. Check all possible subarrays (O(n²) of them)
+        # 2. Calculate the product for each (potentially another O(n))
+        # 3. Count those with product < k
+        # This would result in O(n³) time complexity, which is much less efficient than our sliding window solution.
 
         # ref only: prefix product, should combine binary search
         # problems in this way:
