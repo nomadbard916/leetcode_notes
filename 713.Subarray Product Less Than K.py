@@ -8,7 +8,11 @@
 # @lc code=start
 class Solution:
     def numSubarrayProductLessThanK(self, nums: List[int], k: int) -> int:
-        # sliding window, maybe compare with prefix sum?
+        # ! sliding window, maybe compare with prefix sum?
+        # sanity check first
+        if k <= 1:
+            return 0
+
         l = 0
         res = 0
         product = 1
