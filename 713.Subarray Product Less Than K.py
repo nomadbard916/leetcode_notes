@@ -27,7 +27,11 @@ class Solution:
         for r in range(len(nums)):
             product *= nums[r]
 
-            while product >= k and l <= r:
+            # The condition left <= right ensures that:
+            # 1. We don't shrink the window beyond its right boundary
+            # 2. We handle the case where a single element (when left equals right) exceeds k
+            # or we may just ignore the l <= r condition, as left will never exceed right in the normal flow of the algorithm. The right pointer advances in the outer loop, and the left pointer only advances in the inner loop, so left will always be ≤ right + 1.
+            while l <= r and product >= k:
                 product //= nums[l]
                 l += 1
 
