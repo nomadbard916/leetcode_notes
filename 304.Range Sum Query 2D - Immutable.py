@@ -14,6 +14,7 @@ class NumMatrix:
     NumMatrix supports efficient sum queries over a 2D matrix using a 2D prefix sum (summed-area table).
     """
 
+    # it may be a waste of space, but as long as the problem asks for O(1)......
     # ! any matrix can be calculated by bigger matrixes starting from (0,0)
     # let's say the matrix to be (ul, ur, dl, dr), then its sum:
     # (0,0)~(dl, dr) - (0,0)~(0,l)~(d,0) - (0,0)~(0,u)~(r,0) + (0,0)~(l,0)~(0,u)
