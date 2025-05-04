@@ -28,6 +28,11 @@ class NumMatrix:
 
         # create a (rows +1) x (cols +1 ) DP table initialized to 0
         # dp[i][j] stores the sum of the submatrix from (0,0) to (i-1,j-1)
+        # Without the extra row and column, we'd need special cases:
+        # - For cells on the top edge: can't subtract "above" portion
+        # - For cells on the left edge: can't subtract "left" portion
+        # - For the top-left cell: can't use the inclusion-exclusion formula at all
+        # This would complicate our code significantly and make it more error-prone.
         self.dp = [[0] * (cols + 1) for _ in range(rows + 1)]
 
         # build the prefix sum table
