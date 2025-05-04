@@ -10,18 +10,24 @@ from typing import List
 
 
 class NumMatrix:
+    """
+    NumMatrix supports efficient sum queries over a 2D matrix using a 2D prefix sum (summed-area table).
+    """
+
     # ! any matrix can be calculated by bigger matrixes starting from (0,0)
     # let's say the matrix to be (ul, ur, dl, dr), then its sum:
     # (0,0)~(dl, dr) - (0,0)~(0,l)~(d,0) - (0,0)~(0,u)~(r,0) + (0,0)~(l,0)~(0,u)
 
     def __init__(self, matrix: List[List[int]]):
-        rows, cols = len(matrix), len(matrix[0]) if matrix else 0
+        # Dimensions of the input matrix
+        rows = len(matrix)
+        cols = len(matrix[0]) if rows > 0 else 0
 
         if rows == 0 or cols == 0:
             return
 
         # create a (rows +1) x (cols +1 ) DP table initialized to 0
-
+        # dp[i][j] stores the sum of the submatrix from (0,0) to (i-1,j-1)
         self.dp = [[0] * (cols + 1) for _ in range(rows + 1)]
 
         # build the prefix sum table
