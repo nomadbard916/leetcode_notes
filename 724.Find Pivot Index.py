@@ -32,6 +32,9 @@ class Solution:
 
         return -1
 
+        # time complexity: O(n)
+        # space complexity: O(1)
+
         # sol2: prefix sum
         prefix_sums = [0]
         for num in nums:
