@@ -17,6 +17,21 @@ class Solution:
         # - The prefix sum array could be reused for other calculations if needed
         # - In some problems, having the full prefix sum array is necessary
 
+        # sol1: implicit prefix sum
+        total_sum = sum(nums)
+
+        left_sum = 0
+
+        for i, num in enumerate(nums):
+            right_sum = total_sum - num - left_sum
+
+            if left_sum == right_sum:
+                return i
+
+            left_sum += num
+
+        return -1
+
         # sol2: prefix sum
         prefix_sums = [0]
         for num in nums:
@@ -32,6 +47,9 @@ class Solution:
                 return i
 
         return -1
+
+        # time complexity: O(n)
+        # space complexity: O(n)
 
 
 # @lc code=end
