@@ -19,6 +19,7 @@ class Solution:
         m = len(mat)
         n = len(mat[0])
 
+        # add padding so there's no need to consider compensation here
         integral = [[0] * (n + 1) for _ in range(m + 1)]
 
         for i in range(m):
@@ -31,11 +32,16 @@ class Solution:
 
         for i in range(m):
             for j in range(n):
+                # need to compensate for out of bound:
+                # take max so it won't be negative
+                # take min so it won't be outside of mat
                 r1 = max(0, i - k)
                 c1 = max(0, j - k)
                 r2 = min(m - 1, i + k)
                 c2 = min(n - 1, j + k)
 
+                # Calculate block sum using the integral image
+                # Note: integral image is 1-indexed, so we add 1 to all indices
                 result[i][j] = (
                     integral[r2 + 1][c2 + 1]
                     - integral[r2 + 1][c1]
@@ -44,6 +50,8 @@ class Solution:
                 )
 
         return result
+
+        # O(m×n) time and space complexity
 
         # sol2, but time complexity seems problematic and the structure is not clean enough
         m = len(mat)
