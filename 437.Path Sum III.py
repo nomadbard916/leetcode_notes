@@ -20,22 +20,26 @@ class TreeNode:
 
 class Solution:
     def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
+        # of course we can do brute force, but
+        # time complexity O(n square), space complexity O(h)
+
         # prefix sums encountered in current path
         prefix_sums_dict = defaultdict(int)
         prefix_sums_dict[0] = 1
 
-        def dfs(root, total):
+        def dfs(root, curr_sum):
             count = 0
             if root is None:
                 return count
 
-            total += root.val
-            count = prefix_sums_dict[total - targetSum]
+            curr_sum += root.val
+            count = prefix_sums_dict[curr_sum - targetSum]
 
-            prefix_sums_dict[total] += 1
-            count += dfs(root.left, total) + dfs(root.right, total)
+            prefix_sums_dict[curr_sum] += 1
+            count += dfs(root.left, curr_sum)
+            count += dfs(root.right, curr_sum)
 
-            prefix_sums_dict[total] -= 1
+            prefix_sums_dict[curr_sum] -= 1
 
             return count
 
