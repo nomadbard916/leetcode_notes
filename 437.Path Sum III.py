@@ -24,22 +24,22 @@ class Solution:
         # time complexity O(n square), space complexity O(h)
 
         # prefix sums encountered in current path
-        prefix_sums_dict = defaultdict(int)
-        prefix_sums_dict[0] = 1
+        prefix_sum_count = defaultdict(int)
+        prefix_sum_count[0] = 1
 
         def dfs(root, curr_sum):
             count = 0
-            if root is None:
+            if not root:
                 return count
 
             curr_sum += root.val
-            count = prefix_sums_dict[curr_sum - targetSum]
+            count = prefix_sum_count[curr_sum - targetSum]
 
-            prefix_sums_dict[curr_sum] += 1
+            prefix_sum_count[curr_sum] += 1
             count += dfs(root.left, curr_sum)
             count += dfs(root.right, curr_sum)
 
-            prefix_sums_dict[curr_sum] -= 1
+            prefix_sum_count[curr_sum] -= 1
 
             return count
 
