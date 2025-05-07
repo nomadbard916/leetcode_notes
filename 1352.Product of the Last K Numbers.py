@@ -22,6 +22,13 @@ class ProductOfNumbers:
 
         return self.prefix_prod_arr[-1] // self.prefix_prod_arr[-1 - k]
 
+    # Time Complexity:
+    # add: O(1) - constant time to append to the list or reset it
+    # getProduct: O(1) - constant time lookup and division
+
+    # Space Complexity:
+    # O(n) - where n is the number of consecutive non-zero numbers added
+
 
 # Your ProductOfNumbers object will be instantiated and called as such:
 # obj = ProductOfNumbers()
