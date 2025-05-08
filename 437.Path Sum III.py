@@ -50,6 +50,9 @@ class Solution:
             count += dfs(root.right, curr_sum)
 
             # ! Backtrack: remove current node's contribution to prefix sum
+            # Why We Need Backtracking
+            # In this problem, we are only interested in downward paths (parent to child).
+            # Without backtracking, we would count invalid paths that go up and then down the tree.
             prefix_sum_count[curr_sum] -= 1
 
             return count
@@ -59,6 +62,42 @@ class Solution:
         # Time Complexity: O(n) where n is the number of nodes, as we visit each node exactly once.
         # Space Complexity: O(n) in the worst case for the dictionary (if all prefix sums are unique),
         # plus O(h) for the recursion stack where h is the height of the tree.
+
+        # sol 2: we can still know about brute force, just in case and for thinking...
+        # Base case: empty tree
+        if not root:
+            return 0
+
+        # Count paths starting from the root
+        def count_paths(self, node, remaining_sum):
+            # Base case: empty node
+            if not node:
+                return 0
+
+            # Initialize count
+            count = 0
+
+            # Check if current node value equals remaining sum
+            if node.val == remaining_sum:
+                count += 1
+
+            # Continue path to children with updated remaining sum
+            count += self.count_paths(node.left, remaining_sum - node.val)
+            count += self.count_paths(node.right, remaining_sum - node.val)
+
+            return count
+
+        paths_from_root = count_paths(root, targetSum)
+
+        # Recursively count paths starting from left and right children
+        paths_from_left = self.pathSum(root.left, targetSum)
+        paths_from_right = self.pathSum(root.right, targetSum)
+
+        # Return total count
+        return paths_from_root + paths_from_left + paths_from_right
+
+        # Time Complexity: O(n²) in the worst case. For each node, we might need to traverse all its descendants, which could be O(n) nodes. Since there are n nodes, the overall complexity is O(n²).
+        # Space Complexity: O(h) where h is the height of the tree, due to the recursion stack. In the worst case (skewed tree), this could be O(n).
 
 
 # @lc code=end
