@@ -38,9 +38,10 @@ class Solution:
 
             # * preorder traversal
             curr_sum += root.val
-            # Check if there's a prefix sum that can be subtracted to get targetSum
-            # This count gives us the number of valid paths ending at current node
-            count = prefix_sum_count[curr_sum - targetSum]
+            # Check if there's a prefix sum  before that can be subtracted to get targetSum
+            # This count gives us the number of valid paths  from the root to the current node with sum to be targetSum
+            prefix_sum = curr_sum - targetSum
+            count = prefix_sum_count[prefix_sum]
 
             # Update prefix sum frequency
             prefix_sum_count[curr_sum] += 1
