@@ -20,22 +20,32 @@ from typing import List, Optional
 class Solution:
     def bstFromPreorder(self, preorder: List[int]) -> Optional[TreeNode]:
         # sol1: DFS with stack
+        if not preorder:
+            return None
         # First item in preorder list is the root to be considered.
         root = TreeNode(preorder[0])
         stack = [root]
         # For next item in preorder list, there are 2 cases to consider:
         for value in preorder[1:]:
+            # Create new node
+            node = TreeNode(value)
+
             # If value is less than last item in stack, it is the left child of last item.
             if value < stack[-1].val:
-                stack[-1].left = TreeNode(value)
-                stack.append(stack[-1].left)
+                stack[-1].left = node
+                # stack.append(stack[-1].left)
             else:
+                parent: Optional[TreeNode] = None
                 # If value is greater than last item in stack, pop it.
                 while stack and stack[-1].val < value:
-                    last = stack.pop()
+                    # last = stack.pop()
+                    parent = stack.pop()
                 # The last popped item will be the parent and the item will be the right child of the parent.
-                last.right = TreeNode(value)
-                stack.append(last.right)
+                parent.right = node
+                # stack.append(last.right)
+
+            # Always push the new node onto the stack
+            stack.append(node)
         return root
 
         # sol2: problem decomposition,
