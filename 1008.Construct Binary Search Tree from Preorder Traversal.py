@@ -6,15 +6,15 @@
 #
 
 # @lc code=start
-# Definition for a binary tree node.
 from typing import List, Optional
 
 
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 
 
 class Solution:
@@ -34,8 +34,8 @@ class Solution:
             else:
                 while stack and stack[-1].val < value:
                     last = stack.pop()
-                    last.right = TreeNode(value)
-                    stack.append(last.right)
+                last.right = TreeNode(value)
+                stack.append(last.right)
         return root
 
 
