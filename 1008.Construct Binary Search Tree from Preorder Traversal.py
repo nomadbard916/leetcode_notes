@@ -19,23 +19,43 @@ from typing import List, Optional
 
 class Solution:
     def bstFromPreorder(self, preorder: List[int]) -> Optional[TreeNode]:
-        # Idea is simple.
+        # sol1: DFS with stack
         # First item in preorder list is the root to be considered.
-        # For next item in preorder list, there are 2 cases to consider:
-        # If value is less than last item in stack, it is the left child of last item.
-        # If value is greater than last item in stack, pop it.
-        # The last popped item will be the parent and the item will be the right child of the parent.
         root = TreeNode(preorder[0])
         stack = [root]
+        # For next item in preorder list, there are 2 cases to consider:
         for value in preorder[1:]:
+            # If value is less than last item in stack, it is the left child of last item.
             if value < stack[-1].val:
                 stack[-1].left = TreeNode(value)
                 stack.append(stack[-1].left)
             else:
+                # If value is greater than last item in stack, pop it.
                 while stack and stack[-1].val < value:
                     last = stack.pop()
+                # The last popped item will be the parent and the item will be the right child of the parent.
                 last.right = TreeNode(value)
                 stack.append(last.right)
+        return root
+
+        # sol2: problem decomposition,
+        if not preorder:
+            return None
+
+        # First element in preorder is the root
+        root_val = preorder[0]
+        root = TreeNode(root_val)
+
+        # Find the index where values become greater than root_val
+        # This is where the right subtree starts
+        i = 1
+        while i < len(preorder) and preorder[i] < root_val:
+            i += 1
+
+        # Recursively build left and right subtrees
+        root.left = self.bstFromPreorder(preorder[1:i])
+        root.right = self.bstFromPreorder(preorder[i:])
+
         return root
 
 
