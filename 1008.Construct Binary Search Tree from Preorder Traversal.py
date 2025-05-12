@@ -45,7 +45,8 @@ class Solution:
                 parent: Optional[TreeNode] = None
                 # case 2: If value is greater than top item in stack,
                 # pop nodes until we find the right parent
-                # DO NOT FEAR OF stack iteration. it's just a temp DS for finding the correct insertion point
+                # DO NOT FEAR OF stack iteration.
+                # it's just a temp DS for finding the correct insertion point, in the end every node will be processed
                 while stack and stack[-1].val < value:
                     parent = stack.pop()
                 # The last popped item will be the parent and the item will be the right child of the parent.
