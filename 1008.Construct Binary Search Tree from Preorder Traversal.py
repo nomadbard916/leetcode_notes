@@ -20,6 +20,14 @@ from typing import List, Optional
 class Solution:
     def bstFromPreorder(self, preorder: List[int]) -> Optional[TreeNode]:
         # sol1: DFS with stack
+        # When constructing a BST from a preorder traversal, we need to maintain a structure that helps us find the correct parent for each new node. The key insight is:
+
+        # In a preorder traversal of a BST, we visit nodes in the order: root, left subtree, right subtree.
+        # We need to connect each new node to either the left or right child position of an appropriate parent.
+
+        # A stack works well because:
+        # Last-In-First-Out (LIFO) property: The most recently visited potential parent node is at the top of the stack, which is essential for the preorder traversal's depth-first nature.
+        # Backtracking capability: When we encounter a value larger than nodes on our current path, we can pop nodes until we find a suitable parent.
         if not preorder:
             return None
         # First item in preorder list is the root to be considered.
