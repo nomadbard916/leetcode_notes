@@ -27,22 +27,20 @@ class Solution:
         stack = [root]
         # For next item in preorder list, there are 2 cases to consider:
         for value in preorder[1:]:
-            # Create new node
             node = TreeNode(value)
 
-            # If value is less than last item in stack, it is the left child of last item.
+            # case 1: If current value is less than the top item in stack,
+            # it is the left child of top item.
             if value < stack[-1].val:
                 stack[-1].left = node
-                # stack.append(stack[-1].left)
             else:
                 parent: Optional[TreeNode] = None
-                # If value is greater than last item in stack, pop it.
+                # case 2: If value is greater than top item in stack,
+                # pop nodes until we find the right parent
                 while stack and stack[-1].val < value:
-                    # last = stack.pop()
                     parent = stack.pop()
                 # The last popped item will be the parent and the item will be the right child of the parent.
                 parent.right = node
-                # stack.append(last.right)
 
             # Always push the new node onto the stack
             stack.append(node)
