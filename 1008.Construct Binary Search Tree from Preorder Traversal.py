@@ -10,11 +10,11 @@ from typing import List, Optional
 
 
 # Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
 
 
 class Solution:
@@ -45,6 +45,8 @@ class Solution:
             # Always push the new node onto the stack
             stack.append(node)
         return root
+        # Time Complexity: O(n) - Each node is still processed once and pushed/popped at most once.
+        # Space Complexity: O(h) - Where h is the height of the tree.
 
         # sol2: problem decomposition,
         if not preorder:
@@ -65,6 +67,7 @@ class Solution:
         root.right = self.bstFromPreorder(preorder[i:])
 
         return root
+        # This solution has a time complexity of O(n²) in the worst case because for each node, we might need to scan through O(n) elements to find the split between left and right subtrees, and there are n nodes. The space complexity is O(n) due to the recursion stack.
 
 
 # @lc code=end
