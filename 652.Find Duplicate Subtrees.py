@@ -24,24 +24,23 @@ class Solution:
         res = []
         hmap = {}
 
-        def recurse(node, path):
-            if node is None:
+        def recurse(root):
+            if root is None:
                 return "#"
 
-            left_subtree = recurse(node.left, path)
-            right_subtree = recurse(node.right, path)
-            path += ",".join([str(node.val), left_subtree, right_subtree])
+            left_subtree = recurse(root.left)
+            right_subtree = recurse(root.right)
+            subtree = left_subtree + "," + right_subtree + "," + str(root.val)
 
-            if path in hmap:
-                hmap[path] += 1
-                if hmap[path] == 2:
-                    res.append(node)
-            else:
-                hmap[path] = 1
+            freq = hmap.get(subtree, 0)
+            if freq == 1:
+                res.append(root)
 
-            return path
+            hmap[subtree] = freq + 1
 
-        recurse(root, "")
+            return subtree
+
+        recurse(root)
         return res
 
 
