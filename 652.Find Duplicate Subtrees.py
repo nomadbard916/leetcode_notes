@@ -35,28 +35,28 @@ class Solution:
         # to compare subtree structure and value => serialization
         res = []
 
-        subtree_seen_count = defaultdict(int)
+        subtree_seen_times_dict = defaultdict(int)
 
-        def recurse(root):
+        def recursive_serialize(root):
             if root is None:
                 return "#"
 
-            left_subtree = recurse(root.left)
-            right_subtree = recurse(root.right)
+            left_subtree = recursive_serialize(root.left)
+            right_subtree = recursive_serialize(root.right)
 
             # *post order operations
-            curr_subtree = left_subtree + "," + right_subtree + "," + str(root.val)
+            curr_subtree = f"{left_subtree},{right_subtree},{root.val}"
 
-            freq = subtree_seen_count[curr_subtree]
+            subtree_seen_times = subtree_seen_times_dict[curr_subtree]
             # if duplicate, only need to return one of them
-            if freq == 1:
+            if subtree_seen_times == 1:
                 res.append(root)
 
-            subtree_seen_count[curr_subtree] = freq + 1
+            subtree_seen_times_dict[curr_subtree] = subtree_seen_times + 1
 
             return curr_subtree
 
-        recurse(root)
+        recursive_serialize(root)
         return res
 
 
