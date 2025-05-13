@@ -21,8 +21,17 @@ class Solution:
     def findDuplicateSubtrees(
         self, root: Optional[TreeNode]
     ) -> List[Optional[TreeNode]]:
+        # 如果你想知道以自己为根的子树是不是重复的，是否应该被加入结果列表中，你需要知道什么信息？
+        # 你需要知道以下两点：
+        # 1、以我为根的这棵二叉树（子树）长啥样？
+        # 2、以其他节点为根的子树都长啥样？
+        # 我要知道以自己为根的子树长啥样，是不是得先知道我的左右子树长啥样，再加上自己，就构成了整棵子树的样子？
+        # 左右子树的样子，可不就得在后序位置通过递归函数的返回值传递回来吗？
+        # to get subtree info to compare => post order
+        # to compare subtree structure and value => serialization
         res = []
-        hmap = {}
+
+        subtree_seen_count = {}
 
         def recurse(root):
             if root is None:
@@ -30,13 +39,15 @@ class Solution:
 
             left_subtree = recurse(root.left)
             right_subtree = recurse(root.right)
+
+            # *post order operations
             subtree = left_subtree + "," + right_subtree + "," + str(root.val)
 
-            freq = hmap.get(subtree, 0)
+            freq = subtree_seen_count.get(subtree, 0)
             if freq == 1:
                 res.append(root)
 
-            hmap[subtree] = freq + 1
+            subtree_seen_count[subtree] = freq + 1
 
             return subtree
 
