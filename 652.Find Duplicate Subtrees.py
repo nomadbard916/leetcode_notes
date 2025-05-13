@@ -27,6 +27,9 @@ class Solution:
         # 2、以其他节点为根的子树都长啥样？
         # 我要知道以自己为根的子树长啥样，是不是得先知道我的左右子树长啥样，再加上自己，就构成了整棵子树的样子？
         # 左右子树的样子，可不就得在后序位置通过递归函数的返回值传递回来吗？
+        # 我知道了自己长啥样，怎么知道别人长啥样？这样我才能知道有没有其他子树跟我重复对吧。
+        # 这很简单呀，我们借助一个外部数据结构，让每个节点把自己子树的序列化结果存进去，
+        # 这样，对于每个节点，不就可以知道有没有其他节点的子树和自己重复了么？
         # to get subtree info to compare => post order
         # to compare subtree structure and value => serialization
         res = []
@@ -41,15 +44,16 @@ class Solution:
             right_subtree = recurse(root.right)
 
             # *post order operations
-            subtree = left_subtree + "," + right_subtree + "," + str(root.val)
+            curr_subtree = left_subtree + "," + right_subtree + "," + str(root.val)
 
-            freq = subtree_seen_count.get(subtree, 0)
+            freq = subtree_seen_count.get(curr_subtree, 0)
+            # if duplicate, only need to return one of them
             if freq == 1:
                 res.append(root)
 
-            subtree_seen_count[subtree] = freq + 1
+            subtree_seen_count[curr_subtree] = freq + 1
 
-            return subtree
+            return curr_subtree
 
         recurse(root)
         return res
