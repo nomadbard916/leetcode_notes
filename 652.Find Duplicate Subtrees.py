@@ -6,6 +6,7 @@
 #
 
 # @lc code=start
+from collections import defaultdict
 from typing import List, Optional
 
 
@@ -34,7 +35,7 @@ class Solution:
         # to compare subtree structure and value => serialization
         res = []
 
-        subtree_seen_count = {}
+        subtree_seen_count = defaultdict(int)
 
         def recurse(root):
             if root is None:
@@ -46,7 +47,7 @@ class Solution:
             # *post order operations
             curr_subtree = left_subtree + "," + right_subtree + "," + str(root.val)
 
-            freq = subtree_seen_count.get(curr_subtree, 0)
+            freq = subtree_seen_count[curr_subtree]
             # if duplicate, only need to return one of them
             if freq == 1:
                 res.append(root)
