@@ -19,7 +19,7 @@ class TreeNode:
 
 class Solution:
     def getMin(self, node: TreeNode) -> TreeNode:
-        # BST 最左边的就是最小的
+        # for BST, ths left-most child node is the smallest node
         while node.left is not None:
             node = node.left
         return node
@@ -28,24 +28,28 @@ class Solution:
         if root is None:
             return None
 
+        # * search phase first
         if root.val > key:
             root.left = self.deleteNode(root.left, key)
         elif root.val < key:
             root.right = self.deleteNode(root.right, key)
-        # root.val == key
+        # * found: root.val == key
         else:
-            # 找到目标节点了，比方说是节点 A，如何删除这个节点，这是难点。因为删除节点的同时不能破坏 BST 的性质。有三种情况
-            # 情况 1：A 恰好是末端节点，两个子节点都为空，那么它可以当场去世了。
-            # 情况 2：A 只有一个非空子节点，那么它要让这个孩子接替自己的位置。
+            # * start deleting, but cannot break the BST. 3 possibilities:
+            # 1: it's the leaf node, just remove it
+            # 2: only one child node, then just let the child substitute itself
             if root.left is None:
                 return root.right
             if root.right is None:
                 return root.left
-            # 情况 3：A 有两个子节点，麻烦了，为了不破坏 BST 的性质，A 必须找到左子树中最大的那个节点，或者右子树中最小的那个节点来接替自己。我们以第二种方式讲解。
+            # 3: the root has two children nodes.
+            # in order not to break BST, find the biggest node in left sub tree,
+            # or the smallest child node in right sub tree;
+            # to subsitute it.
             minNode = self.getMin(root.right)
-            # 删除右子树最小的节点
+            # delete the smallest node in right tree
             root.right = self.deleteNode(root.right, minNode.val)
-            # 用右子树最小的节点替换 root 节点
+            # take the smallest node in right sub tree to subsitute the root
             minNode.left = root.left
             minNode.right = root.right
             root = minNode
