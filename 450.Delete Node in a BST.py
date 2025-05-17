@@ -43,9 +43,10 @@ class Solution:
             if root.right is None:
                 return root.left
             # 3: the root has two children nodes.
-            # in order not to break BST, find the biggest node in left sub tree,
-            # or the smallest child node in right sub tree;
-            # to subsitute it.
+            # in order not to break BST when substituting the root with child node
+            # and keep the connection continuous:
+            # find the biggest node in left sub tree,
+            # or the smallest child node in right sub tree.
             minNode = self.getMin(root.right)
             # delete the smallest node in right tree
             root.right = self.deleteNode(root.right, minNode.val)
