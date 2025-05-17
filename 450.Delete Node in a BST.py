@@ -25,6 +25,7 @@ class Solution:
         return node
 
     def deleteNode(self, root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+        # ! sol1
         if root is None:
             return None
 
@@ -35,7 +36,8 @@ class Solution:
             root.right = self.deleteNode(root.right, key)
         else:  # found: root.val == key
             # * start deleting, but cannot break the BST. 3 possibilities:
-            # 1: it's the leaf node, just remove it
+            # 1: it's the leaf node, just remove it;
+            # in below code it's covered by just returning None
             # 2: only one child node, then just let the child substitute itself
             # this block is also used when deleting minNode
             if root.left is None:
@@ -54,6 +56,37 @@ class Solution:
             minNode.left = root.left
             minNode.right = root.right
             root = minNode
+        return root
+
+        # ! sol2
+        def successor(self, root: TreeNode) -> TreeNode:
+            root = root.right
+            while root.left:
+                root = root.left
+            return root.val
+
+        def predecessor(self, root: TreeNode) -> TreeNode:
+            root = root.left
+            while root.right:
+                root = root.right
+            return root.val
+
+        if not root:
+            return None
+
+        if key > root.val:
+            root.right = self.deleteNode(root.right, key)
+        elif key < root.val:
+            root.left = self.deleteNode(root.left, key)
+        else:
+            if not root.left and not root.right:
+                root = None
+            elif root.right:
+                root.val = successor(root)
+                root.right = self.deleteNode(root.right, root.val)
+            else:
+                root.val = predecessor(root)
+                root.left = self.deleteNode(root.left, root.val)
         return root
 
 
