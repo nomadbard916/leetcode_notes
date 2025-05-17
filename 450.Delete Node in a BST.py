@@ -33,11 +33,11 @@ class Solution:
             root.left = self.deleteNode(root.left, key)
         elif root.val < key:
             root.right = self.deleteNode(root.right, key)
-        # * found: root.val == key
-        else:
+        else:  # found: root.val == key
             # * start deleting, but cannot break the BST. 3 possibilities:
             # 1: it's the leaf node, just remove it
             # 2: only one child node, then just let the child substitute itself
+            # this block is also used when deleting minNode
             if root.left is None:
                 return root.right
             if root.right is None:
@@ -48,9 +48,9 @@ class Solution:
             # find the biggest node in left sub tree,
             # or the smallest child node in right sub tree.
             minNode = self.getMin(root.right)
-            # delete the smallest node in right tree
+            # delete the minNode in right tree
             root.right = self.deleteNode(root.right, minNode.val)
-            # take the smallest node in right sub tree to subsitute the root
+            # take the minNode in right sub tree to subsitute the root
             minNode.left = root.left
             minNode.right = root.right
             root = minNode
