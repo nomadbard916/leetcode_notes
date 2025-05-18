@@ -57,6 +57,8 @@ class Solution:
             minNode.right = root.right
             root = minNode
         return root
+        # Time Complexity: O(h) where h is the height of the tree. In the worst case, we might need to traverse from the root to the deepest leaf node (height of the tree). For a balanced BST, this would be O(log n), but in the worst case (skewed tree), it could be O(n).
+        # Space Complexity: O(h) due to the recursion stack. Again, in the worst case, this could be O(n) for a skewed tree.
 
         # ! sol2: replace value only
         # 1. First find the node that we need to delete.
@@ -96,6 +98,70 @@ class Solution:
             else:
                 root.val = get_max_in_left_tree(root)
                 root.left = self.deleteNode(root.left, root.val)
+        return root
+
+        # ! sol3: iterative
+        if not root:
+            return None
+
+        # Handle the case where the root is the node to delete
+        if root.val == key:
+            if not root.left:
+                return root.right
+            if not root.right:
+                return root.left
+
+            # Find successor (smallest node in right subtree)
+            successor = root.right
+            while successor.left:
+                successor = successor.left
+
+            successor.left = root.left
+            return root.right
+
+        parent = None
+        curr = root
+
+        # Find the node to delete and its parent
+        while curr and curr.val != key:
+            parent = curr
+            if key < curr.val:
+                curr = curr.left
+            else:
+                curr = curr.right
+
+        if not curr:  # Node not found
+            return root
+
+        # Case 1 & 2: Node has 0 or 1 child
+        if not curr.left:
+            if parent.left == curr:
+                parent.left = curr.right
+            else:
+                parent.right = curr.right
+        elif not curr.right:
+            if parent.left == curr:
+                parent.left = curr.left
+            else:
+                parent.right = curr.left
+        else:  # Case 3: Node has 2 children
+            successor_parent = curr
+            successor = curr.right
+
+            # Find the leftmost node in the right subtree
+            while successor.left:
+                successor_parent = successor
+                successor = successor.left
+
+            # Replace the node value with successor's value
+            curr.val = successor.val
+
+            # Delete the successor
+            if successor_parent.left == successor:
+                successor_parent.left = successor.right
+            else:
+                successor_parent.right = successor.right
+
         return root
 
 
