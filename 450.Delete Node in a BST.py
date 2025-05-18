@@ -49,6 +49,13 @@ class Solution:
             # and keep the connection continuous:
             # find the biggest node in left sub tree,
             # or the smallest child node in right sub tree.
+
+            # Finding max node in left tree can be preferable when:
+            # - The left subtree is more balanced than the right subtree
+            # - The right subtree is much deeper than the left subtree
+            # - The right child is null or has a complex structure
+
+            # let's demo with finding min in right tree
             minNode = self.getMin(root.right)
             # delete the minNode in right tree
             root.right = self.deleteNode(root.right, minNode.val)
