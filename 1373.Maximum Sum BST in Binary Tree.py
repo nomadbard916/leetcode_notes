@@ -33,6 +33,7 @@ class Solution:
         def find_vals_max_min_sum(root):
             # base case
             if root is None:
+                # see definition below for "res"
                 return [1, float("inf"), float("-inf"), 0]
 
             # calculate left and right child tree recursively
@@ -47,7 +48,6 @@ class Solution:
             # res[1] records the minimum value among all nodes in the binary tree rooted at root;
             # res[2] records the maximum value among all nodes in the binary tree rooted at root;
             # res[3] records the sum of all node values in the binary tree rooted at root.
-
             res = [0, 0, 0, 0]
             if (
                 left_child_res[0] == 1
@@ -57,9 +57,9 @@ class Solution:
             ):
                 # the binary tree with "root" as root node is a BST
                 res[0] = 1
-                # for a leaf node, get the min value for itself to be the leaf
+                # take the min value from left child tree, or force assign if it's leaf node
                 res[1] = min(left_child_res[1], root.val)
-                # for a leaf node, get the max value for itself to be the leaf
+                # take the max value from right child tree, or force assign if it's leaf node
                 res[2] = max(right_child_res[2], root.val)
                 # calculate the sum of all nodes with "root" as the root node to this BST
                 res[3] = left_child_res[3] + right_child_res[3] + root.val
