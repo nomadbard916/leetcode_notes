@@ -50,27 +50,22 @@ class Solution:
             step += 1
         return -1
 
-    def get_neighbors(self, board):
+    def get_neighbors(self, board: str):
         # record the neighboring indexes for the matrix flattened as one-dimensional string
         mapping = [[1, 3], [0, 4, 2], [1, 5], [0, 4], [3, 1, 5], [4, 2]]
-        idx = board.index("0")
+        movable_block = "0"
+        movable_idx = board.index(movable_block)
         neighbors = []
-        for adj in mapping[idx]:
-            new_board = self.swap(board, idx, adj)
+        for adj_block_index in mapping[movable_idx]:
+            new_board = self.swap(board, movable_idx, adj_block_index)
             neighbors.append(new_board)
         return neighbors
 
-    def swap(self, board, i, j):
+    def swap(self, board: str, i: int, j: int) -> str:
         """
-        Swap the characters at positions i and j in the board string.
+        Swap the characters at positions i and j in the board string,
+        representing the moving of the physical block.
 
-        This method converts the board string into a mutable list of characters, swaps the two characters
-        at the specified indices, and then returns the updated board as a new string.
-
-        Parameters:
-            board (str): The board represented as a string.
-            i (int): The index of the first character to swap.
-            j (int): The index of the second character to swap.
 
         Returns:
             str: The board string with the characters at positions i and j swapped.
