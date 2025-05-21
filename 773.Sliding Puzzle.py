@@ -16,8 +16,11 @@ class Solution:
         # ! => see it as BFS tree traversal with shortest path
         # * careful of visited node, or it might cause infinite circulation
 
+        # the 2 x 3 matrix is always flattened as a one-dimensional string in later operations
         target = "123450"
-        # convert a 2x3 matrix to string to be the starting point of BFS
+
+        # convert a 2x3 matrix to string to be the starting point of BFS,
+        # so it could be added to set
         start = ""
         for i in range(len(board)):
             for j in range(len(board[0])):
@@ -39,16 +42,16 @@ class Solution:
                 if cur == target:
                     return step
                 # swap number 0 with the neighboring number
-                for neighboard_board in self.get_neighbors(cur):
+                for neighbor_board in self.get_neighbors(cur):
                     # prevent visiting visited
-                    if neighboard_board not in visited:
-                        q.append(neighboard_board)
-                        visited.add(neighboard_board)
+                    if neighbor_board not in visited:
+                        q.append(neighbor_board)
+                        visited.add(neighbor_board)
             step += 1
         return -1
 
     def get_neighbors(self, board):
-        # record the neighboring indexes for one-dimensional string
+        # record the neighboring indexes for the matrix flattened as one-dimensional string
         mapping = [[1, 3], [0, 4, 2], [1, 5], [0, 4], [3, 1, 5], [4, 2]]
         idx = board.index("0")
         neighbors = []
@@ -58,6 +61,20 @@ class Solution:
         return neighbors
 
     def swap(self, board, i, j):
+        """
+        Swap the characters at positions i and j in the board string.
+
+        This method converts the board string into a mutable list of characters, swaps the two characters
+        at the specified indices, and then returns the updated board as a new string.
+
+        Parameters:
+            board (str): The board represented as a string.
+            i (int): The index of the first character to swap.
+            j (int): The index of the second character to swap.
+
+        Returns:
+            str: The board string with the characters at positions i and j swapped.
+        """
         chars = list(board)
         chars[i], chars[j] = chars[j], chars[i]
         return "".join(chars)
