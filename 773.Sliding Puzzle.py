@@ -37,12 +37,12 @@ class Solution:
         while q:
             q_size = len(q)
             for _ in range(q_size):
-                cur = q.popleft()
+                cur_state = q.popleft()
                 # check if it's reached the target state
-                if cur == target:
+                if cur_state == target:
                     return steps
                 # swap number 0 with the neighboring number
-                for state in self.get_states(cur):
+                for state in self.get_state_transitions(cur_state):
                     # prevent visiting visited
                     if state not in visited:
                         q.append(state)
@@ -50,14 +50,21 @@ class Solution:
             steps += 1
         return -1
 
-    def get_states(self, board: str):
+    def get_state_transitions(self, cur_state: str):
         # record the neighboring indexes for the matrix flattened as one-dimensional string
-        mapping = [[1, 3], [0, 4, 2], [1, 5], [0, 4], [3, 1, 5], [4, 2]]
+        neighbor_indexes_mapping = [
+            [1, 3],
+            [0, 4, 2],
+            [1, 5],
+            [0, 4],
+            [3, 1, 5],
+            [4, 2],
+        ]
         movable_block = "0"
-        movable_idx = board.index(movable_block)
+        movable_index = cur_state.index(movable_block)
         states = []
-        for adj_block_index in mapping[movable_idx]:
-            new_state = self.swap(board, movable_idx, adj_block_index)
+        for adj_block_index in neighbor_indexes_mapping[movable_index]:
+            new_state = self.swap(cur_state, movable_index, adj_block_index)
             states.append(new_state)
         return states
 
