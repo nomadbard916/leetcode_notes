@@ -33,35 +33,35 @@ class Solution:
         q.append(start)
         visited.add(start)
 
-        step = 0
+        steps = 0
         while q:
             q_size = len(q)
             for _ in range(q_size):
                 cur = q.popleft()
                 # check if it's reached the target state
                 if cur == target:
-                    return step
+                    return steps
                 # swap number 0 with the neighboring number
-                for neighbor_board in self.get_neighbors(cur):
+                for state in self.get_states(cur):
                     # prevent visiting visited
-                    if neighbor_board not in visited:
-                        q.append(neighbor_board)
-                        visited.add(neighbor_board)
-            step += 1
+                    if state not in visited:
+                        q.append(state)
+                        visited.add(state)
+            steps += 1
         return -1
 
-    def get_neighbors(self, board: str):
+    def get_states(self, board: str):
         # record the neighboring indexes for the matrix flattened as one-dimensional string
         mapping = [[1, 3], [0, 4, 2], [1, 5], [0, 4], [3, 1, 5], [4, 2]]
         movable_block = "0"
         movable_idx = board.index(movable_block)
-        neighbors = []
+        states = []
         for adj_block_index in mapping[movable_idx]:
-            new_board = self.swap(board, movable_idx, adj_block_index)
-            neighbors.append(new_board)
-        return neighbors
+            new_state = self.swap(board, movable_idx, adj_block_index)
+            states.append(new_state)
+        return states
 
-    def swap(self, board: str, i: int, j: int) -> str:
+    def swap(self, state: str, i: int, j: int) -> str:
         """
         Swap the characters at positions i and j in the board string,
         representing the moving of the physical block.
@@ -70,7 +70,7 @@ class Solution:
         Returns:
             str: The board string with the characters at positions i and j swapped.
         """
-        chars = list(board)
+        chars = list(state)
         chars[i], chars[j] = chars[j], chars[i]
         return "".join(chars)
 
