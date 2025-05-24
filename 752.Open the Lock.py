@@ -19,16 +19,17 @@ class Solution:
         # * and we must be careful about "deadends"
         # => just put them into "visited" from the very beginning
 
+        starting_point = "0000"
         deads_set = set(deadends)
-        if "0000" in deads_set:
+
+        if starting_point in deads_set:
             return -1
 
-        # to avoid graph circulation
+        # to avoid graph circulation, and include deads from the very beginning
         visited_set = set(deadends)
         q = collections.deque()
         # begin BFS from starting point
         steps = 0
-        starting_point = "0000"
         q.append(starting_point)
         visited_set.add(starting_point)
 
@@ -51,20 +52,22 @@ class Solution:
 
     def plus_one(self, s: str, i: int) -> str:
         chars_list = list(s)
-        if chars_list[i] == "9":
+        curr_char = chars_list[i]
+        if curr_char == "9":
             chars_list[i] = "0"
         else:
-            # new char order?
-            chars_list[i] = chr(ord(chars_list[i]) + 1)
+            new_char_order = ord(curr_char) + 1
+            chars_list[i] = chr(new_char_order)
         return "".join(chars_list)
 
     def minus_one(self, s: str, i: int) -> str:
         chars_list = list(s)
-        if chars_list[i] == "0":
+        curr_char = chars_list[i]
+        if curr_char == "0":
             chars_list[i] = "9"
         else:
-            # new char order?
-            chars_list[i] = chr(ord(chars_list[i]) - 1)
+            new_char_order = ord(curr_char) - 1
+            chars_list[i] = chr(new_char_order)
         return "".join(chars_list)
 
     def get_neighbors(self, s: str) -> List[str]:
