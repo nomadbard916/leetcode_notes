@@ -44,7 +44,8 @@ class Solution:
             row, col, path_length = q.popleft()
 
             # check if we reached the destination
-            if row == n - 1 and col == n - 1:
+            dest_idx = n - 1
+            if row == dest_idx and col == dest_idx:
                 return path_length
 
             # explore all 8 directions
@@ -52,12 +53,10 @@ class Solution:
                 new_row, new_col = row + dr, col + dc
 
                 # only traverse to  new position when it's valid
-                if (
-                    0 <= new_row < n
-                    and 0 <= new_col < n
-                    and grid[new_row][new_col] == 0
-                    and (new_row, new_col) not in visited
-                ):
+                still_inbound = 0 <= new_row < n and 0 <= new_col < n
+                valid_cell_val = grid[new_row][new_col] == 0
+                new_cell_not_visited = (new_row, new_col) not in visited
+                if still_inbound and valid_cell_val and new_cell_not_visited:
                     visited.add((new_row, new_col))
                     q.append((new_row, new_col, path_length + 1))
 
