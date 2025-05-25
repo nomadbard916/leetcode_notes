@@ -72,6 +72,7 @@ class Solution:
 
     def get_neighbors(self, s: str) -> List[str]:
         neighbors = []
+        # all the 8 possibilities. just put all the valid and invalid ones, do validation later.
         for i in range(4):
             neighbors.append(self.plus_one(s, i))
             neighbors.append(self.minus_one(s, i))
