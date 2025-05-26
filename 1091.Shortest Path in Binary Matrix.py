@@ -36,6 +36,20 @@ class Solution:
         ]
 
         # * BFS setup
+        # You cannot use a single variable to track path length because BFS explores multiple paths simultaneously.
+        # The Core Issue: BFS processes nodes in "waves" or "levels".
+        # At any given moment, your queue contains nodes from potentially different distances from the start.
+        # A single path_length variable can't track multiple different distances simultaneously.
+
+        # Key Learning: In BFS, you're not following a single path -
+        # you're exploring ALL possible paths simultaneously, layer by layer.
+        # Each node in the queue represents a different potential path, so each needs its own distance tracking.
+
+        # The global variable "path depth" is more suitable for binary tree traversal problems
+        # Why Global Depth Works in Trees:
+        # - Single path to each node: In a tree, there's exactly one path from root to any node
+        # - Level-synchronized: All nodes at the same level have the same depth
+        # - No cycles: Can't revisit nodes, so no path length confusion
         q = collections.deque([(0, 0, 1)])  # (row, col, path_length)
         visited = set()
         visited.add((0, 0))
