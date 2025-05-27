@@ -12,6 +12,7 @@ from typing import List
 
 class Solution:
     def nearestExit(self, maze: List[List[str]], entrance: List[int]) -> int:
+        # setting up consts
         m = len(maze)
         n = len(maze[0])
         dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
@@ -22,12 +23,11 @@ class Solution:
         visited = [[False for _ in range(n)] for _ in range(m)]
         visited[entrance[0]][entrance[1]] = True
 
-        steps = 0
+        steps = 1
         while q:
             # records children nodes counts of current level
             q_size = len(q)
-            steps += 1
-            # try to visit all the nodes in q
+            # visit all the nodes of the same level
             for _ in range(q_size):
                 cur_node = q.popleft()
                 # try to step out 1 step in dirs
@@ -47,8 +47,10 @@ class Solution:
                     # if it's exit
                     if x == 0 or x == m - 1 or y == 0 or y == n - 1:
                         return steps
+                    # record node
                     visited[x][y] = True
                     q.append([x, y])
+            steps += 1
         return -1
 
 
