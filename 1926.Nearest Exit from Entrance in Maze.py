@@ -54,6 +54,9 @@ class Solution:
             steps += 1
         return -1
 
+        # Time Complexity: O(m×n) - we visit each cell at most once
+        # Space Complexity: O(m×n) - for the visited array and queue storage
+
         # ! sol2: storing steps in tuple
         m = len(maze)
         n = len(maze[0])
