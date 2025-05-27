@@ -85,6 +85,57 @@ class Solution:
         # Visited set can contain up to n² cells
         # Queue can contain up to n² cells in worst case
 
+        # sol2: using "steps" variable
+        """
+        ALTERNATIVE VERSION: Using steps variable with level-by-level BFS
+        """
+        n = len(grid)
+
+        # Edge case: start or end cell is blocked
+        if grid[0][0] == 1 or grid[n-1][n-1] == 1:
+            return -1
+
+        # Edge case: single cell matrix
+        if n == 1:
+            return 1
+
+        # 8 directions: up, down, left, right, and 4 diagonals
+        directions = [(-1,-1), (-1,0), (-1,1), (0,-1), (0,1), (1,-1), (1,0), (1,1)]
+
+        # BFS setup - only store coordinates
+        queue = deque([(0, 0)])  # (row, col)
+        visited = set()
+        visited.add((0, 0))
+        steps = 1  # Global step counter
+
+        while queue:
+            # KEY: Process all nodes at current level before moving to next level
+            level_size = len(queue)
+
+            for _ in range(level_size):
+                row, col = queue.popleft()
+
+                # Check if we reached the destination
+                if row == n-1 and col == n-1:
+                    return steps
+
+                # Explore all 8 directions
+                for dr, dc in directions:
+                    new_row, new_col = row + dr, col + dc
+
+                    # Check if new position is valid
+                    if (0 <= new_row < n and 0 <= new_col < n and
+                        grid[new_row][new_col] == 0 and
+                        (new_row, new_col) not in visited):
+
+                        visited.add((new_row, new_col))
+                        queue.append((new_row, new_col))
+
+            # Increment steps after processing entire current level
+            steps += 1
+
+        return -1  # No path found
+
 
 # @lc code=end
 
