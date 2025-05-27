@@ -24,10 +24,11 @@ class Solution:
 
         steps = 0
         while q:
+            # records children nodes counts of current level
             q_size = len(q)
             steps += 1
             # try to visit all the nodes in q
-            for i in range(q_size):
+            for _ in range(q_size):
                 cur_node = q.popleft()
                 # try to step out 1 step in dirs
                 for dir in dirs:
