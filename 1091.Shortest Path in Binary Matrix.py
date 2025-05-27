@@ -12,6 +12,7 @@ from typing import List
 
 class Solution:
     def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
+        # ! sol1: storing steps in tuple
         n = len(grid)
 
         # sanity checks:
@@ -85,7 +86,7 @@ class Solution:
         # Visited set can contain up to n² cells
         # Queue can contain up to n² cells in worst case
 
-        # sol2: using "steps" variable
+        # !sol2: using "steps" variable
         """
         ALTERNATIVE VERSION: Using steps variable with level-by-level BFS
         """
