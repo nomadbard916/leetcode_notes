@@ -8,7 +8,7 @@
 # @lc code=start
 # Definition for a binary tree node.
 from collections import deque
-from typing import List
+from typing import List, Optional
 
 
 class TreeNode:
@@ -24,10 +24,11 @@ class Solution:
         if k == 0:
             return [target.val]
 
-        # build parent mapping to create undirected graph representation
+        # * build parent mapping for each node to create undirected graph representation
+        #  by traversing the whole tree
         parent_map = {}
 
-        def build_parent_map(node, parent):
+        def build_parent_map(node: Optional[TreeNode], parent: Optional[TreeNode]):
             if not node:
                 return
             parent_map[node] = parent
@@ -36,7 +37,9 @@ class Solution:
 
         build_parent_map(root, None)
 
-        # BFS from target node
+        # * BFS from target node
+        # Why BFS Works: BFS naturally explores nodes level by level,
+        # where each level represents one unit of distance from the source.
         q = deque([target])
         visited_set = {target}
         distance = 0
@@ -60,13 +63,22 @@ class Solution:
                         visited_set.add(n)
                         q.append(n)
 
-        # collect all nodes at distance k
+        # * collect all nodes at distance k
         result = []
         while q:
             curr_val = q.popleft().val
             result.append(curr_val)
 
         return result
+
+        # Time Complexity: O(n) where n is the number of nodes
+        # Building parent map: O(n)
+        # BFS traversal: O(n) in worst case
+
+        # Space Complexity: O(n)
+        # Parent map: O(n)
+        # Queue for BFS: O(n) in worst case
+        # Visited set: O(n)
 
 
 # @lc code=end
