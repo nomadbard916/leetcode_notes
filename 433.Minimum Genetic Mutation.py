@@ -21,13 +21,11 @@ class Solution:
         # * BFS framework
         def get_all_mutations(gene: str) -> List[str]:
             res = []
-            gene_chars = list(gene)
-            for i, old_char in enumerate(gene):
-                # substitute by new char, append new string and then recover to old one
+            for i in range(len(gene)):
                 for new_char in ACGT_LIST:
-                    gene_chars[i] = new_char
-                    res.append("".join(gene_chars))
-                gene_chars[i] = old_char
+                    mutated_gene_list = list(gene)
+                    mutated_gene_list[i] = new_char
+                    res.append("".join(mutated_gene_list))
             return res
 
         q = deque()
