@@ -22,8 +22,8 @@ class Solution:
         def get_all_mutations(gene: str) -> List[str]:
             res = []
             gene_chars = list(gene)
-            for i in range(len(gene_chars)):
-                old_char = gene_chars[i]
+            for i, old_char in enumerate(gene):
+                # substitute by new char, append new string and then recover to old one
                 for new_char in ACGT_LIST:
                     gene_chars[i] = new_char
                     res.append("".join(gene_chars))
@@ -31,13 +31,13 @@ class Solution:
             return res
 
         q = deque()
-        visited = set()
         q.append(startGene)
+        visited = set()
         visited.add(startGene)
         steps = 0
         while q:
             q_size = len(q)
-            for i in range(q_size):
+            for _ in range(q_size):
                 cur_node = q.popleft()
                 if cur_node == endGene:
                     return steps
