@@ -21,21 +21,30 @@ class TreeNode:
 class Solution:
     def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
         # ! sol1: BFS with parent mapping (recommended)
+        # This pattern of "convert tree to graph" is common when you need bidirectional traversal in trees.
+        # Other problems where this helps:
+        # - Finding LCA (Lowest Common Ancestor)
+        # - Tree diameter problems
+        # - Shortest path between any two nodes
         if k == 0:
             return [target.val]
 
         # * build parent mapping for each node to create undirected graph representation
         #  by traversing the whole tree
-        parent_map = {}
 
-        def build_parent_map(node: Optional[TreeNode], parent: Optional[TreeNode]):
+        def build_parent_map(
+            node: Optional[TreeNode],
+            parent: Optional[TreeNode],
+            curr_parent_map: dict[TreeNode, Optional[TreeNode]],
+        ) -> dict[TreeNode, Optional[TreeNode]]:
             if not node:
-                return
-            parent_map[node] = parent
-            build_parent_map(node.left, node)
-            build_parent_map(node.right, node)
+                return curr_parent_map
+            curr_parent_map[node] = parent
+            build_parent_map(node.left, node, curr_parent_map)
+            build_parent_map(node.right, node, curr_parent_map)
+            return curr_parent_map
 
-        build_parent_map(root, None)
+        parent_map = build_parent_map(root, None, {})
 
         # * BFS from target node
         # Why BFS Works: BFS naturally explores nodes level by level,
