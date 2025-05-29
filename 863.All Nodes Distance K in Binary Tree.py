@@ -90,6 +90,10 @@ class Solution:
         # Visited set: O(n)
 
         # ! sol2: DFS with distance tracking
+        # How DFS Works:
+        # - For each node, determine if the target is in its subtree
+        # - If target found, calculate distances and collect appropriate nodes
+        # - Handle three cases: target in left subtree, right subtree, or current node is target
         result = []
 
         def collect_nodes_at_distance(node, distance, result):
@@ -130,6 +134,13 @@ class Solution:
 
         find_distance_from_target(root)
         return result
+
+        # Time Complexity: O(n)
+        # Each node is visited at most twice
+
+        # Space Complexity: O(h) where h is the height of the tree
+        # Recursion stack depth
+        # No additional data structures needed
 
 
 # @lc code=end
