@@ -89,6 +89,48 @@ class Solution:
         # Queue for BFS: O(n) in worst case
         # Visited set: O(n)
 
+        # ! sol2: DFS with distance tracking
+        result = []
+
+        def collect_nodes_at_distance(node, distance, result):
+            if not node or distance < 0:
+                return
+            if distance == 0:
+                result.append(node.val)
+                return
+
+            collect_nodes_at_distance(node.left, distance - 1, result)
+            collect_nodes_at_distance(node.right, distance - 1, result)
+
+        def find_distance_from_target(node):
+            if not TreeNode:
+                return -1
+
+            if node == target:
+                collect_nodes_at_distance(node, k, result)
+                return 0
+
+            # check left subtree
+            left_dist = find_distance_from_target(node.left)
+            if left_dist != -1:
+                if left_dist + 1 == k:
+                    result.append(node.val)
+                else:
+                    collect_nodes_at_distance(node.right, k - left_dist - 2, result)
+                return left_dist + 1
+
+            # check right subtree
+            right_dist = find_distance_from_target(node.right)
+            if right_dist != -1:
+                if right_dist + 1 == k:
+                    result.append(node.val)
+                else:
+                    collect_nodes_at_distance(node.left, k - right_dist - 2, result)
+                return right_dist + 1
+
+        find_distance_from_target(root)
+        return result
+
 
 # @lc code=end
 
