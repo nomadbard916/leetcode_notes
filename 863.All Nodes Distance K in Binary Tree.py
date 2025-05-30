@@ -20,6 +20,10 @@ class TreeNode:
 
 class Solution:
     def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
+        # BFS vs DFS Trade-offs
+        # BFS: More intuitive for distance problems, but uses more space
+        # DFS: More space-efficient, but logic can be more complex
+
         # ! sol1: BFS with parent mapping (recommended)
         # This pattern of "convert tree to graph" is common when you need bidirectional traversal in trees.
         # Other problems where this helps:
@@ -106,7 +110,7 @@ class Solution:
             collect_nodes_at_distance(node.left, distance - 1, result)
             collect_nodes_at_distance(node.right, distance - 1, result)
 
-        def find_distance_from_target(node):
+        def find_distance_to_target(node):
             """
             Returns distance from current node to target.
             Returns -1 if target is not in this subtree.
@@ -120,18 +124,23 @@ class Solution:
                 return 0
 
             # check left subtree
-            left_dist = find_distance_from_target(node.left)
+            left_dist = find_distance_to_target(node.left)
             if left_dist != -1:
                 # # Target found in left subtree. Current node is at distance k from target
                 if left_dist + 1 == k:
                     result.append(node.val)
                 else:
                     # Look for nodes at distance k in right subtree
+                    # Distance Calculation:
+                    # 1 Target to left child: left_dist steps
+                    # 2 Left child to current node: 1 step
+                    # 3 Current node to right child: 1 step
+                    # 4 Total from target to right child: left_dist + 1 + 1 = left_dist + 2
                     collect_nodes_at_distance(node.right, k - left_dist - 2, result)
                 return left_dist + 1
 
             # check right subtree
-            right_dist = find_distance_from_target(node.right)
+            right_dist = find_distance_to_target(node.right)
             if right_dist != -1:
                 # Target found in right subtree. Current node is at distance k from target
                 if right_dist + 1 == k:
@@ -141,7 +150,7 @@ class Solution:
                     collect_nodes_at_distance(node.left, k - right_dist - 2, result)
                 return right_dist + 1
 
-        find_distance_from_target(root)
+        find_distance_to_target(root)
         return result
 
         # Time Complexity: O(n)
