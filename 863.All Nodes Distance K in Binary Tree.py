@@ -101,6 +101,8 @@ class Solution:
         # Why This Works:
         # - The formula accounts for the "cost" of traveling up to the common ancestor and then down to the other subtree
         # - It ensures we only look for nodes that, when combined with the crossing distance, give us exactly k total steps from the target
+        # The same logic applies symmetrically when the target is in the right subtree and we're looking in the left subtree.
+        # This is why the DFS solution is more complex than BFS - it has to carefully track these distance relationships, while BFS naturally handles distances through level-by-level exploration.
 
         result = []
 
@@ -144,7 +146,7 @@ class Solution:
                     # - If we want total distance of k from target to some node in right subtree
                     # - And we already "used up" left_dist + 2 steps to reach the right subtree root
                     # - Then we need k - (left_dist + 2) = k - left_dist - 2 more steps within the right subtree
-                    remaining_distance = k - left_dist - 2
+                    remaining_distance = k - (left_dist + 2)
                     collect_nodes_at_distance(node.right, remaining_distance, result)
                 return left_dist + 1
 
@@ -156,7 +158,7 @@ class Solution:
                     result.append(node.val)
                 else:
                     # Look for nodes at distance k in left subtree
-                    remaining_distance = k - right_dist - 2
+                    remaining_distance = k - (right_dist + 2)
                     collect_nodes_at_distance(node.left, remaining_distance, result)
                 return right_dist + 1
 
