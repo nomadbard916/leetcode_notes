@@ -107,9 +107,14 @@ class Solution:
             collect_nodes_at_distance(node.right, distance - 1, result)
 
         def find_distance_from_target(node):
-            if not TreeNode:
+            """
+            Returns distance from current node to target.
+            Returns -1 if target is not in this subtree.
+            """
+            if not node:
                 return -1
 
+            # # Found target, collect all nodes at distance k in its subtree
             if node == target:
                 collect_nodes_at_distance(node, k, result)
                 return 0
@@ -117,18 +122,22 @@ class Solution:
             # check left subtree
             left_dist = find_distance_from_target(node.left)
             if left_dist != -1:
+                # # Target found in left subtree. Current node is at distance k from target
                 if left_dist + 1 == k:
                     result.append(node.val)
                 else:
+                    # Look for nodes at distance k in right subtree
                     collect_nodes_at_distance(node.right, k - left_dist - 2, result)
                 return left_dist + 1
 
             # check right subtree
             right_dist = find_distance_from_target(node.right)
             if right_dist != -1:
+                # Target found in right subtree. Current node is at distance k from target
                 if right_dist + 1 == k:
                     result.append(node.val)
                 else:
+                    # Look for nodes at distance k in left subtree
                     collect_nodes_at_distance(node.left, k - right_dist - 2, result)
                 return right_dist + 1
 
