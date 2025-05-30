@@ -98,6 +98,10 @@ class Solution:
         # - For each node, determine if the target is in its subtree
         # - If target found, calculate distances and collect appropriate nodes
         # - Handle three cases: target in left subtree, right subtree, or current node is target
+        # Why This Works:
+        # - The formula accounts for the "cost" of traveling up to the common ancestor and then down to the other subtree
+        # - It ensures we only look for nodes that, when combined with the crossing distance, give us exactly k total steps from the target
+
         result = []
 
         def collect_nodes_at_distance(node, distance, result):
@@ -136,7 +140,12 @@ class Solution:
                     # 2 Left child to current node: 1 step
                     # 3 Current node to right child: 1 step
                     # 4 Total from target to right child: left_dist + 1 + 1 = left_dist + 2
-                    collect_nodes_at_distance(node.right, k - left_dist - 2, result)
+                    # The Logic:
+                    # - If we want total distance of k from target to some node in right subtree
+                    # - And we already "used up" left_dist + 2 steps to reach the right subtree root
+                    # - Then we need k - (left_dist + 2) = k - left_dist - 2 more steps within the right subtree
+                    remaining_distance = k - left_dist - 2
+                    collect_nodes_at_distance(node.right, remaining_distance, result)
                 return left_dist + 1
 
             # check right subtree
@@ -147,7 +156,8 @@ class Solution:
                     result.append(node.val)
                 else:
                     # Look for nodes at distance k in left subtree
-                    collect_nodes_at_distance(node.left, k - right_dist - 2, result)
+                    remaining_distance = k - right_dist - 2
+                    collect_nodes_at_distance(node.left, remaining_distance, result)
                 return right_dist + 1
 
         find_distance_to_target(root)
