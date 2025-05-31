@@ -35,6 +35,15 @@ class Solution:
         return result
 
         # ! sol2: iterative
+        res = []
+        stack = [root]
+        while stack:
+            node = stack.pop()
+            if node is not None:
+                res.append(node.val)
+            for children in node.children:
+                stack.append(children)
+        return res[::-1]
 
 
 # @lc code=end
