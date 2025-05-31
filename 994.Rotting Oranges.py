@@ -12,6 +12,16 @@ from typing import List
 
 class Solution:
     def orangesRotting(self, grid: List[List[int]]) -> int:
+        # ! Core Concept:  multi-source BFS
+        # - We need to simulate the rotting process minute by minute
+        # - All rotten oranges at the same minute rot their adjacent fresh oranges simultaneously
+        # - BFS is perfect because it processes nodes level by level, which corresponds to minute by minute
+        # Why BFS and not DFS?
+        # - BFS processes nodes level by level, perfect for time-based simulation
+        # - DFS would go deep first, not simulating the simultaneous rotting
+        # Why use a queue?
+        # - Queue ensures FIFO processing, maintaining the correct order of rotting
+        # - All oranges rotten at minute t should rot their neighbors at minute t+1
         ans_minutes = 0
 
         if not grid or not grid[0]:
