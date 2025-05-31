@@ -39,6 +39,10 @@ class Solution:
         while stack:
             root = stack.pop()
             output.append(root.val)
+            # add the children of the temp into the stack in reverse order.
+            # children of 1 = [3,2,4], if not reveresed then 4 will be popped out first from the stack.
+            # if reversed then stack = [4,2,3]. Here 3 will pop out first.
+            # This continues till the stack is empty.
             stack.extend(root.children[::-1])
 
         return output
