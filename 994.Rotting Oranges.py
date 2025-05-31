@@ -12,6 +12,8 @@ from typing import List
 
 class Solution:
     def orangesRotting(self, grid: List[List[int]]) -> int:
+        ans_minutes = 0
+
         if not grid or not grid[0]:
             return 0
         rows = len(grid)
@@ -31,21 +33,20 @@ class Solution:
         if fresh_count == 0:
             return 0
 
-        # step 2: BFS o rot adjacent fresh oranges
-        minutes = 0
+        # step 2: BFS to rot adjacent fresh oranges
         directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
         while q and fresh_count > 0:
-            minutes += 1
+            ans_minutes += 1
             # Process all oranges that are rotten at the current minute
             q_size = len(q)
             for _ in range(q_size):
-                row, col = q.popleft()
+                curr_row, curr_col = q.popleft()
 
                 # check all directions
                 for dr, dc in directions:
-                    new_row, new_col = row + dr, col + dc
+                    new_row, new_col = curr_row + dr, curr_col + dc
 
-                    # get the fresh orange
+                    # rot the fresh orange and put it into q
                     # trick: new_row and new_col may be out of range,
                     # so checking if it is fresh orange should be the lastly chained for if condition
                     if (
@@ -58,9 +59,12 @@ class Solution:
                         q.append((new_row, new_col))
 
         if fresh_count == 0:
-            return minutes
+            return ans_minutes
 
         return -1
+
+        # Time Complexity: O(m × n) - we visit each cell at most once
+        # Space Complexity: O(m × n) - queue can contain all cells in worst case
 
 
 # @lc code=end
