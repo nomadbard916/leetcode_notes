@@ -11,9 +11,9 @@ from typing import List
 
 class Solution:
     def __init__(self):
-        self.on_path_nodes_list = []
-        self.visited = []
-        self.has_cycle = False
+        self.on_path_nodes_list: List[bool] = []
+        self.visited: List[bool] = []
+        self.has_cycle: bool = False
 
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         # ! sol1: DFS with cycle detection
@@ -22,13 +22,22 @@ class Solution:
         self.on_path_nodes_list = [False] * numCourses
         self.visited = [False] * numCourses
 
+        # * adjacency list is almost a must in a graph problem
         def build_graph(
             numCourses: int, prerequisites: List[List[int]]
         ) -> List[List[int]]:
+            # some slot may not be used, but let's make all of them for convenience's sake
+            # why not use dict? Using a list-of-lists works well here for a few reasons:
+            # 1. Fixed Size:
+            # The number of courses is known ahead of time (given by numCourses). This means the graph's size is fixed and we can initialize a list with numCourses empty lists directly. We don't need the flexibility of a dictionary.
+            # 2. Performance:
+            # Indexing into a list is O(1) and has lower overhead than dictionary lookups. This can be beneficial for performance in graph algorithms.
+            # 3. Simplicity:
+            # A list-of-lists clearly maps each course to its prerequisites (or adjacent courses) using 0-indexed integers. This is more straightforward than managing keys in a dictionary when the set of nodes is guaranteed to be consecutive integers.
             graph = [[] for _ in range(numCourses)]
             for edge in prerequisites:
-                from_node, to_node = edge[1], edge[0]
-                graph[from_node].append(to_node)
+                prior_course, latter_course = edge[1], edge[0]
+                graph[prior_course].append(latter_course)
             return graph
 
         graph = build_graph(numCourses, prerequisites)
