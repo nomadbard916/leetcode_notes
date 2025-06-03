@@ -6,6 +6,7 @@
 #
 
 # @lc code=start
+from collections import deque
 from typing import List
 
 
@@ -62,6 +63,37 @@ class Solution:
             traverse(graph, i)
 
         return not self.has_cycle
+
+        # !sol2: BFS with indegree
+        graph = build_graph(numCourses, prerequisites)
+
+        # * build indegree array
+        indegree = [0] * numCourses
+        for edge in prerequisites:
+            prior_course, latter_course = edge[1], edge[0]
+            indegree[latter_course] += 1
+
+        # * initialize nodes in queue by indegree
+        q = deque()
+        for i in range(numCourses):
+            if indegree[i] == 0:
+                # if node i has indegree of 0, it doesn't have depended nodes
+                # can be added into queue to be the starting node of topology sorting
+                q.append(i)
+
+        iterated_nodes_cnt = 0
+        # * BFS with template
+        while q:
+            cur_node = q.popleft()
+            iterated_nodes_cnt += 1
+            for next_node in graph[cur_node]:
+                indegree[next_node] -= 1
+                # if the nodes depended by next_node are iterated
+                if indegree[next_node] == 0:
+                    q.append(next_node)
+
+        # if all he nodes are iterated, it means there's no circle
+        return iterated_nodes_cnt == numCourses
 
 
 # @lc code=end
