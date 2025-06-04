@@ -6,7 +6,7 @@
 #
 
 # @lc code=start
-from collections import deque
+from collections import defaultdict, deque
 from typing import List
 
 
@@ -33,8 +33,7 @@ class Solution:
         # 3. Simplicity:
         # A list-of-lists clearly maps each course to its prerequisites (or adjacent courses) using 0-indexed integers. This is more straightforward than managing keys in a dictionary when the set of nodes is guaranteed to be consecutive integers.
         graph = [[] for _ in range(numCourses)]
-        for edge in prerequisites:
-            prerequisite, course = edge[1], edge[0]
+        for course, prerequisite in prerequisites:
             graph[prerequisite].append(course)
 
         def traverse(graph: List[List[int]], s: int):
@@ -66,8 +65,7 @@ class Solution:
         # * build graph and indegree array
         graph = [[] for _ in range(numCourses)]
         indegree = [0] * numCourses
-        for edge in prerequisites:
-            prerequisite, course = edge[1], edge[0]
+        for course, prerequisite in prerequisites:
             graph[prerequisite].append(course)
             indegree[course] += 1
 
@@ -97,6 +95,45 @@ class Solution:
         # Time: O(V + E) where V = numCourses, E = number of prerequisites
         # We visit each course once and each prerequisite edge once
         # Space: O(V + E) for the graph, indegree array, and queue
+
+        # !sol3: DFS with three-color cycle detection
+        # build adjacency list
+        graph = defaultdict(list)
+        for course, prerequisite in prerequisites:
+            graph[prerequisite].append(course)
+
+        # color coding: 0=white, 1=gray, 2=black
+        colors = [0] * numCourses
+
+        def has_cycle(course: int) -> bool:
+            """check if there's a cycle starting from this course"""
+            # gray - black edge found, cycle detected
+            if colors[course] == 1:
+                return True
+            # black - already processed, no cycle
+            if colors[course] == 2:
+                return False
+
+            # mark currently processing as gray
+            colors[course] = 1
+
+            # check all dependent courses
+            for dependent in graph[course]:
+                if has_cycle(dependent):
+                    return True
+
+            # mark the completely processed as black
+            colors[course] = 2
+            return False
+
+        # check each course for cycles
+        for course_idx in range(numCourses):
+            # only check unvisited courses
+            if colors[course_idx] == 0:
+                if has_cycle(course_idx):
+                    return False
+
+        return True
 
 
 # @lc code=end
