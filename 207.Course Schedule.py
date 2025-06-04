@@ -52,8 +52,8 @@ class Solution:
             # postorder code
             self.on_path_nodes_list[s] = False
 
-        for i in range(numCourses):
-            traverse(graph, i)
+        for course in range(numCourses):
+            traverse(graph, course)
 
         return not self.has_cycle
 
@@ -63,6 +63,7 @@ class Solution:
 
         # !sol2: BFS with indegree
         # * build graph and indegree array
+        # Core Idea: Process courses with no prerequisites first, then gradually "unlock" other courses.
         graph = [[] for _ in range(numCourses)]
         indegree = [0] * numCourses
         for course, prerequisite in prerequisites:
@@ -71,25 +72,27 @@ class Solution:
 
         # * initialize nodes in queue by indegree
         q = deque()
-        for i in range(numCourses):
-            if indegree[i] == 0:
-                # if node i has indegree of 0, it doesn't have depended nodes
-                # can be added into queue to be the starting node of topology sorting
-                q.append(i)
+        for course in range(numCourses):
+            if indegree[course] == 0:
+                # Find all courses with no prerequisites (indegree = 0)
+                # These can be taken immediately
+                q.append(course)
 
-        iterated_nodes_cnt = 0
+        completed_courses_cnt = 0
         # * BFS with template
         while q:
-            cur_node = q.popleft()
-            iterated_nodes_cnt += 1
-            for next_node in graph[cur_node]:
-                indegree[next_node] -= 1
-                # if the nodes depended by next_node are iterated
-                if indegree[next_node] == 0:
-                    q.append(next_node)
+            # Take a course with no remaining prerequisites
+            curr_course = q.popleft()
+            completed_courses_cnt += 1
+            for dependent_course in graph[curr_course]:
+                # "Complete" it and reduce the prerequisite count for dependent courses
+                indegree[dependent_course] -= 1
+                # Add newly available courses to the queue. If it now has no prerequisites, it can be taken
+                if indegree[dependent_course] == 0:
+                    q.append(dependent_course)
 
-        # if all he nodes are iterated, it means there's no circle
-        return iterated_nodes_cnt == numCourses
+        # if all the courses are processed, it means there's no circle
+        return completed_courses_cnt == numCourses
 
         # complexities
         # Time: O(V + E) where V = numCourses, E = number of prerequisites
