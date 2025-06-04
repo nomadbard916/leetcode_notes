@@ -61,10 +61,12 @@ class Solution:
         # Time: O(V + E) for the same reasons
         # Space: O(V + E) for the graph and recursion stack (worst case O(V) depth)
 
-        # !sol2: BFS with indegree
-        # * build graph and indegree array
+        # !sol2: BFS + Topological Sort (Kahn's Algorithm)
         # Core Idea: Process courses with no prerequisites first, then gradually "unlock" other courses.
-        graph = [[] for _ in range(numCourses)]
+        # * build adjacency list graph and indegree array
+        graph = defaultdict(list)
+        # Track incoming edges (indegree) for each course
+        # indegree[course] = number of prerequisites for this course
         indegree = [0] * numCourses
         for course, prerequisite in prerequisites:
             graph[prerequisite].append(course)
