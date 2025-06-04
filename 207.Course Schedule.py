@@ -58,6 +58,10 @@ class Solution:
 
         return not self.has_cycle
 
+        # complexities
+        # Time: O(V + E) for the same reasons
+        # Space: O(V + E) for the graph and recursion stack (worst case O(V) depth)
+
         # !sol2: BFS with indegree
         # * build graph and indegree array
         graph = [[] for _ in range(numCourses)]
@@ -88,6 +92,11 @@ class Solution:
 
         # if all he nodes are iterated, it means there's no circle
         return iterated_nodes_cnt == numCourses
+
+        # complexities
+        # Time: O(V + E) where V = numCourses, E = number of prerequisites
+        # We visit each course once and each prerequisite edge once
+        # Space: O(V + E) for the graph, indegree array, and queue
 
 
 # @lc code=end
