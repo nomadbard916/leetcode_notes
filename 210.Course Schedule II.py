@@ -49,6 +49,9 @@ class Solution:
         self.postorder_res.reverse()
         return self.postorder_res
 
+        # Time Complexity: O(V + E)  where V = numCourses, E = number of prerequisites
+        # Space Complexity: O(V + E) for adjacency list, state array, and recursion stack
+
         # ! sol2: BFS with Kahn's Algorithm
         # * step 1: build adjacency list and calculate in-degrees
         graph = defaultdict(list)
@@ -82,6 +85,10 @@ class Solution:
         if len(result) != numCourses:
             return []
         return result
+
+        # Time Complexity: O(V + E) where V = numCourses, E = number of prerequisites
+        # We visit each course once and each edge once
+        # Space Complexity: O(V + E) for adjacency list, in-degree array, and queue
 
 
 # @lc code=end
