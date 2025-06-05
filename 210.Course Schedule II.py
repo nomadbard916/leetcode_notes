@@ -6,6 +6,7 @@
 #
 
 # @lc code=start
+from collections import defaultdict, deque
 from typing import List
 
 
@@ -17,6 +18,7 @@ class Solution:
         self.on_path = []
 
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        # ! sol1: DFS with topological sort
         graph = [[] for _ in range(numCourses)]
         for course, prerequisite in prerequisites:
             graph[prerequisite].append(course)
@@ -46,6 +48,36 @@ class Solution:
         # * the result of topological sort is the result of post-order traversal
         self.postorder_res.reverse()
         return self.postorder_res
+
+        # ! sol2: BFS with Kahn's Algorithm
+        graph = defaultdict(list)
+        in_degree = [0] * numCourses
+
+        for course, prereq in prerequisites:
+            graph[prereq].append(course)
+            in_degree[course] += 1
+
+        # * step 2: find all courses with no prerequisites (in-degree) = 0
+        q = deque()
+        for i in range(numCourses):
+            if in_degree[i] == 0:
+                q.append(i)
+
+        # * step 3: process courses in topological order
+        result = []
+
+        while q:
+            curr_course = q.popleft()
+            result.append(curr_course)
+
+            for dependent_course in graph[curr_course]:
+                in_degree[dependent_course] -= 1
+
+                if in_degree[dependent_course] == 0:
+                    q.append(dependent_course)
+        if len(result) != numCourses:
+            return []
+        return result
 
 
 # @lc code=end
