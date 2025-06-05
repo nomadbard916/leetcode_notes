@@ -50,14 +50,14 @@ class Solution:
         return self.postorder_res
 
         # ! sol2: BFS with Kahn's Algorithm
+        # * step 1: build adjacency list and calculate in-degrees
         graph = defaultdict(list)
         in_degree = [0] * numCourses
-
         for course, prereq in prerequisites:
             graph[prereq].append(course)
             in_degree[course] += 1
 
-        # * step 2: find all courses with no prerequisites (in-degree) = 0
+        # * step 2: find all courses with no prerequisites (in-degree = 0)
         q = deque()
         for i in range(numCourses):
             if in_degree[i] == 0:
@@ -67,6 +67,7 @@ class Solution:
         result = []
 
         while q:
+            # Take a course with no remaining prerequisites
             curr_course = q.popleft()
             result.append(curr_course)
 
@@ -75,6 +76,9 @@ class Solution:
 
                 if in_degree[dependent_course] == 0:
                     q.append(dependent_course)
+
+        # * Step 4: Check if we processed all courses
+        # If we couldn't process all courses, there's a cycle
         if len(result) != numCourses:
             return []
         return result
