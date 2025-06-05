@@ -26,19 +26,19 @@ class Solution:
         self.visited = [False] * numCourses
         self.on_path = [False] * numCourses
 
-        def traverse(graph: List[List[int]], s: int):
-            if self.on_path[s]:
+        def traverse(graph: List[List[int]], curr_course: int):
+            if self.on_path[curr_course]:
                 self.has_cycle = True
-            if self.visited[s] or self.has_cycle:
+            if self.visited[curr_course] or self.has_cycle:
                 return
             # preorder processing
-            self.on_path[s] = True
-            self.visited[s] = True
-            for t in graph[s]:
-                traverse(graph, t)
+            self.on_path[curr_course] = True
+            self.visited[curr_course] = True
+            for dependent in graph[curr_course]:
+                traverse(graph, dependent)
             # postorder code
-            self.postorder_res.append(s)
-            self.on_path[s] = False
+            self.postorder_res.append(curr_course)
+            self.on_path[curr_course] = False
 
         for i in range(numCourses):
             traverse(graph, i)
@@ -46,8 +46,7 @@ class Solution:
         if self.has_cycle:
             return []
         # * the result of topological sort is the result of post-order traversal
-        self.postorder_res.reverse()
-        return self.postorder_res
+        return self.postorder_res[::-1]
 
         # Time Complexity: O(V + E)  where V = numCourses, E = number of prerequisites
         # Space Complexity: O(V + E) for adjacency list, state array, and recursion stack
@@ -89,6 +88,11 @@ class Solution:
         # Time Complexity: O(V + E) where V = numCourses, E = number of prerequisites
         # We visit each course once and each edge once
         # Space Complexity: O(V + E) for adjacency list, in-degree array, and queue
+
+        # The BFS approach is generally preferred for this problem because it's more intuitive
+        # and naturally gives us one valid topological ordering.
+        # The DFS approach is useful when you need to understand the recursive structure or
+        # when working with related problems that benefit from DFS traversal.
 
 
 # @lc code=end
