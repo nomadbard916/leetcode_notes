@@ -12,9 +12,12 @@ from typing import List
 
 class Solution:
     def findMinHeightTrees(self, n: int, edges: List[List[int]]) -> List[int]:
+        # reverse BFS: start from all the leaf nodes then BFS upwards,
+        # so the breadth of the tree can be as even as possible
+        # the solution happens when the center has only 1 or 2 nodes (totally symmetric so both can be root)
         if n == 1:
             return [0]
-        # * step 1: build graph
+        # * step 1: build adjacency list graph
         graph = [[] for _ in range(n)]
         for edge in edges:
             # non-directional => see it as bi-directional
@@ -22,27 +25,28 @@ class Solution:
             graph[edge[1]].append(edge[0])
 
         # * step 2: find all the leaf nodes
-        q = deque()
+        leaf_q = deque()
         for i in range(n):
             if len(graph[i]) == 1:
-                q.append(i)
+                leaf_q.append(i)
 
         # * step 3: keep deleting leaf nodes, until remaining <=2
         node_count = n
         while node_count > 2:
-            q_size = len(q)
+            q_size = len(leaf_q)
             node_count -= q_size
             for _ in range(q_size):
-                cur_node = q.popleft()
+                cur_node = leaf_q.popleft()
 
-                # find neighbors to the current leaf node
                 for neighbor in graph[cur_node]:
                     graph[neighbor].remove(cur_node)
-                    # after removal, if there's only one connection, it means the node becomes a leaf
+                    # it's like "peeling":
+                    # when the outermost leaf is removed,
+                    # the one-layer inner one may become the new leaf when it has only one connection, then added into queue
                     if len(graph[neighbor]) == 1:
-                        q.append(neighbor)
-        # * step 4: the remaining one is the root
-        return list(q)
+                        leaf_q.append(neighbor)
+        # * step 4: the remaining one or two nodes are the root
+        return list(leaf_q)
 
 
 # @lc code=end
