@@ -30,7 +30,8 @@ class Solution:
         # * step 2: find all the leaf nodes which have only one connection
         leaf_q = deque()
         for i in range(n):
-            if len(graph[i]) == 1:
+            connection_degree = len(graph[i])
+            if connection_degree == 1:
                 leaf_q.append(i)
 
         # * step 3: keep deleting leaf nodes, until remaining <=2
@@ -45,8 +46,10 @@ class Solution:
                     graph[neighbor].remove(cur_leaf_node)
                     # it's like "peeling":
                     # when the outermost leaf is removed,
-                    # the one-layer inner one may become the new leaf when it has only one connection, then added into queue
-                    if len(graph[neighbor]) == 1:
+                    # the one-layer-inner one may become the new leaf,
+                    # when it has only one connection, then added into queue
+                    connection_degree = len(graph[neighbor])
+                    if connection_degree == 1:
                         leaf_q.append(neighbor)
         # * step 4: the remaining one or two nodes are the root
         return list(leaf_q)
