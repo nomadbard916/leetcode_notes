@@ -31,15 +31,15 @@ class Solution:
                 leaf_q.append(i)
 
         # * step 3: keep deleting leaf nodes, until remaining <=2
-        node_count = n
-        while node_count > 2:
-            q_size = len(leaf_q)
-            node_count -= q_size
-            for _ in range(q_size):
-                cur_node = leaf_q.popleft()
+        remaining_nodes_count = n
+        while remaining_nodes_count > 2:
+            leaf_count = len(leaf_q)
+            remaining_nodes_count -= leaf_count
+            for _ in range(leaf_count):
+                cur_leaf_node = leaf_q.popleft()
 
-                for neighbor in graph[cur_node]:
-                    graph[neighbor].remove(cur_node)
+                for neighbor in graph[cur_leaf_node]:
+                    graph[neighbor].remove(cur_leaf_node)
                     # it's like "peeling":
                     # when the outermost leaf is removed,
                     # the one-layer inner one may become the new leaf when it has only one connection, then added into queue
