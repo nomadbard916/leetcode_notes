@@ -54,6 +54,12 @@ class Solution:
         # * step 4: the remaining one or two nodes are the root
         return list(leaf_q)
 
+        # Time Complexity: O(n) where n is the number of nodes
+        # We visit each node exactly once during the removal process
+        # Each edge is processed exactly once
+
+        # Space Complexity: O(n) for the adjacency list, degree array, and queue
+
 
 # @lc code=end
 
