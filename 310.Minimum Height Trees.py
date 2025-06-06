@@ -6,7 +6,7 @@
 #
 
 # @lc code=start
-from collections import deque
+from collections import defaultdict, deque
 from typing import List
 
 
@@ -15,16 +15,19 @@ class Solution:
         # reverse BFS: start from all the leaf nodes then BFS upwards,
         # so the breadth of the tree can be as even as possible
         # the solution happens when the center has only 1 or 2 nodes (totally symmetric so both can be root)
+
+        # Edge case: single node
         if n == 1:
             return [0]
-        # * step 1: build adjacency list graph
-        graph = [[] for _ in range(n)]
-        for edge in edges:
-            # non-directional => see it as bi-directional
-            graph[edge[0]].append(edge[1])
-            graph[edge[1]].append(edge[0])
 
-        # * step 2: find all the leaf nodes
+        # * step 1: build adjacency list graph
+        graph = defaultdict(set)
+        for u, v in edges:
+            # non-directional => see it as bi-directional
+            graph[u].add(v)
+            graph[v].add(u)
+
+        # * step 2: find all the leaf nodes which have only one connection
         leaf_q = deque()
         for i in range(n):
             if len(graph[i]) == 1:
