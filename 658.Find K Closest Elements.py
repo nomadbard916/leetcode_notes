@@ -11,6 +11,7 @@ from typing import List
 
 class Solution:
     def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+        # ! by the condition |a - x| == |b - x| and a < b => it must be left bound
         def left_bound_binary_search(nums: List[int], target: int):
             left = 0
             right = len(nums)
@@ -40,7 +41,7 @@ class Solution:
                 left -= 1
             # if there's room for expending on both sides
             # left farther away from x then right, so expand right to include the closer value
-            elif x - arr[left] > arr[right] - x:
+            elif abs(arr[left] - x) > abs(arr[right] - x):
                 right += 1
             else:
                 left -= 1
