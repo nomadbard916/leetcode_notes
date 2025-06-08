@@ -26,15 +26,20 @@ class Solution:
 
         # * two pointers from center
         res = []
-        p = left_bound_binary_search(arr, x)
+        x_idx = left_bound_binary_search(arr, x)
         # range: (left, right)
-        left, right = p - 1, p
+        # both could be out of bound, so careful when putting res
+        left, right = x_idx - 1, x_idx
         # expand until there are k elements included
         while right - left - 1 < k:
+            # left out of bound, there's no elements on the left side to consider
             if left == -1:
                 right += 1
+            # right out of bound, there's no elements on the right side to consider
             elif right == len(arr):
                 left -= 1
+            # if there's room for expending on both sides
+            # left farther away from x then right, so expand right to include the closer value
             elif x - arr[left] > arr[right] - x:
                 right += 1
             else:
