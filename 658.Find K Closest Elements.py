@@ -11,7 +11,36 @@ from typing import List
 
 class Solution:
     def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
-        # ! by the condition |a - x| == |b - x| and a < b => it must be left bound
+        """
+        Find the k closest elements to x in a sorted array.
+
+        Approach: Two Pointers (Sliding Window)
+        - Use left and right pointers to maintain a window of size k
+        - Compare distances from window boundaries to x
+        - Shrink window by removing the element farther from x
+
+        Time Complexity: O(n - k) where n is length of arr
+        Space Complexity: O(1) excluding output space
+        """
+        # ! sol1: just sliding window
+        l = 0
+        r = len(arr) - 1
+
+        # * shrink window until we have exactly k elements
+        while r - l >= k:
+            # Compare distances of leftmost and rightmost elements to x
+            if abs(arr[l] - x) > abs(arr[r] - x):
+                # Left element is farther, remove it
+                l += 1
+            else:
+                # Right element is farther or equal distance, remove it
+                # We prefer smaller values when distances are equal
+                r -= 1
+        # Return the k elements in the final window
+        return arr[l : r + 1]
+
+        # ! sol2: binary search + two pointers from center
+        # * by the condition |a - x| == |b - x| and a < b => it must be left bound
         def left_bound_binary_search(nums: List[int], target: int):
             left = 0
             right = len(nums)
