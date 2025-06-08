@@ -39,7 +39,32 @@ class Solution:
         # Return the k elements in the final window
         return arr[l : r + 1]
 
-        # ! sol2: binary search + two pointers from center
+        """
+        Alternative approach using Binary Search to find optimal starting position.
+
+        Time Complexity: O(log(n-k) + k) where n is length of arr
+        Space Complexity: O(1) excluding output space
+        """
+        # ! sol2: only binary search
+        left = 0
+        right = len(arr) - k
+
+        # Binary search for the best starting position
+        while left < right:
+            mid = (left + right) // 2
+
+            # Compare distances of elements at positions mid and mid+k
+            if x - arr[mid] > arr[mid + k] - x:
+                # The element at mid+k is closer, search right half
+                left = mid + 1
+            else:
+                # The element at mid is closer or equal, search left half
+                right = mid
+
+        # Return k elements starting from the optimal position
+        return arr[left : left + k]
+
+        # ! sol3: binary search + two pointers from center... but it's only showing off the left-bound framework
         # * by the condition |a - x| == |b - x| and a < b => it must be left bound
         def left_bound_binary_search(nums: List[int], target: int):
             left = 0
