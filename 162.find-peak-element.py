@@ -10,6 +10,7 @@ from typing import List
 
 class Solution:
     def findPeakElement(self, nums: List[int]) -> int:
+        # ! compare with 852
         # O(log n) => binary search
         # need to check if it's going up or down, therefore mid and its helper
         l, r = 0, len(nums) - 1
@@ -26,4 +27,3 @@ class Solution:
 
 
 # @lc code=end
-

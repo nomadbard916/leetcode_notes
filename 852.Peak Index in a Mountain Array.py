@@ -12,14 +12,18 @@ from typing import List
 class Solution:
     def peakIndexInMountainArray(self, arr: List[int]) -> int:
         # ! compare with 162
+        # both close ended binary search
         l = 0
         r = len(arr) - 1
 
+        # we can have ending condition l == r as answer is guaranteed
         while l < r:
             mid = (l + r) // 2
             if arr[mid] > arr[mid + 1]:
+                # mid itself is the peak, or there's peak at its left
                 r = mid
             else:
+                # there's peak at right of mid
                 l = mid + 1
         return l
 
