@@ -27,7 +27,7 @@ class Solution:
         r = len(arr) - 1
 
         # * shrink window until we have exactly k elements
-        while r - l >= k:
+        while r - l + 1 > k:
             # Compare distances of leftmost and rightmost elements to x
             if abs(arr[l] - x) > abs(arr[r] - x):
                 # Left element is farther, remove it
