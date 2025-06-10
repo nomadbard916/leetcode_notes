@@ -30,28 +30,39 @@ class Twitter:
     def postTweet(self, userId: int, tweetId: int) -> None:
         new_tweet = Tweet(tweetId, self.timestamp)
 
+        # # Insert at head of linked list (most recent tweet becomes head)
         new_tweet.next = self.tweet_heads.get(userId)
         self.tweet_heads[userId] = new_tweet
 
         self.timestamp += 1
 
     def getNewsFeed(self, userId: int) -> List[int]:
+        """
+        Retrieve the 10 most recent tweet ids in the user's news feed.
+        Uses merge k sorted lists approach where each user's tweets form a sorted linked list.
+        """
+        # Max heap to merge multiple sorted linked lists
+        # Format: (-timestamp, tweet_id, tweet_node, user_id)
         max_heap = []
 
+        # Add user's own tweet list head to heap
         self._addUserTweetListToHeap(max_heap, userId, userId)
 
+        # Add tweet list heads from all followed users
         for followee_id in self.following[userId]:
             self._addUserTweetListToHeap(max_heap, followee_id, followee_id)
 
+        # Extract up to 10 most recent tweets using merge approach
         result = []
-
         for _ in range(10):
             if not max_heap:
                 break
 
+            # Get most recent tweet
             neg_timestamp, tweet_id, tweet_node, user_id = heapq.heappop(max_heap)
             result.append(tweet_id)
 
+            # Add next older tweet from same user if exists
             if tweet_node.next:
                 next_tweet = tweet_node.next
                 heapq.heappush(
@@ -62,6 +73,9 @@ class Twitter:
         return result
 
     def follow(self, followerId: int, followeeId: int) -> None:
+        """
+        Follower follows a followee. If the operation is invalid, it should be a no-op.
+        """
         if followerId != followeeId:
             self.following[followerId].add(followeeId)
 
@@ -69,6 +83,14 @@ class Twitter:
         self.following[followerId].discard(followeeId)
 
     def _addUserTweetListToHeap(self, heap: List, user_id: int, original_user_id: int):
+        """
+        Helper method to add the head of a user's tweet linked list to the heap.
+
+        Args:
+            heap: The heap to add to
+            user_id: The user whose tweets we're adding
+            original_user_id: For tracking purposes (could be follower or followee)
+        """
         if user_id in self.tweet_heads:
             tweet = self.tweet_heads[user_id]
             heapq.heappush(
