@@ -19,7 +19,10 @@ class Tweet:
 
 
 class Twitter:
-    # it's better to treat it as linked list,
+    # we can choose between heap and linked list implementations
+    # For interviews: Both approaches are valid, but linked list shows deeper system design thinking.
+    # For production: Linked list approach is more scalable and memory-efficient.
+    # For learning: Understanding both approaches gives you a more complete picture of the trade-offs involved in system design.
     # see also #23 for "merge k sorted lists"
 
     def __init__(self):
