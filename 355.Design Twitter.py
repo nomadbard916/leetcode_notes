@@ -42,38 +42,20 @@ class Twitter:
     def getNewsFeed(self, userId: int) -> List[int]:
         """
         Retrieve the 10 most recent tweet ids in the user's news feed.
-        Uses merge k sorted lists approach where each user's tweets form a sorted linked list.
+        Collect all relevant tweets and sort by timestamp.
         """
-        # Max heap to merge multiple sorted linked lists
-        # Format: (-timestamp, tweet_id, tweet_node, user_id)
-        max_heap = []
+        # collect all tweets from user and followers
+        # add user's own tweets
 
-        # Add user's own tweet list head to heap
-        self._addUserTweetListToHeap(max_heap, userId, userId)
-
-        # Add tweet list heads from all followed users
+        all_tweets = self._collectUserTweets(userId, [])
         for followee_id in self.following[userId]:
-            self._addUserTweetListToHeap(max_heap, followee_id, followee_id)
+            all_tweets = self._collectUserTweets(followee_id, all_tweets)
 
-        # Extract up to 10 most recent tweets using merge approach
-        result = []
-        for _ in range(10):
-            if not max_heap:
-                break
+        # sort tweets by timestamp (most recent first)
+        all_tweets.sort(key=lambda tweet: tweet.timestamp, reverse=True)
 
-            # Get most recent tweet
-            neg_timestamp, tweet_id, tweet_node, user_id = heapq.heappop(max_heap)
-            result.append(tweet_id)
-
-            # Add next older tweet from same user if exists
-            if tweet_node.next:
-                next_tweet = tweet_node.next
-                heapq.heappush(
-                    max_heap,
-                    (-next_tweet.timestamp, next_tweet.tweet_id, next_tweet, user_id),
-                )
-
-        return result
+        # return up to 10 most recent tweet ids
+        return [tweet.tweet_id for tweet in all_tweets[:10]]
 
     def follow(self, followerId: int, followeeId: int) -> None:
         """
@@ -85,26 +67,16 @@ class Twitter:
     def unfollow(self, followerId: int, followeeId: int) -> None:
         self.following[followerId].discard(followeeId)
 
-    def _addUserTweetListToHeap(self, heap: List, user_id: int, original_user_id: int):
+    def _collectUserTweets(self, user_id: int, tweet_list: List[Tweet]) -> List[Tweet]:
         """
-        Helper method to add the head of a user's tweet linked list to the heap.
-
-        Args:
-            heap: The heap to add to
-            user_id: The user whose tweets we're adding
-            original_user_id: For tracking purposes (could be follower or followee)
+        Helper method to collect all tweets from a user's linked list.
+        Traverses the entire linked list and adds each tweet to the collection.
         """
-        if user_id in self.tweet_heads:
-            tweet = self.tweet_heads[user_id]
-            heapq.heappush(
-                heap,
-                (
-                    -tweet.timestamp,  # negative for max heap behavior
-                    tweet.tweet_id,
-                    tweet,
-                    user_id,
-                ),
-            )
+        current = self.tweet_heads.get(user_id)
+        while current:
+            tweet_list.append(current)
+            current = current.next
+        return tweet_list
 
 
 # Your Twitter object will be instantiated and called as such:
