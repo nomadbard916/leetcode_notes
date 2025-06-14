@@ -7,8 +7,8 @@
 
 # @lc code=start
 # Definition for singly-linked list.
-from typing import List, Optional
 import heapq
+from typing import List, Optional
 
 
 class ListNode:
@@ -22,20 +22,20 @@ class Solution:
         # find the smallest head node in lists first => using heap
         min_heap = []
 
-        for i, head in enumerate(lists):
+        for list_idx, head in enumerate(lists):
             if head:
-                heapq.heappush(min_heap, (head.val, i, head))
+                heapq.heappush(min_heap, (head.val, list_idx, head))
 
         dummy = ListNode()
         current = dummy
 
         while min_heap:
-            _, i, node = heapq.heappop(min_heap)
+            _, list_idx, node = heapq.heappop(min_heap)
             current.next = node
             current = current.next
 
             if node.next:
-                heapq.heappush(min_heap, (node.next.val, i, node.next))
+                heapq.heappush(min_heap, (node.next.val, list_idx, node.next))
 
         return dummy.next
 
