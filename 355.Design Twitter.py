@@ -59,6 +59,55 @@ class Twitter:
         # return up to 10 most recent tweet ids
         return [tweet.tweet_id for tweet in all_tweets[:10]]
 
+        """
+        Alternative optimized version that stops early when we have enough tweets.
+        Uses a more sophisticated approach to avoid collecting all tweets.
+        """
+        result = []
+
+        # Create list of current tweet pointers for each user
+        tweet_pointers = []
+
+        # Add user's own tweet list
+        if userId in self.tweet_heads:
+            tweet_pointers.append(self.tweet_heads[userId])
+
+        # Add tweet lists from all followed users
+        for followee_id in self.following[userId]:
+            if followee_id in self.tweet_heads:
+                tweet_pointers.append(self.tweet_heads[followee_id])
+
+        # Get 10 most recent tweets by repeatedly finding the most recent among current pointers
+        for _ in range(10):
+            if not tweet_pointers:
+                break
+
+            # Find the tweet with the highest timestamp among current pointers
+            max_timestamp = -1
+            max_tweet = None
+            max_index = -1
+
+            for i, tweet in enumerate(tweet_pointers):
+                if tweet and tweet.timestamp > max_timestamp:
+                    max_timestamp = tweet.timestamp
+                    max_tweet = tweet
+                    max_index = i
+
+            if max_tweet is None:
+                break
+
+            # Add this tweet to result
+            result.append(max_tweet.tweet_id)
+
+            # Move the pointer to next tweet in that user's list
+            if max_tweet.next:
+                tweet_pointers[max_index] = max_tweet.next
+            else:
+                # Remove this pointer if no more tweets
+                tweet_pointers.pop(max_index)
+
+        return result
+
     def follow(self, followerId: int, followeeId: int) -> None:
         """
         Follower follows a followee. If the operation is invalid, it should be a no-op.
