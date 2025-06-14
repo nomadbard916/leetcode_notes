@@ -6,7 +6,6 @@
 #
 
 # @lc code=start
-import heapq
 from collections import defaultdict
 from typing import Dict, List, Optional, Set
 
@@ -15,7 +14,7 @@ class Tweet:
     def __init__(self, tweet_id: int, timestamp: int) -> None:
         self.tweet_id: int = tweet_id
         self.timestamp: int = timestamp
-        self.next: Optional["Tweet"] = None
+        self.next: Optional["Tweet"] = None  # Points to next older tweet
 
 
 class Twitter:
@@ -26,8 +25,11 @@ class Twitter:
     # see also #23 for "merge k sorted lists"
 
     def __init__(self):
+        # Store head of tweet linked list for each user: user_id -> Tweet node
         self.tweet_heads: Dict[int, Tweet] = {}
+        # Store who each user follows: user_id -> set of followed user_ids
         self.following: Dict[int, Set[int]] = defaultdict(set)
+        # Global timestamp counter to maintain chronological order
         self.timestamp: int = 0
 
     def postTweet(self, userId: int, tweetId: int) -> None:
@@ -45,10 +47,10 @@ class Twitter:
         Collect all relevant tweets and sort by timestamp.
         """
         # collect all tweets from user and followers
-        # add user's own tweets
-
+        # add user's own tweets, starting from an empty list container
         all_tweets = self._collectUserTweets(userId, [])
         for followee_id in self.following[userId]:
+            # add tweets for each followee
             all_tweets = self._collectUserTweets(followee_id, all_tweets)
 
         # sort tweets by timestamp (most recent first)
