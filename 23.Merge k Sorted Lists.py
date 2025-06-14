@@ -19,11 +19,15 @@ class ListNode:
 
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-        # find the smallest head node in lists first => using heap
+        # ! sol1: find the smallest head node in lists first => using heap
+        # Why this works: The heap always gives us the globally smallest unprocessed element,
+        # ensuring the result stays sorted.
         min_heap = []
 
         for list_idx, head in enumerate(lists):
             if head:
+                # list_idx is not actually used in logic,
+                # but it's still needed for identifying nodes
                 heapq.heappush(min_heap, (head.val, list_idx, head))
 
         dummy = ListNode()
