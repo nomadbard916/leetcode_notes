@@ -72,6 +72,7 @@ class Solution:
                     l2 = l2.next
                 current = current.next
 
+            # Attach remaining nodes
             current.next = l1 or l2
 
             return dummy.next
