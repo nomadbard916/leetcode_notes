@@ -34,16 +34,16 @@ class Solution:
         pq = PriorityQueue()
 
         # init pq
-        res_first_idx = 0
-        for i in range(len(nums1)):
+        nums1_first_idx = 0
+        for i in range(len(nums2)):
             # just put in some smaller ones,
             # as nums1[i] + nums2[0] must be the smallest from nums1 side
             pq.put(
                 (
-                    nums1[i] + nums2[res_first_idx],
-                    nums1[i],
-                    nums2[res_first_idx],
-                    res_first_idx,
+                    nums1[nums1_first_idx] + nums2[i],
+                    nums1[nums1_first_idx],
+                    nums2[i],
+                    nums1_first_idx,
                 )
             )
 
@@ -55,8 +55,8 @@ class Solution:
             k -= 1
             # put smaller nodes into pq from nums2 side
             next_idx = curr_idx + 1
-            if next_idx < len(nums2):
-                pq.put((num1 + nums2[next_idx], num1, nums2[next_idx], next_idx))
+            if next_idx < len(nums1):
+                pq.put((nums1[next_idx] + num2, nums1[next_idx], num2, next_idx))
 
             # just append pairs so their some is guaranteed to be ascending from min
             pair = [num1, num2]
