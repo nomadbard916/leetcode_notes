@@ -23,12 +23,17 @@ class Solution:
 
         # merge sorted lists with two pointers
         while l <= r:
-            if abs(nums[l]) > abs(nums[r]):
-                res[curr_pos] = nums[l] ** 2
-                l += 1
+            l_square = nums[l] ** 2
+            r_square = nums[r] ** 2
+
+            # Compare squares and place the larger one at current position
+            if l_square > r_square:
+                res[curr_pos] = l_square
+                l += 1  # Move left pointer inward
             else:
-                res[curr_pos] = nums[r] ** 2
-                r -= 1
+                res[curr_pos] = r_square
+                r -= 1  # Move right pointer inward
+
             curr_pos -= 1
         return res
 
