@@ -14,22 +14,22 @@ class Solution:
         # * it's essentially the extension to #88 and #21
         n = len(nums)
         # put two pointers at the biggest indexes of positive and negative child lists
-        i = 0
-        j = n - 1
+        l = 0
+        r = n - 1
 
-        # the order is descending
-        p = n - 1
+        # Fill result from the end (largest squares first)
+        curr_pos = n - 1
         res = [0] * n
 
         # merge sorted lists with two pointers
-        while i <= j:
-            if abs(nums[i]) > abs(nums[j]):
-                res[p] = nums[i] ** 2
-                i += 1
+        while l <= r:
+            if abs(nums[l]) > abs(nums[r]):
+                res[curr_pos] = nums[l] ** 2
+                l += 1
             else:
-                res[p] = nums[j] ** 2
-                j -= 1
-            p -= 1
+                res[curr_pos] = nums[r] ** 2
+                r -= 1
+            curr_pos -= 1
         return res
 
 
