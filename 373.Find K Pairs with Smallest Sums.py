@@ -6,6 +6,8 @@
 #
 
 # @lc code=start
+import heapq
+import itertools
 from queue import PriorityQueue
 from typing import List
 
@@ -14,6 +16,7 @@ class Solution:
     def kSmallestPairs(
         self, nums1: List[int], nums2: List[int], k: int
     ) -> List[List[int]]:
+        # ! sol1
         # * it's essentially the extension of # 23 "merge k sorted lists"
         # think of the input as an m x n matrix,
         # for example for nums1=[1,7,11], and nums2=[2,4,6]:
@@ -60,6 +63,33 @@ class Solution:
             res.append(pair)
 
         return res
+
+        # ! sol2: brute force
+        return sorted(itertools.product(nums1, nums2), key=sum)[:k]
+        # it should be cleaner with list to be:
+        # return map(list, sorted(itertools.product(nums1, nums2), key=sum)[:k])
+
+        # ! sol3: Less Brute Force, with help from heapq.nsmallest()
+        return map(list, heapq.nsmallest(k, itertools.product(nums1, nums2), key=sum))
+
+        # ! sol4: just push everything into heapq and do comparison
+        queue = []
+
+        def push(i: int, j: int):
+            if i < len(nums1) and j < len(nums2):
+                heapq.heappush(queue, [nums1[i] + nums2[j], i, j])
+
+        push(0, 0)
+
+        pairs = []
+        while queue and len(pairs) < k:
+            _, i, j = heapq.heappop(queue)
+            pairs.append([nums1[i] + nums2[j], i, j])
+            push(i, j + 1)
+            if j == 0:
+                push(i + 1, 0)
+
+        return pairs
 
 
 # @lc code=end
