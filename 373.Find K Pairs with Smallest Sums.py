@@ -58,7 +58,7 @@ class Solution:
             if next_idx < len(nums1):
                 pq.put((nums1[next_idx] + num2, nums1[next_idx], num2, next_idx))
 
-            # just append pairs so their some is guaranteed to be ascending from min
+            # just append pairs so their sum is guaranteed to be ascending from min
             pair = [num1, num2]
             res.append(pair)
 
