@@ -15,11 +15,22 @@ class Solution:
         self, nums1: List[int], nums2: List[int], k: int
     ) -> List[List[int]]:
         # it's essentially the extension of # 23 "merge k sorted lists"
+        # priority queue is used here as there are some convenient functionalities like empty()
         pq = PriorityQueue()
 
         # init pq
+        nums2_first_idx = 0
         for i in range(len(nums1)):
-            pq.put((nums1[i] + nums2[0], nums1[i], nums2[0], 0))
+            # just put in some smaller ones,
+            # as nums1[i] + nums2[0] must be the smallest from nums1 side
+            pq.put(
+                (
+                    nums1[i] + nums2[nums2_first_idx],
+                    nums1[i],
+                    nums2[nums2_first_idx],
+                    nums2_first_idx,
+                )
+            )
 
         res = []
 
