@@ -12,6 +12,10 @@ from typing import List
 class Solution:
     def sortedSquares(self, nums: List[int]) -> List[int]:
         # * it's essentially the extension to #88 and #21
+        # Why Two Pointers Work:
+        # Key observation: The largest squared values will always come from either the leftmost (most negative) or rightmost (most positive) elements
+        # Strategy: Compare the squares of elements at both ends and place the larger one at the end of our result array
+        # Efficiency: We build the result in one pass without needing to sort
         n = len(nums)
         # put two pointers at the biggest indexes of positive and negative child lists
         l = 0
@@ -36,6 +40,10 @@ class Solution:
 
             curr_pos -= 1
         return res
+
+        # Time and Space Complexity
+        # - Time Complexity: O(n) - we visit each element exactly once
+        # - Space Complexity: O(1) extra space (not counting the output array, which is required)
 
 
 # @lc code=end
