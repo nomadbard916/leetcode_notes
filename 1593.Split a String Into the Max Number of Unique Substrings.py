@@ -34,6 +34,17 @@ class Solution:
 
         return backtrack(0, set())
 
+        # Time and Space Complexity
+        # Time Complexity: O(2^n) where n is the length of the string
+        # - In the worst case, we explore all possible ways to split the string
+        # - Each position can either start a new substring or extend the current one
+        # - This gives us exponential possibilities
+
+        # Space Complexity: O(n)
+        # - Recursion stack depth: O(n) in the worst case
+        # - Used set: O(n) to store at most n substrings
+        # - Each substring storage: O(n) total characters across all substrings
+
 
 # @lc code=end
 
