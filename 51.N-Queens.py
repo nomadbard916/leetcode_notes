@@ -17,9 +17,12 @@ class Solution:
         # Track which columns and diagonals are under attack
         # Columns that have queens
         cols_attackable = set()
-        # Positive diagonal (row - col = constant)
+        # Positive Diagonals (↙ to ↗ direction) (row - col = constant)
+        # These go from bottom-left to top-right.
+        # Think of them as lines with a "positive slope" if you know basic math graphs.
         diag_attackable_pos = set()
-        # Negative diagonal (row + col = constant)
+        # Negative Diagonals (↖ to ↘ direction) (row + col = constant)
+        # These go from top-left to bottom-right. Think of them as lines with a "negative slope".
         diag2_attackable_neg = set()
 
         def backtrack(row: int, board: List[str]) -> None:
@@ -64,6 +67,17 @@ class Solution:
 
         backtrack(0, [])
         return result
+
+    # Time and Space Complexity:
+    # Time Complexity: O(N!) in the worst case
+    # In each row, we have at most N choices
+    # But with pruning, many branches are eliminated early
+    # The actual complexity is much better than N! in practice
+
+    # Space Complexity: O(N)
+    # Recursion depth is N (one call per row)
+    # Sets store at most N elements each
+    # Board representation takes O(N) space
 
 
 # @lc code=end
