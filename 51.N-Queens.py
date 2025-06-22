@@ -16,43 +16,50 @@ class Solution:
 
         # Track which columns and diagonals are under attack
         # Columns that have queens
-        cols = set()
+        cols_attackable = set()
         # Positive diagonal (row - col = constant)
-        diag1 = set()
+        diag_attackable_pos = set()
         # Negative diagonal (row + col = constant)
-        diag2 = set()
+        diag2_attackable_neg = set()
 
         def backtrack(row: int, board: List[str]) -> None:
             """
             Recursively place queens row by row using backtracking.
             """
-            # * base case: if we've placed queens in all rows, we found a solution
+            # * ending condition: if we've placed queens in all rows, we found a solution
             if row == n:
                 # Make a copy of the current board
                 result.append(board[:])
 
-            # Try placing a queen in each column of the current row
+            # * choice list: try placing a queen in each column of the current row
             for col in range(n):
+                # * make choice
                 # Check if this position is safe (not under attack). skip if under attack
-                if col in cols or (row - col) in diag1 or (row + col) in diag2:
+                positive_diag_pos = row - col
+                negative_diag_pos = row + col
+                if (
+                    col in cols_attackable
+                    or positive_diag_pos in diag_attackable_pos
+                    or negative_diag_pos in diag2_attackable_neg
+                ):
                     continue
 
                 # place the queen
-                cols.add(col)
-                diag1.add(row - col)
-                diag2.add(row + col)
+                cols_attackable.add(col)
+                diag_attackable_pos.add(row - col)
+                diag2_attackable_neg.add(row + col)
 
                 # create the row string with queen at position col
                 row_str = "." * col + "Q" + "." * (n - col - 1)
                 board.append(row_str)
 
-                # recursively solve for the next row
+                # * recursively solve for the next row
                 backtrack(row + 1, board)
 
-                # cancel the decision: remove the queen and try next position
-                cols.remove(col)
-                diag1.remove(row - col)
-                diag2.remove(row + col)
+                # * cancel the decision: remove the queen and try next position
+                cols_attackable.remove(col)
+                diag_attackable_pos.remove(row - col)
+                diag2_attackable_neg.remove(row + col)
                 board.pop()
 
         backtrack(0, [])
