@@ -14,16 +14,26 @@ class Solution:
         # ! it's essentially a decision making problem with backtracking
         result = []
 
+        # Track which columns and diagonals are under attack
+        # Columns that have queens
         cols = set()
+        # Positive diagonal (row - col = constant)
         diag1 = set()
+        # Negative diagonal (row + col = constant)
         diag2 = set()
 
         def backtrack(row: int, board: List[str]) -> None:
+            """
+            Recursively place queens row by row using backtracking.
+            """
             # * base case: if we've placed queens in all rows, we found a solution
             if row == n:
+                # Make a copy of the current board
                 result.append(board[:])
 
+            # Try placing a queen in each column of the current row
             for col in range(n):
+                # Check if this position is safe (not under attack). skip if under attack
                 if col in cols or (row - col) in diag1 or (row + col) in diag2:
                     continue
 
