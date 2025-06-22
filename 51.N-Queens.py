@@ -11,7 +11,10 @@ from typing import List
 
 class Solution:
     def solveNQueens(self, n: int) -> List[List[str]]:
-        # ! it's essentially a decision making problem with backtracking
+        # ! N-Queens is fundamentally a brute-force  decision making approach, with backtracking as smart optimizations.
+        # The "tricks" aren't just optimizations - they're what make the difference between:
+        # - Theoretical algorithm: "Try everything"
+        # - Practical algorithm: "Try everything intelligently"
         result = []
 
         # Track which columns and diagonals are under attack
