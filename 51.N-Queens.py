@@ -26,7 +26,7 @@ class Solution:
         diag_attackable_pos = set()
         # Negative Diagonals (↖ to ↘ direction) (row + col = constant)
         # These go from top-left to bottom-right. Think of them as lines with a "negative slope".
-        diag_attackable_neg = set()
+        diag2_attackable_neg = set()
 
         def backtrack(row: int, board: List[str]) -> None:
             """
@@ -34,8 +34,9 @@ class Solution:
             """
             # * ending condition: if we've placed queens in all rows, we found a solution
             if row == n:
-                # Make a copy of the current board
+                # Make a copy of the current board, or python is just putting in the reference of the board list
                 result.append(board[:])
+                return
 
             # * choice list: try placing a queen in each column of the current row
             for col in range(n):
@@ -46,14 +47,14 @@ class Solution:
                 if (
                     col in cols_attackable
                     or positive_diag_pos in diag_attackable_pos
-                    or negative_diag_pos in diag_attackable_neg
+                    or negative_diag_pos in diag2_attackable_neg
                 ):
                     continue
 
                 # place the queen
                 cols_attackable.add(col)
                 diag_attackable_pos.add(row - col)
-                diag_attackable_neg.add(row + col)
+                diag2_attackable_neg.add(row + col)
 
                 # create the row string with queen at position col
                 row_str = "." * col + "Q" + "." * (n - col - 1)
@@ -65,7 +66,7 @@ class Solution:
                 # * cancel the decision: remove the queen and try next position
                 cols_attackable.remove(col)
                 diag_attackable_pos.remove(row - col)
-                diag_attackable_neg.remove(row + col)
+                diag2_attackable_neg.remove(row + col)
                 board.pop()
 
         backtrack(0, [])
