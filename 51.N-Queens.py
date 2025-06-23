@@ -41,7 +41,7 @@ class Solution:
             # * choice list: try placing a queen in each column of the current row
             for col in range(n):
                 # * make choice
-                # Check if this position is safe (not under attack). skip if under attack
+                # skip if the position could be under attack
                 positive_diag_pos = row - col
                 negative_diag_pos = row + col
                 if (
@@ -51,22 +51,22 @@ class Solution:
                 ):
                     continue
 
-                # place the queen
+                # place the queen by creating the row string with queen at position col
+                row_str = "." * col + "Q" + "." * (n - col - 1)
+                board.append(row_str)
+
+                # set the attackable range of the queen
                 cols_attackable.add(col)
                 diag_attackable_pos.add(positive_diag_pos)
                 diag_attackable_neg.add(negative_diag_pos)
-
-                # create the row string with queen at position col
-                row_str = "." * col + "Q" + "." * (n - col - 1)
-                board.append(row_str)
 
                 # * recursively solve for the next row
                 backtrack(row + 1, board)
 
                 # * cancel the decision: remove the queen and try next position
                 cols_attackable.remove(col)
-                diag_attackable_pos.remove(row - col)
-                diag_attackable_neg.remove(row + col)
+                diag_attackable_pos.remove(positive_diag_pos)
+                diag_attackable_neg.remove(negative_diag_pos)
                 board.pop()
 
         backtrack(0, [])
