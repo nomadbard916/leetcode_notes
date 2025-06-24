@@ -13,31 +13,32 @@ class Solution:
     def letterCasePermutation(self, s: str) -> List[str]:
         result = []
 
-        def backtrack(index: int, current_path: List[str]):
+        def backtrack(index: int, curr_path: List[str]):
             # * ending condition: if we've processed all characters
             if index == len(s):
-                result.append("".join(current_path))
+                result.append("".join(curr_path))
                 return
 
-            char = s[index]
+            curr_char = s[index]
 
+            # * make decision, backtrack and cancel decision for each condition: lower alpha, upper alpha and digits.
             # for letters, try both lowercase and uppercase
-            if char.isalpha():
+            if curr_char.isalpha():
                 #  try lowercase version
-                current_path.append(char.lower())
-                backtrack(index + 1, current_path)
-                current_path.pop()
+                curr_path.append(curr_char.lower())
+                backtrack(index + 1, curr_path)
+                curr_path.pop()
 
                 # try uppercase version
-                current_path.append(char.upper())
-                backtrack(index + 1, current_path)
-                current_path.pop()
+                curr_path.append(curr_char.upper())
+                backtrack(index + 1, curr_path)
+                curr_path.pop()
 
             # for digits, keep as is
             else:
-                current_path.append(char)
-                backtrack(index + 1, current_path)
-                current_path.pop()
+                curr_path.append(curr_char)
+                backtrack(index + 1, curr_path)
+                curr_path.pop()
 
         backtrack(0, [])
         return result
