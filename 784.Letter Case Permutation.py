@@ -21,6 +21,7 @@ class Solution:
 
             char = s[index]
 
+            # for letters, try both lowercase and uppercase
             if char.isalpha():
                 #  try lowercase version
                 current_path.append(char.lower())
@@ -32,6 +33,7 @@ class Solution:
                 backtrack(index + 1, current_path)
                 current_path.pop()
 
+            # for digits, keep as is
             else:
                 current_path.append(char)
                 backtrack(index + 1, current_path)
@@ -39,6 +41,13 @@ class Solution:
 
         backtrack(0, [])
         return result
+
+        # Key Differences in Space Complexity:
+        # Backtracking: Has additional O(n) space for the recursion call stack
+        # Iterative: No recursion overhead, but uses O(m) temporary space per iteration
+
+        # Why Both Have Same Time Complexity:
+        # Both approaches fundamentally do the same amount of work - they generate all 2^n possible combinations, and for each combination, they perform O(m) operations to construct the result string.
 
 
 # @lc code=end
