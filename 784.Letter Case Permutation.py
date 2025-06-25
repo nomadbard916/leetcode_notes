@@ -11,6 +11,7 @@ from typing import List
 
 class Solution:
     def letterCasePermutation(self, s: str) -> List[str]:
+        # ! sol1: backtracking
         result = []
 
         def backtrack(index: int, curr_path: List[str]):
@@ -41,6 +42,33 @@ class Solution:
                 curr_path.pop()
 
         backtrack(0, [])
+        return result
+
+        # ! sol2: iterative with bit manipulation
+        # find all letter positions
+        letter_positions = []
+        for i, char in enumerate(s):
+            if char.isalpha():
+                letter_positions.append(i)
+
+        # total number of permutations = 2^(number of letters)
+        num_letters = len(letter_positions)
+        total_permutations = 1 << num_letters  # 2 ^ num_letters
+
+        result = []
+
+        for mask in range(total_permutations):
+            # convert string to list for easier manipulation
+            current = list(s)
+
+            # apply the mask to determine case for each letter
+            for i, pos in enumerate(letter_positions):
+                if mask & (1 << i):  # if bit i is set
+                    current[pos] = current[pos].upper()
+                else:
+                    current[pos] = current[pos].lower()
+            result.append("".join(current))
+
         return result
 
         # Key Differences in Space Complexity:
