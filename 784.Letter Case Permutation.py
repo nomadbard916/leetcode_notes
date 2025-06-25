@@ -45,25 +45,40 @@ class Solution:
         return result
 
         # ! sol2: iterative with bit manipulation
-        # find all letter positions
+        """
+        Iterative solution using bit manipulation to generate all permutations.
+
+        Example walkthrough with s = "a1B":
+        - Letters at positions: [0, 2] (a and B)
+        - num_letters = 2, so we need 2^2 = 4 permutations
+        - Masks: 00, 01, 10, 11 (binary) = 0, 1, 2, 3 (decimal)
+
+        Mask interpretation:
+        - Bit 0 controls letter at position 0 (a)
+        - Bit 1 controls letter at position 2 (B)
+        - 0 = lowercase, 1 = uppercase
+        """
+        # * Step 1: Find all letter positions
         letter_positions = []
         for i, char in enumerate(s):
             if char.isalpha():
                 letter_positions.append(i)
 
-        # total number of permutations = 2^(number of letters)
+        # * Step 2: Calculate total permutations = 2^(number of letters)
         num_letters = len(letter_positions)
         total_permutations = 1 << num_letters  # 2 ^ num_letters
 
         result = []
 
+        # * Step 3: Generate all possible bitmasks from 0 to 2^num_letters - 1
         for mask in range(total_permutations):
             # convert string to list for easier manipulation
             current = list(s)
 
-            # apply the mask to determine case for each letter
+            # * Step 4: Apply the mask to determine case for each letter
             for i, pos in enumerate(letter_positions):
-                if mask & (1 << i):  # if bit i is set
+                # Check if bit i is set in the current mask
+                if mask & (1 << i):  # Bitwise AND with 2^i
                     current[pos] = current[pos].upper()
                 else:
                     current[pos] = current[pos].lower()
