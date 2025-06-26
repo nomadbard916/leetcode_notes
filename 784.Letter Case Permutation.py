@@ -57,6 +57,48 @@ class Solution:
         - Bit 0 controls letter at position 0 (a)
         - Bit 1 controls letter at position 2 (B)
         - 0 = lowercase, 1 = uppercase
+
+        # Why This Works Perfectly
+        # 1. Complete Coverage: Counting from 0 to 2^n - 1 generates every possible n-bit combination
+        # 2. No Duplicates: Each number has a unique binary representation
+        # 3. Direct Mapping: Each bit position directly corresponds to one letter's case choice
+        # 4. Efficient: No recursion overhead, straightforward iteration
+
+        # Visual Example with "ab":
+        # Letters at positions: [0, 1]
+        # Total masks needed: 2^2 = 4
+
+        # Mask 0 (00):
+        #   - Bit 0 = 0 → position 0 ('a') → lowercase → 'a'
+        #   - Bit 1 = 0 → position 1 ('b') → lowercase → 'b'
+        #   - Result: "ab"
+
+        # Mask 1 (01):
+        #   - Bit 0 = 1 → position 0 ('a') → uppercase → 'A'
+        #   - Bit 1 = 0 → position 1 ('b') → lowercase → 'b'
+        #   - Result: "Ab"
+
+        # Mask 2 (10):
+        #   - Bit 0 = 0 → position 0 ('a') → lowercase → 'a'
+        #   - Bit 1 = 1 → position 1 ('b') → uppercase → 'B'
+        #   - Result: "aB"
+
+        # Mask 3 (11):
+        #   - Bit 0 = 1 → position 0 ('a') → uppercase → 'A'
+        #   - Bit 1 = 1 → position 1 ('b') → uppercase → 'B'
+        #   - Result: "AB"
+
+        # When to Use This Approach
+        # Advantages:
+        # - No recursion stack overhead
+        # - Predictable memory usage
+        # - Easy to understand the total number of results
+        # - Can easily generate results in a specific order
+
+        # Best for:
+        # - Problems where you need all combinations
+        # - When you want to avoid recursion
+        # - When the number of binary choices is manageable (not too many letters)
         """
         # * Step 1: Find all letter positions
         letter_positions = []
@@ -78,6 +120,7 @@ class Solution:
             # * Step 4: Apply the mask to determine case for each letter
             for i, pos in enumerate(letter_positions):
                 # Check if bit i is set in the current mask
+                # Returns non-zero if bit is set, 0 if not set
                 if mask & (1 << i):  # Bitwise AND with 2^i
                     current[pos] = current[pos].upper()
                 else:
