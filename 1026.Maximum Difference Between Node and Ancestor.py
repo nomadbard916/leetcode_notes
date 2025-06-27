@@ -19,6 +19,9 @@ class TreeNode:
 
 class Solution:
     def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
+        # The key insight is that for any node, the maximum difference with its ancestors will be either:
+        # Current node value - minimum ancestor value, OR
+        # Maximum ancestor value - current node value
         def dfs(node: TreeNode, min_val: int, max_val: int) -> int:
             """
             DFS helper function that tracks min and max values along the path.
@@ -51,6 +54,9 @@ class Solution:
 
         # Start DFS with root value as both min and max
         return dfs(root, root.val, root.val)
+
+        # Time Complexity: O(n) where n is the number of nodes, as we visit each node exactly once.
+        # Space Complexity: O(h) where h is the height of the tree, due to the recursion stack. In the worst case (skewed tree), this is O(n), and in the best case (balanced tree), this is O(log n).
 
 
 # @lc code=end
