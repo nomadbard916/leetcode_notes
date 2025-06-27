@@ -31,15 +31,12 @@ class Solution:
             Returns:
                 Maximum difference found in this subtree
             """
-            # Base case: if node is None, return 0
+            # * ending condition: if node is None, return 0
             if not node:
                 return 0
 
             # Calculate the maximum difference at current node
-            # This is the max of:
-            # 1. Current node value - minimum ancestor value
-            # 2. Maximum ancestor value - current node value
-            current_diff = max(abs(node.val - min_val), abs(node.val - max_val))
+            curr_max_diff = max(abs(node.val - min_val), abs(node.val - max_val))
 
             # Update min and max values for the next level
             new_min = min(min_val, node.val)
@@ -50,7 +47,7 @@ class Solution:
             right_diff = dfs(node.right, new_min, new_max)
 
             # Return the maximum difference found
-            return max(current_diff, left_diff, right_diff)
+            return max(curr_max_diff, left_diff, right_diff)
 
         # Start DFS with root value as both min and max
         return dfs(root, root.val, root.val)
