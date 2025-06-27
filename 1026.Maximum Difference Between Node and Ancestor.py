@@ -19,6 +19,7 @@ class TreeNode:
 
 class Solution:
     def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
+        # see also 133
         # The key insight is that for any node, the maximum difference with its ancestors will be either:
         # Current node value - minimum ancestor value, OR
         # Maximum ancestor value - current node value
@@ -38,21 +39,23 @@ class Solution:
             if not node:
                 return 0
 
+            # * pre-order logic
+
             # Calculate the maximum difference at current node
             curr_max_diff = max(abs(node.val - min_val), abs(node.val - max_val))
 
-            # Update min and max values for the next level
+            # Update min and max values for the next level to keep tracking
             new_min = min(min_val, node.val)
             new_max = max(max_val, node.val)
 
-            # Recursively explore left and right subtrees
+            # * Recursively explore left and right subtrees
             left_diff = dfs(node.left, new_min, new_max)
             right_diff = dfs(node.right, new_min, new_max)
 
-            # Return the maximum difference found
+            # * Return the maximum difference found
             return max(curr_max_diff, left_diff, right_diff)
 
-        # Start DFS with root value as both min and max
+        # * Start DFS with root value as both min and max
         return dfs(root, root.val, root.val)
 
         # Time Complexity: O(n) where n is the number of nodes, as we visit each node exactly once.
