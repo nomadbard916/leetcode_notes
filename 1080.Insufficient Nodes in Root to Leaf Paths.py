@@ -21,16 +21,29 @@ class Solution:
     def sufficientSubset(
         self, root: Optional[TreeNode], limit: int
     ) -> Optional[TreeNode]:
+        # ! sol1:
+        # Core Insight: We need to work bottom-up (post-order traversal)
+        # because we can only determine if a node should be removed after we know about its children's sufficiency.
+
+        # * Base case: if node is None, return None
         if not root:
             return None
+        # * If this is a leaf node, check if current path sum meets the limit
         if not root.left and not root.right:
+            # If leaf value is >= limit, keep it; otherwise remove it
             return root if root.val >= limit else None
 
+        # For internal nodes, recursively process children
+        # Update limit by subtracting current node's value
         new_limit = limit - root.val
 
+        # Recursively process left and right subtrees
         root.left = self.sufficientSubset(root.left, new_limit)
         root.right = self.sufficientSubset(root.right, new_limit)
 
+        # After processing children, check if current node should be kept
+        # Keep the node if at least one child exists (meaning at least one
+        # path through this node is sufficient)
         if root.left or root.right:
             return root
         else:
