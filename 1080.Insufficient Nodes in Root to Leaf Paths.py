@@ -66,6 +66,23 @@ class Solution:
             return None
 
         # !sol2: explicit path sum tracking with DFS helper
+        def dfs(node: TreeNode, current_sum: int) -> TreeNode:
+            if not node:
+                return
+            current_sum += node.val
+
+            # If leaf node, check if path sum is sufficient
+            if not node.left and not node.right:
+                return node if current_sum >= limit else None
+
+            # Process children
+            node.left = dfs(node.left, current_sum)
+            node.right = dfs(node.right, current_sum)
+
+            # Keep node if at least one child remains
+            return node if (node.left or node.right) else None
+
+        return dfs(root, 0)
 
 
 # @lc code=end
