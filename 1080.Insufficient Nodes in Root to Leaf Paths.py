@@ -24,6 +24,15 @@ class Solution:
         # ! sol1:
         # Core Insight: We need to work bottom-up (post-order traversal)
         # because we can only determine if a node should be removed after we know about its children's sufficiency.
+        # briefly, the whole process is about: it about traversing all the way to leaf,
+        # determine if we want to remove it, go one layer up back and finally all the way to root
+        # Step-by-Step Mental Model:
+        # Think of it like bottom-up decision making:
+
+        # Go to leaves first: "I'm a leaf, my path sum is X, should I stay?" ✓
+        # Go up one level: "My children decided their fate, now I can decide mine" ✓
+        # Keep going up: Each parent makes decisions based on children's decisions ✓
+        # Reach root: Finally decide about the root based on its children ✓
 
         # * Base case: if node is None, return None
         if not root:
@@ -37,17 +46,21 @@ class Solution:
         # Update limit by subtracting current node's value
         new_limit = limit - root.val
 
-        # Recursively process left and right subtrees
+        # Recursively process left and right subtrees,
+        # so post-order code can know about children info
         root.left = self.sufficientSubset(root.left, new_limit)
         root.right = self.sufficientSubset(root.right, new_limit)
 
-        # After processing children, check if current node should be kept
-        # Keep the node if at least one child exists (meaning at least one
-        # path through this node is sufficient)
+        # * post order logic: My children decided their fate, now I can decide mine
+        # After processing children and going back to this parent node,
+        # check if current node should be kept if at least one child remains
+        # meaning at least one path through this node is sufficient
         if root.left or root.right:
             return root
         else:
             return None
+
+        # !sol2: explicit path sum tracking with DFS helper
 
 
 # @lc code=end
