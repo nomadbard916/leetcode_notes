@@ -34,9 +34,13 @@ class Solution:
         # Keep going up: Each parent makes decisions based on children's decisions ✓
         # Reach root: Finally decide about the root based on its children ✓
 
-        # * Base case: if node is None, return None
+        # Think of a company layoff scenario:
+        # Wrong approach: CEO decides who to fire before knowing what each department contributes
+        # Right approach: Evaluate each team's contribution bottom-up, then decide which managers are still needed based on their remaining teams
+
+        # * Base case: if in emptiness, just return
         if not root:
-            return None
+            return
         # * If this is a leaf node, check if current path sum meets the limit
         if not root.left and not root.right:
             # If leaf value is >= limit, keep it; otherwise remove it
@@ -44,6 +48,7 @@ class Solution:
 
         # For internal nodes, recursively process children
         # Update limit by subtracting current node's value
+        # that is, update the limit that's applicable for this subtree
         new_limit = limit - root.val
 
         # Recursively process left and right subtrees,
