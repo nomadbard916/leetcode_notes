@@ -1,6 +1,4 @@
 # @before-stub-for-debug-begin
-from python3problem131 import *
-from typing import *
 
 # @before-stub-for-debug-end
 
@@ -10,7 +8,11 @@ from typing import *
 # [131] Palindrome Partitioning
 #
 
+
 # @lc code=start
+from typing import List
+
+
 class Solution:
     def partition(self, s: str) -> List[List[str]]:
         # partition -> slicing using separator index to separate 'checked' part and 'checkable' part, including every element
