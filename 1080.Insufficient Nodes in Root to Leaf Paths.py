@@ -62,8 +62,8 @@ class Solution:
         # meaning at least one path through this node is sufficient
         if root.left or root.right:
             return root
-        else:
-            return None
+
+        return None
 
         # !sol2: explicit path sum tracking with DFS helper
         def dfs(node: TreeNode, current_sum: int) -> TreeNode:
