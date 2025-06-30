@@ -20,7 +20,6 @@ class TreeNode:
 class Solution:
     def pruneTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         # * post order traversal, see also 1080
-        # ! sol1
         # base case: already into emptiness
         if not root:
             return
