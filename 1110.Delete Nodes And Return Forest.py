@@ -28,22 +28,43 @@ class Solution:
         def dfs(node: Optional[TreeNode], is_root: bool) -> Optional[TreeNode]:
             if not node:
                 return
+
             should_delete = node.val in delete_set
 
             if is_root and not should_delete:
                 result.append(node)
 
+            # Recursively process children
+            # If current node is deleted, its children become potential roots
+            # This is why we pass should_delete as the is_root parameter for children
             node.left = dfs(node.left, should_delete)
             node.right = dfs(node.right, should_delete)
 
+            # * post order logic to return node or just None
+            # delete by returning None
             if should_delete:
                 return None
 
+            # return it to make it a new root
             return node
 
         dfs(root, True)
 
         return result
+
+        # Complexity Analysis:
+        # Time Complexity: O(n)
+
+        # Visit each node exactly once in DFS
+        # Set lookup for deletion check is O(1)
+        # Overall: O(n) where n is number of nodes
+
+        # Space Complexity: O(n + h)
+
+        # O(n) for the delete_set
+        # O(h) for recursion stack where h is tree height
+        # In worst case (skewed tree): O(n)
+        # In best case (balanced tree): O(log n)
 
 
 # @lc code=end
