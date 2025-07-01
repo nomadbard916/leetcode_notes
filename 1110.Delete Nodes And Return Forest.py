@@ -31,6 +31,9 @@ class Solution:
 
             should_delete = node.val in delete_set
 
+            # The tree structure modification happens AFTER we decide what to append.
+            # When we append node 1, we're appending the reference to node 1,
+            # but the tree structure will be modified by the subsequent recursive calls.
             if is_root and not should_delete:
                 result.append(node)
 
@@ -45,7 +48,7 @@ class Solution:
             if should_delete:
                 return None
 
-            # return it to make it a new root
+            # just keep it
             return node
 
         dfs(root, True)
