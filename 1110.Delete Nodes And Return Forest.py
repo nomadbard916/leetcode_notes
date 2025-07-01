@@ -21,11 +21,11 @@ class Solution:
     def delNodes(
         self, root: Optional[TreeNode], to_delete: List[int]
     ) -> List[TreeNode]:
-        # convert list to set for O(1) lookup
+        # convert list to set for O(1) lookup instead of O(n) list search
         delete_set = set(to_delete)
         result = []
 
-        def dfs(node: Optional[TreeNode], is_root: bool) -> Optional[TreeNode]:
+        def dfs(node: Optional[TreeNode], can_be_root: bool) -> Optional[TreeNode]:
             if not node:
                 return
 
@@ -34,22 +34,18 @@ class Solution:
             # The tree structure modification happens AFTER we decide what to append.
             # When we append node 1, we're appending the reference to node 1,
             # but the tree structure will be modified by the subsequent recursive calls.
-            if is_root and not should_delete:
+            if can_be_root and not should_delete:
                 result.append(node)
 
             # Recursively process children
             # If current node is deleted, its children become potential roots
-            # This is why we pass should_delete as the is_root parameter for children
+            # This is why we pass the state "should_delete" of parent
+            # as the "can_be_root" state for children
             node.left = dfs(node.left, should_delete)
             node.right = dfs(node.right, should_delete)
 
-            # * post order logic to return node or just None
-            # delete by returning None
-            if should_delete:
-                return None
-
-            # just keep it
-            return node
+            # * post order logic to delete or just keep the node
+            return None if should_delete else node  # keep
 
         dfs(root, True)
 
