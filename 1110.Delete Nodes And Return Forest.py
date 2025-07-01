@@ -21,24 +21,30 @@ class Solution:
     def delNodes(
         self, root: Optional[TreeNode], to_delete: List[int]
     ) -> List[TreeNode]:
-        # convert list to set for O(1) lookup instead of O(n) list search
+        # ! Core Algorithm: DFS with State Tracking
+        # The key insight is to use Depth-First Search (DFS) while tracking whether
+        # each node could potentially be a root of a tree in the final result.
+
+        # convert to set for O(1) lookup instead of O(n) list search
         delete_set = set(to_delete)
+
         result = []
 
+        # * DFS with Root Tracking: Each recursive call tracks if the current node is a potential root
         def dfs(node: Optional[TreeNode], can_be_root: bool) -> Optional[TreeNode]:
             if not node:
                 return
 
             should_delete = node.val in delete_set
 
-            # This pre-order part is for result collection only, not for tree modification.
+            # * This pre-order part is for result collection only, not for tree modification.
             # The tree structure modification happens AFTER we decide what to append.
             # When we append a node, we're appending the reference to this node ,
             # but the tree structure will be modified by the subsequent recursive calls.
             if can_be_root and not should_delete:
                 result.append(node)
 
-            # Recursively process children
+            # *Recursively process children
             # If current node is deleted, its children become potential roots
             # This is why we pass the state "should_delete" of parent
             # as the "can_be_root" state for children
