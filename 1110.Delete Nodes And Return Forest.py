@@ -31,8 +31,9 @@ class Solution:
 
             should_delete = node.val in delete_set
 
+            # This pre-order part is for result collection only, not for tree modification.
             # The tree structure modification happens AFTER we decide what to append.
-            # When we append node 1, we're appending the reference to node 1,
+            # When we append a node, we're appending the reference to this node ,
             # but the tree structure will be modified by the subsequent recursive calls.
             if can_be_root and not should_delete:
                 result.append(node)
