@@ -19,6 +19,7 @@ class TreeNode:
 
 class FindElements:
     #  it's beginning with empty __init__() and find()
+
     def __init__(self, root: Optional[TreeNode]):
         # use "set" for faster lookup O(1) than O(n) of list
         self.recovered_values = set()
@@ -30,15 +31,18 @@ class FindElements:
         if not curr_node:
             return
 
+        # Set the correct value for current node
         curr_node.val = correct_value
         # use additional DS for lookup anytime after the tree is recovered,
         # so we don't need to do tree traversal when find()
         self.recovered_values.add(correct_value)
 
         if curr_node.left:
-            self._DFS_recover_tree_values(curr_node.left, 2 * correct_value + 1)
+            next_node_value = 2 * correct_value + 1
+            self._DFS_recover_tree_values(curr_node.left, next_node_value)
         if curr_node.right:
-            self._DFS_recover_tree_values(curr_node.right, 2 * correct_value + 2)
+            next_node_value = 2 * correct_value + 2
+            self._DFS_recover_tree_values(curr_node.right, next_node_value)
 
     def find(self, target: int) -> bool:
         return target in self.recovered_values
