@@ -20,10 +20,11 @@ class TreeNode:
 class FindElements:
     #  it's beginning with empty __init__() and find()
     def __init__(self, root: Optional[TreeNode]):
+        # use "set" for faster lookup O(1) than O(n) of list
         self.recovered_values = set()
         self._recover_tree(root, 0)
 
-    def _recover_tree(self, node: TreeNode, value: int) -> None:
+    def _recover_tree(self, node: Optional[TreeNode], value: int) -> None:
         """
         Recursively recover the tree values using DFS traversal.
 
@@ -44,6 +45,11 @@ class FindElements:
 
     def find(self, target: int) -> bool:
         return target in self.recovered_values
+
+    # Time & Space Complexity:
+    # Initialization: O(n) time, O(n) space where n is the number of nodes
+    # Find operation: O(1) time, O(1) space
+    # Overall space: O(n) for storing the recovered values in the set
 
 
 # Your FindElements object will be instantiated and called as such:
