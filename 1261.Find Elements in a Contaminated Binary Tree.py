@@ -22,26 +22,23 @@ class FindElements:
     def __init__(self, root: Optional[TreeNode]):
         # use "set" for faster lookup O(1) than O(n) of list
         self.recovered_values = set()
-        self._recover_tree(root, 0)
+        self._DFS_recover_tree_values(root, 0)
 
-    def _recover_tree(self, node: Optional[TreeNode], value: int) -> None:
-        """
-        Recursively recover the tree values using DFS traversal.
-
-        Args:
-            node: Current tree node being processed
-            value: The correct value this node should have
-        """
-        if not node:
+    def _DFS_recover_tree_values(
+        self, curr_node: Optional[TreeNode], correct_value: int
+    ) -> None:
+        if not curr_node:
             return
 
-        node.val = value
-        self.recovered_values.add(value)
+        curr_node.val = correct_value
+        # use additional DS for lookup anytime after the tree is recovered,
+        # so we don't need to do tree traversal when find()
+        self.recovered_values.add(correct_value)
 
-        if node.left:
-            self._recover_tree(node.left, 2 * value + 1)
-        if node.right:
-            self._recover_tree(node.right, 2 * value + 2)
+        if curr_node.left:
+            self._DFS_recover_tree_values(curr_node.left, 2 * correct_value + 1)
+        if curr_node.right:
+            self._DFS_recover_tree_values(curr_node.right, 2 * correct_value + 2)
 
     def find(self, target: int) -> bool:
         return target in self.recovered_values
