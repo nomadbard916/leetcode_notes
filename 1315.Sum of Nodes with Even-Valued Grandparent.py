@@ -20,6 +20,8 @@ class TreeNode:
 class Solution:
     def sumEvenGrandparent(self, root: Optional[TreeNode]) -> int:
         # ! sol1: DFS
+        non_existing_node_val = -1
+
         def dfs(node: Optional[TreeNode], parent_val: int, grandparent_val: int) -> int:
             if not node:
                 return 0
@@ -27,7 +29,9 @@ class Solution:
             # initialize sum for current subtree
             current_sum = 0
 
-            if grandparent_val != -1 and grandparent_val % 2 == 0:
+            grandparent_exists = grandparent_val != non_existing_node_val
+            grandparent_is_even = grandparent_val % 2 == 0
+            if grandparent_exists and grandparent_is_even:
                 current_sum += node.val
 
             left_sum = dfs(node.left, node.val, parent_val)
@@ -35,7 +39,7 @@ class Solution:
 
             return current_sum + left_sum + right_sum
 
-        return dfs(root, -1, -1)
+        return dfs(root, non_existing_node_val, non_existing_node_val)
 
 
 # @lc code=end
