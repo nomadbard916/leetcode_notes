@@ -41,6 +41,18 @@ class Solution:
 
         return dfs(root, non_existing_node_val, non_existing_node_val)
 
+        # Time and Space Complexity:
+        # Time Complexity: O(n)
+        # We visit each node exactly once
+        # For each node, we do constant time operations (checking even value, arithmetic)
+        # Where n is the number of nodes in the tree
+
+        # Space Complexity: O(h)
+        # For DFS: O(h) where h is the height of the tree (recursion stack)
+        # For BFS: O(w) where w is the maximum width of the tree (queue size)
+        # In the worst case (skewed tree), h = n, so O(n)
+        # In the best case (balanced tree), h = log(n), so O(log n)
+
 
 # @lc code=end
 
