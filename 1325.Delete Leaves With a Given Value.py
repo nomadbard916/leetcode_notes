@@ -25,9 +25,9 @@ class Solution:
         # - Bottom-up processing: We need to process children before their parents to ensure that when we check if a node should be removed, its children have already been processed
         # - Cascading removal: After removing children, a parent node might become a leaf node that also needs to be removed
 
-        # Base case: if current node is None, return None
+        # just return when into emptiness
         if not root:
-            return None
+            return
 
         # Recursively process left and right subtrees first
         # This ensures we work from bottom to top (post-order traversal)
@@ -39,7 +39,7 @@ class Solution:
         is_leaf = not root.left and not root.right
         meet_target = root.val == target
         if is_leaf and meet_target:
-            return None
+            return None  # remove
 
         return root
 
