@@ -34,12 +34,38 @@ class Solution:
             if grandparent_exists and grandparent_is_even:
                 current_sum += node.val
 
+            # recursion to next levels, with two layers above nodes info passed down
             left_sum = dfs(node.left, node.val, parent_val)
             right_sum = dfs(node.right, node.val, parent_val)
 
             return current_sum + left_sum + right_sum
 
         return dfs(root, non_existing_node_val, non_existing_node_val)
+
+        # ! sol2: BFS
+        def bfs(root: TreeNode) -> int:
+            total_sum = 0
+            if not root:
+                return total_sum
+
+            from collections import deque
+
+            q = deque([(root, -1, -1)])
+
+            while q:
+                node, parent_val, grandparent_val = q.popleft()
+                grandparent_exists = grandparent_val != non_existing_node_val
+                grandparent_is_even = grandparent_val % 2 == 0
+                if grandparent_exists and grandparent_is_even:
+                    total_sum += node.val
+
+                if root.left:
+                    q.append((node.left, node.val, parent_val))
+                if root.right:
+                    q.append((node.right, node.val, parent_val))
+            return total_sum
+
+        return bfs(root)
 
         # Time and Space Complexity:
         # Time Complexity: O(n)
