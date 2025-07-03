@@ -50,19 +50,24 @@ class Solution:
 
             from collections import deque
 
-            q = deque([(root, -1, -1)])
+            # Queue stores tuples: (node, parent_val, grandparent_val)
+            # start from outside of tree, node doesn't exist yet
+            q = deque([(root, non_existing_node_val, non_existing_node_val)])
 
             while q:
                 node, parent_val, grandparent_val = q.popleft()
+
                 grandparent_exists = grandparent_val != non_existing_node_val
                 grandparent_is_even = grandparent_val % 2 == 0
                 if grandparent_exists and grandparent_is_even:
                     total_sum += node.val
 
+                # Add children to queue with updated parent/grandparent values
                 if root.left:
                     q.append((node.left, node.val, parent_val))
                 if root.right:
                     q.append((node.right, node.val, parent_val))
+
             return total_sum
 
         return bfs(root)
