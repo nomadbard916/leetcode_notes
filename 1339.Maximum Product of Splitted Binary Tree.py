@@ -19,9 +19,43 @@ class TreeNode:
 
 class Solution:
     def maxProduct(self, root: Optional[TreeNode]) -> int:
-        # ! sol2: it looks pretty much like prefix sum to store sums in a DS and use them in one pass
         MOD = 10**9 + 7
+        max_product = 0
 
+        # ! sol1:
+        # * step 1: calculate total sum of all nodes
+        def calc_total_sum(node: Optional[TreeNode]) -> int:
+            if not node:
+                return 0
+            return node.val + calc_total_sum(node.left) + calc_total_sum(node.right)
+
+        total_sum = calc_total_sum(root)
+
+        # * Step 2: For each subtree, calculate its sum and the product
+        def dfs(node: Optional[TreeNode]) -> int:
+            nonlocal max_product
+
+            if not node:
+                return 0
+
+            # Calculate sum of current subtree
+            left_sum = dfs(node.left)
+            right_sum = dfs(node.right)
+            current_subtree_sum = node.val + left_sum + right_sum
+
+            # If we remove this subtree, the remaining tree has sum: total_sum - current_subtree_sum
+            # Product would be: current_subtree_sum * (total_sum - current_subtree_sum)
+            remaining_sum = total_sum - current_subtree_sum
+            product = current_subtree_sum * remaining_sum
+            max_product = max(product, max_product)
+
+            return current_subtree_sum
+
+        dfs(root)
+
+        return max_product % MOD
+
+        # ! sol2: optimize; it looks pretty much like prefix sum, to store sums in a DS and use them in one pass
         # * preprocessing phase
         # Similar to prefix sum array, stores cumulative sums
         subtree_sums = []
@@ -36,7 +70,6 @@ class Solution:
             return current_sum
 
         total_sum = dfs(root)
-        max_product = 0
 
         # * query phase
         # check all possible splits (except the root itself)
