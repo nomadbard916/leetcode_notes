@@ -26,22 +26,40 @@ class TreeNode:
 
 class Solution:
     def isSubPath(self, head: Optional[ListNode], root: Optional[TreeNode]) -> bool:
+        # process overview
+        # 1. Visit every node in the binary tree (using isSubPath)
+        # 2. For each tree node, ask: "Could the linked list path start from here?"
+        # 3. To answer this, use DFS to check if values match going downward:
+        # - Compare current tree node with current linked list node
+        # - If they match, move to next linked list node and try both tree children
+        # - If we reach the end of linked list → Success!
+        # - If we reach dead end in tree but still have linked list nodes → Fail
+        # 4. If any starting position works → return True
+        # 5. If no starting position works → return False
+
+        # Empty linked list is always a subpath
         if not head:
             return True
+        # Empty tree cannot contain any subpath
         if not root:
             return False
 
         def dfs(head: Optional[ListNode], root: Optional[TreeNode]) -> bool:
+            # * Helper function to check if linked list matches a path starting from current tree node.
+            # Reached end of linked list - found complete match
             if not head:
                 return True
+            # Reached end of tree path but still have linked list nodes
             if not root:
                 return False
 
+            # Current values must match AND rest of path must match
             if head.val != root.val:
                 return False
 
             return dfs(head.next, root.left) or dfs(head.next, root.right)
 
+        # Check if path starts from current node OR from left/right subtree
         return (
             dfs(head, root)
             or self.isSubPath(head, root.left)
