@@ -78,13 +78,18 @@ class Solution:
             if head.val != root.val:
                 return False
 
-            return dfs(head.next, root.left) or dfs(head.next, root.right)
+            left_check_result = dfs(head.next, root.left)
+            right_check_result = dfs(head.next, root.right)
+
+            return left_check_result or right_check_result
 
         # Check if path starts from current node OR from left/right subtree
+        root_check_result = dfs(head, root)
+        left_subtree_check_result = self.isSubPath(head, root.left)
+        right_subtree_check_result = self.isSubPath(head, root.right)
+
         return (
-            dfs(head, root)
-            or self.isSubPath(head, root.left)
-            or self.isSubPath(head, root.right)
+            root_check_result or left_subtree_check_result or right_subtree_check_result
         )
 
         # Time and Space Complexity
