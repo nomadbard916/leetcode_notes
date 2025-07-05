@@ -26,7 +26,7 @@ class TreeNode:
 
 class Solution:
     def isSubPath(self, head: Optional[ListNode], root: Optional[TreeNode]) -> bool:
-        # process overview
+        # process overview - it's like using zip() to iterate two DS at once
         # 1. Visit every node in the binary tree (using isSubPath)
         # 2. For each tree node, ask: "Could the linked list path start from here?"
         # 3. To answer this, use DFS to check if values match going downward:
@@ -37,6 +37,22 @@ class Solution:
         # 4. If any starting position works → return True
         # 5. If no starting position works → return False
 
+        # The solution uses a two-level recursive approach:
+        # Outer recursion (isSubPath): Explores every possible starting position in the binary tree
+        # Inner recursion (dfs): Validates if the linked list matches a path starting from a specific tree node
+
+        # Why Two Functions?
+        # - isSubPath: Handles the "where to start" question
+        # - dfs: Handles the "does it match from here" question
+        # This separation makes the logic clearer and avoids confusion
+
+        # * Phase 1: Find Starting Points (isSubPath)
+        # For each tree node, we have three possibilities:
+        # - The linked list path starts from this current node
+        # - The linked list path starts somewhere in the left subtree
+        # - The linked list path starts somewhere in the right subtree
+        # We use OR logic because we only need ONE valid starting point
+
         # Empty linked list is always a subpath
         if not head:
             return True
@@ -44,6 +60,10 @@ class Solution:
         if not root:
             return False
 
+        # * Phase 2: Validate Path (dfs)
+        # Once we fix a starting point, we check if the linked list matches the tree path
+        # We move both pointers simultaneously: linked list node to next, tree node to either left or right
+        # We use OR logic for tree traversal because the linked list can follow either left OR right child
         def dfs(head: Optional[ListNode], root: Optional[TreeNode]) -> bool:
             # * Helper function to check if linked list matches a path starting from current tree node.
             # Reached end of linked list - found complete match
@@ -54,6 +74,7 @@ class Solution:
                 return False
 
             # Current values must match AND rest of path must match
+            # early return false if it's not matching already
             if head.val != root.val:
                 return False
 
@@ -65,6 +86,20 @@ class Solution:
             or self.isSubPath(head, root.left)
             or self.isSubPath(head, root.right)
         )
+
+        # Time and Space Complexity
+        # Time Complexity: O(N × min(L, H))
+        # - N = number of nodes in binary tree
+        # - L = length of linked list
+        # - H = height of binary tree
+        # - We potentially start matching from each of the N tree nodes
+        # - Each matching attempt takes at most min(L, H) time
+
+        # Space Complexity: O(H)
+        # - H = height of binary tree
+        # - Due to recursion stack depth
+        # - In worst case (skewed tree): O(N)
+        # - In best case (balanced tree): O(log N)
 
 
 # @lc code=end
