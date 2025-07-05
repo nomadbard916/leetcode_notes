@@ -27,7 +27,11 @@ class Solution:
         def calc_total_sum(node: Optional[TreeNode]) -> int:
             if not node:
                 return 0
-            return node.val + calc_total_sum(node.left) + calc_total_sum(node.right)
+
+            left_total_sum = calc_total_sum(node.left)
+            right_total_sum = calc_total_sum(node.right)
+
+            return node.val + left_total_sum + right_total_sum
 
         total_sum = calc_total_sum(root)
 
@@ -41,10 +45,11 @@ class Solution:
             # Calculate sum of current subtree
             left_sum = dfs(node.left)
             right_sum = dfs(node.right)
+
+            # * post order logic
             current_subtree_sum = node.val + left_sum + right_sum
 
             # If we remove this subtree, the remaining tree has sum: total_sum - current_subtree_sum
-            # Product would be: current_subtree_sum * (total_sum - current_subtree_sum)
             remaining_sum = total_sum - current_subtree_sum
             product = current_subtree_sum * remaining_sum
             max_product = max(product, max_product)
