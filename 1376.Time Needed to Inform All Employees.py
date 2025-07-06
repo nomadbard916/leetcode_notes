@@ -22,9 +22,10 @@ class Solution:
 
         # Populate the subordinates dictionary
         for employee_id in range(n):
+            manager_id = manager[employee_id]
             # -1 indicates this is the head (no manager)
-            if manager[employee_id] != -1:
-                subordinates[manager[employee_id]].append(employee_id)
+            if manager_id != -1:
+                subordinates[manager_id].append(employee_id)
 
         def dfs(employee_id: int) -> int:
             # Base case: if this employee has no subordinates, no additional time needed
@@ -33,8 +34,8 @@ class Solution:
 
             # Find the maximum time among all subordinates
             max_subordina_time = 0
-            for subordinate in subordinates[employee_id]:
-                subordinate_total_time = dfs(subordinate)
+            for subordinate_id in subordinates[employee_id]:
+                subordinate_total_time = dfs(subordinate_id)
                 max_subordina_time = max(max_subordina_time, subordinate_total_time)
 
             # Total time = time for this employee to inform + max time for subordinates
