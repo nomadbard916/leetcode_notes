@@ -33,13 +33,14 @@ class Solution:
                 return 0
 
             # Find the maximum time among all subordinates
-            max_subordina_time = 0
+            max_subordinate_time = 0
             for subordinate_id in subordinates[employee_id]:
                 subordinate_total_time = dfs(subordinate_id)
-                max_subordina_time = max(max_subordina_time, subordinate_total_time)
+                max_subordinate_time = max(max_subordinate_time, subordinate_total_time)
 
+            # * post order logic
             # Total time = time for this employee to inform + max time for subordinates
-            return informTime[employee_id] + max_subordina_time
+            return informTime[employee_id] + max_subordinate_time
 
         # Start DFS from the head of company
         return dfs(headID)
@@ -47,6 +48,8 @@ class Solution:
         # Time and Space Complexity:
         # Time Complexity: O(n) - We visit each employee exactly once
         # Space Complexity: O(n) - For the adjacency list and recursion stack (in worst case of skewed tree)
+
+        # ! sol2: BFS, but it doesn't have strong advantage
 
 
 # @lc code=end
