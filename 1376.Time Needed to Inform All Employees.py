@@ -71,12 +71,17 @@ class Solution:
 
             max_time = max(max_time, time_so_far)
 
-            # add all subordinates to queue with updatedtime
-            for subordinate in subordinates[current_employee]:
-                new_time = time_so_far + informTime[current_employee]
-                q.append((subordinate, new_time))
+        # When BFS vs DFS Actually Matters:
+        # BFS is better when:
+        # - You want the shortest path (not applicable here)
+        # - You need level-order processing
+        # - You want to find any solution quickly (not maximum)
+        # - Memory usage of DFS recursion is a concern
 
-        return max_time
+        # DFS is better when:
+        # - You need all paths or maximum/minimum among paths (our case)
+        # - You want simpler recursive code
+        # - You're doing tree traversal problems
 
 
 # @lc code=end
