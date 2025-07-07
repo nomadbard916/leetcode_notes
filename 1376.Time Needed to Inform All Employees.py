@@ -14,13 +14,12 @@ class Solution:
         self, n: int, headID: int, manager: List[int], informTime: List[int]
     ) -> int:
         # ! sol1: DFS
-        # Build adjacency list representation of the company hierarchy
-        # Each manager maps to a list of their direct subordinates
+        # * Build adjacency list representation of the company hierarchy
+        # {manager_id: [...subordinates]}
         subordinates = {}
-        for i in range(n):
-            subordinates[i] = []
+        for manager_id in range(n):
+            subordinates[manager_id] = []
 
-        # Populate the subordinates dictionary
         for employee_id in range(n):
             manager_id = manager[employee_id]
             # -1 indicates this is the head (no manager)
@@ -28,7 +27,7 @@ class Solution:
                 subordinates[manager_id].append(employee_id)
 
         def dfs(employee_id: int) -> int:
-            # Base case: if this employee has no subordinates, no additional time needed
+            # Base case: if this employee has no subordinates (leaf node), no  time needed
             if not subordinates[employee_id]:
                 return 0
 
