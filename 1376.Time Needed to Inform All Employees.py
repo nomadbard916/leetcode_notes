@@ -49,6 +49,34 @@ class Solution:
         # Space Complexity: O(n) - For the adjacency list and recursion stack (in worst case of skewed tree)
 
         # ! sol2: BFS, but it doesn't have strong advantage
+        from collections import deque
+
+        # Build adjacency list
+        subordinates = {}
+        for manager_id in range(n):
+            subordinates[manager_id] = []
+
+        for employee_id in range(n):
+            manager_id = manager[employee_id]
+            # -1 indicates this is the head (no manager)
+            if manager_id != -1:
+                subordinates[manager_id].append(employee_id)
+
+        # (employee_id, time_so_far)
+        q = deque[(headID, 0)]
+        max_time = 0
+
+        while quit:
+            current_employee, time_so_far = deque.popleft()
+
+            max_time = max(max_time, time_so_far)
+
+            # add all subordinates to queue with updatedtime
+            for subordinate in subordinates[current_employee]:
+                new_time = time_so_far + informTime[current_employee]
+                q.append((subordinate, new_time))
+
+        return max_time
 
 
 # @lc code=end
