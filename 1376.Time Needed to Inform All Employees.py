@@ -27,6 +27,20 @@ class Solution:
                 subordinates[manager_id].append(employee_id)
 
         def dfs(employee_id: int) -> int:
+            # * DFS execution order:
+            # 📞 CALLS go DOWN (depth-first): Keep making recursive calls going deeper
+            # 🔙 RETURNS go UP (bottom-up): Values are calculated and returned from leaves upward
+            # 🧮 CALCULATION happens ON RETURN: When a recursive call returns, we use its result
+
+            # The Mental Model:
+            # Think of DFS like exploring a cave system:
+
+            # Going down: You explore each tunnel as deep as possible
+            # Hit bottom: You reach a dead end (leaf node)
+            # Measure and report back: "This tunnel is X deep"
+            # Parent tunnel: Chooses the deepest sub-tunnel, adds its own depth
+            # Report up: Continues until you reach the entrance
+
             # Base case: if this employee has no subordinates (leaf node), no  time needed
             if not subordinates[employee_id]:
                 return 0
