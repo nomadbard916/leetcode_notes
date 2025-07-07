@@ -52,7 +52,7 @@ class Solution:
                 max_subordinate_time = max(max_subordinate_time, subordinate_total_time)
 
             # * post order logic
-            # Total time = time for this employee to inform + max time for subordinates
+            # Total time = time for this employee to inform + max time for subordinates to inform
             return informTime[employee_id] + max_subordinate_time
 
         # Start DFS from the head of company
@@ -81,7 +81,7 @@ class Solution:
         max_time = 0
 
         while quit:
-            current_employee, time_so_far = deque.popleft()
+            current_employee, time_so_far = q.popleft()
 
             max_time = max(max_time, time_so_far)
 
