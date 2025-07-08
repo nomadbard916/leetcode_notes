@@ -11,25 +11,32 @@ from typing import List
 
 class Solution:
     def minTime(self, n: int, edges: List[List[int]], hasApple: List[bool]) -> int:
-        # Build adjacency list representation of the tree
+        # * Build adjacency list representation of the tree
         neighbor_graph = [[] for _ in range(n)]
         for u, v in edges:
             neighbor_graph[u].append(v)
             neighbor_graph[v].append(u)
 
+        # * calculate minimum time needed for subtree rooted at 'node'.
         def dfs(node: int, parent: int) -> int:
             total_time = 0
 
-            for neighbor in neighbor_graph[node]:
+            node_neighbors = neighbor_graph[node]
+            for neighbor in node_neighbors:
                 # Avoid going back to parent
                 if neighbor == parent:
                     continue
 
                 neighbor_time = dfs(neighbor, node)
 
-                # If child subtree has apples, we need to visit it
-                # This costs 2 time units (go there and come back)
+                # If child subtree has apples:
+                # The neighbor itself has an apple, OR the neighbor's subtree contains apples somewhere,
+                # we need to visit it.
                 if neighbor_time > 0 or hasApple[neighbor]:
+                    # This costs 2 time units (go there and come back)
+                    # Visiting a neighbor costs neighbor_time + 2
+                    # neighbor_time: Time to collect apples in neighbor's subtree
+                    # +2: Time to go to neighbor and come back
                     total_time += neighbor_time + 2
 
             # Return total time for this subtree
