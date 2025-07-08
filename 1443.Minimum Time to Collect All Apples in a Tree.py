@@ -20,15 +20,17 @@ class Solution:
         def dfs(node: int, parent: int) -> int:
             total_time = 0
 
-            # Explore all children
             for neighbor in neighbor_graph[node]:
-                if neighbor != parent:  # Avoid going back to parent
-                    neighbor_time = dfs(neighbor, node)
+                # Avoid going back to parent
+                if neighbor == parent:
+                    continue
 
-                    # If child subtree has apples, we need to visit it
-                    # This costs 2 time units (go there and come back)
-                    if neighbor_time > 0 or hasApple[neighbor]:
-                        total_time += neighbor_time + 2
+                neighbor_time = dfs(neighbor, node)
+
+                # If child subtree has apples, we need to visit it
+                # This costs 2 time units (go there and come back)
+                if neighbor_time > 0 or hasApple[neighbor]:
+                    total_time += neighbor_time + 2
 
             # Return total time for this subtree
             return total_time
