@@ -27,16 +27,11 @@ class Solution:
 
                     # If child subtree has apples, we need to visit it
                     # This costs 2 time units (go there and come back)
-                    if child_time > 0:
+                    if child_time or hasApple[child]:
                         total_time += child_time + 2
 
-            # If current node has apple or any child subtree has apples,
-            # we need to visit this subtree
-            if hasApple[node] or total_time > 0:
-                return total_time
-
-            # No apples in this subtree
-            return 0
+            # Return total time for this subtree
+            return total_time
 
         # Start DFS from root (node 0) with no parent (-1)
         # We don't add 2 for the root since we start there
