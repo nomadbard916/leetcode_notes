@@ -23,18 +23,17 @@ class Solution:
             # Explore all children
             for neighbor in neighbor_graph[node]:
                 if neighbor != parent:  # Avoid going back to parent
-                    neighbor = dfs(neighbor, node)
+                    neighbor_time = dfs(neighbor, node)
 
                     # If child subtree has apples, we need to visit it
                     # This costs 2 time units (go there and come back)
-                    if neighbor or hasApple[neighbor]:
-                        total_time += neighbor + 2
+                    if neighbor_time > 0 or hasApple[neighbor]:
+                        total_time += neighbor_time + 2
 
             # Return total time for this subtree
             return total_time
 
         # Start DFS from root (node 0) with no parent (-1)
-        # We don't add 2 for the root since we start there
         return dfs(0, -1)
 
 
