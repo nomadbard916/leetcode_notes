@@ -7,6 +7,9 @@
 
 # @lc code=start
 # Definition for a binary tree node.
+from typing import Optional
+
+
 class TreeNode:
     def __init__(self, x):
         self.val = x
@@ -16,8 +19,11 @@ class TreeNode:
 
 class Solution:
     def getTargetCopy(
-        self, original: TreeNode, cloned: TreeNode, target: TreeNode
-    ) -> TreeNode:
+        self,
+        original: Optional[TreeNode],
+        cloned: Optional[TreeNode],
+        target: Optional[TreeNode],
+    ) -> Optional[TreeNode]:
         if not original or not cloned:
             return None
 
