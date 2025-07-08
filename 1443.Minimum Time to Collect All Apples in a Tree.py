@@ -12,23 +12,23 @@ from typing import List
 class Solution:
     def minTime(self, n: int, edges: List[List[int]], hasApple: List[bool]) -> int:
         # Build adjacency list representation of the tree
-        graph = [[] for _ in range(n)]
+        neighbor_graph = [[] for _ in range(n)]
         for u, v in edges:
-            graph[u].append(v)
-            graph[v].append(u)
+            neighbor_graph[u].append(v)
+            neighbor_graph[v].append(u)
 
         def dfs(node: int, parent: int) -> int:
             total_time = 0
 
             # Explore all children
-            for child in graph[node]:
-                if child != parent:  # Avoid going back to parent
-                    child_time = dfs(child, node)
+            for neighbor in neighbor_graph[node]:
+                if neighbor != parent:  # Avoid going back to parent
+                    neighbor = dfs(neighbor, node)
 
                     # If child subtree has apples, we need to visit it
                     # This costs 2 time units (go there and come back)
-                    if child_time or hasApple[child]:
-                        total_time += child_time + 2
+                    if neighbor or hasApple[neighbor]:
+                        total_time += neighbor + 2
 
             # Return total time for this subtree
             return total_time
