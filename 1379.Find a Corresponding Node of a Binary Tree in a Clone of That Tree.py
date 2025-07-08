@@ -24,16 +24,21 @@ class Solution:
         cloned: Optional[TreeNode],
         target: Optional[TreeNode],
     ) -> Optional[TreeNode]:
+        # Base case: if we've reached a null node, return None
         if not original or not cloned:
             return None
 
+        # If we found the target node in the original tree,
+        # return the corresponding node in the cloned tree
         if original is target:
             return cloned
 
+        # Recursively search in the left subtree
         left_result = self.getTargetCopy(original.left, cloned.left, target)
         if left_result:
             return left_result
 
+        # Recursively search in the right subtree
         right_result = self.getTargetCopy(original.right, cloned.right, target)
         return right_result
 
