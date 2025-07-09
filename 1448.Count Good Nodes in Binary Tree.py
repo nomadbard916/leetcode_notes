@@ -24,6 +24,7 @@ class Solution:
             if not node:
                 return 0
 
+            # * post order logic
             good_count = 0
             # Check if current node is good
             # * node is good if its value >= max value in path from root
@@ -33,8 +34,7 @@ class Solution:
             # Update max_val for children - it's the maximum of current max_val and current node's value
             new_max = max(max_val, node.val)
 
-            # * post order logic
-            # Recursively count good nodes in left and right subtrees
+            # Recursively count good nodes in left and right subtrees with state propagation
             good_count += dfs(node.left, new_max)
             good_count += dfs(node.right, new_max)
 
@@ -42,6 +42,10 @@ class Solution:
 
         # Start DFS from root with root's value as initial max
         return dfs(root, root.val)
+
+    # Time & Space Complexity:
+    # Time Complexity: O(n) where n is the number of nodes - we visit each node exactly once
+    # Space Complexity: O(h) where h is the height of the tree - for the recursion stack (or explicit stack in iterative solution)
 
 
 # @lc code=end
