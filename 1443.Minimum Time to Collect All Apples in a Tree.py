@@ -31,10 +31,15 @@ class Solution:
                 neighbor_time = dfs(neighbor, node)
 
                 # * post order logic
-                # If child subtree has apples:
+                # - Traversal Order: We still visit neighbors before processing current node ✓
+                # - Information Flow: Neighbors give us information we need for current node ✓
+                # - Side Effect: We're computing something useful during traversal ✓
+
+                # - If child subtree has apples:
                 # The neighbor itself has an apple, OR the neighbor's subtree contains apples somewhere,
                 # we need to visit it.
-                # modifying total_time after post order traversal is totally fine
+
+                # - modifying total_time after post order traversal is totally fine
                 # as it's a side effect of post order traversal.
                 if neighbor_time > 0 or hasApple[neighbor]:
                     # This costs 2 time units (go there and come back)
@@ -48,6 +53,10 @@ class Solution:
 
         # Start DFS from root (node 0) with no parent (-1)
         return dfs(0, -1)
+
+    # Time and Space Complexity:
+    # Time Complexity: O(n) - We visit each node exactly once in the DFS
+    # Space Complexity: O(n) - For the adjacency list and recursion stack (in worst case, the tree could be a long chain)
 
 
 # @lc code=end
