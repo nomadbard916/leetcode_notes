@@ -23,15 +23,19 @@ class Solution:
 
             node_neighbors = neighbor_graph[node]
             for neighbor in node_neighbors:
-                # Avoid going back to parent
+                # Going back to parent should be excluded from options,
+                # to prevent infinite loops in DFS traversal.
                 if neighbor == parent:
                     continue
 
                 neighbor_time = dfs(neighbor, node)
 
+                # * post order logic
                 # If child subtree has apples:
                 # The neighbor itself has an apple, OR the neighbor's subtree contains apples somewhere,
                 # we need to visit it.
+                # modifying total_time after post order traversal is totally fine
+                # as it's a side effect of post order traversal.
                 if neighbor_time > 0 or hasApple[neighbor]:
                     # This costs 2 time units (go there and come back)
                     # Visiting a neighbor costs neighbor_time + 2
