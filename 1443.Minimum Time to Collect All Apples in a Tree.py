@@ -11,6 +11,7 @@ from typing import List
 
 class Solution:
     def minTime(self, n: int, edges: List[List[int]], hasApple: List[bool]) -> int:
+        # ! This is a classic "Tree Dynamic Programming" problem
         # * Build adjacency list representation of the tree
         neighbor_graph = [[] for _ in range(n)]
         for u, v in edges:
