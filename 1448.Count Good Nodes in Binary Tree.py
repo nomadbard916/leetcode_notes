@@ -20,14 +20,22 @@ class TreeNode:
 class Solution:
     def goodNodes(self, root: TreeNode) -> int:
         def dfs(node: Optional[TreeNode], max_val: int) -> int:
+            # Why This Dual Traversal Pattern with both Pre Order and Post Order is Necessary:
+            # Information Flow in Two Directions:
+            # 1 Downward Flow (Preorder):
+            # - max_val information flows from parent to children
+            # - Each node needs to know "what's the maximum value from root to my parent?"
+            # 2 Upward Flow (Postorder):
+            # - Count results flow from children back to parent
+            # - Each node needs to know "how many good nodes are in my left and right subtrees?"
             #  * base case: if node is None, no good nodes
             if not node:
                 return 0
 
-            # * pre order logic
-            good_count = 0
+            # * pre order logic:
             # Check if current node is good
-            # * node is good if its value >= max value in path from root
+            good_count = 0
+            #  node is good if its value >= max value in path from root
             if node.val >= max_val:
                 good_count = 1
 
@@ -53,6 +61,26 @@ class Solution:
     # LeetCode 98: Validate Binary Search Tree (uses bounds propagation)
     # LeetCode 124: Binary Tree Maximum Path Sum
     # LeetCode 543: Diameter of Binary Tree
+
+    # Common Tree Problems with This Pattern:
+    # Similar Dual-Pattern Problems:
+    # Path Sum: Check condition (preorder) + combine boolean results (postorder)
+    # Tree Validation: Pass bounds down (preorder) + combine validity up (postorder)
+    # Diameter of Tree: Pass depth info down + combine max diameter up
+
+    # Pure Preorder Examples:
+    # Tree serialization
+    # Printing tree structure
+    # Copying tree structure
+
+    # Pure Postorder Examples:
+    # Tree height calculation
+    # Tree deletion
+    # Bottom-up dynamic programming on trees
+
+    # This dual pattern is very common in tree problems where you need to:
+    # Pass context down (preorder)
+    # Aggregate results up (postorder)
 
 
 # @lc code=end
