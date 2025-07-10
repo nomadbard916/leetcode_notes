@@ -24,7 +24,7 @@ class Solution:
             if not node:
                 return 0
 
-            # * post order logic
+            # * pre order logic
             good_count = 0
             # Check if current node is good
             # * node is good if its value >= max value in path from root
@@ -48,6 +48,11 @@ class Solution:
     # Time & Space Complexity:
     # Time Complexity: O(n) where n is the number of nodes - we visit each node exactly once
     # Space Complexity: O(h) where h is the height of the tree - for the recursion stack (or explicit stack in iterative solution)
+
+    # Similar Problems to Practice:
+    # LeetCode 98: Validate Binary Search Tree (uses bounds propagation)
+    # LeetCode 124: Binary Tree Maximum Path Sum
+    # LeetCode 543: Diameter of Binary Tree
 
 
 # @lc code=end
