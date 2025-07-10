@@ -34,9 +34,11 @@ class Solution:
             # Update max_val for children - it's the maximum of current max_val and current node's value
             new_max = max(max_val, node.val)
 
+            # * post order logic
             # Recursively count good nodes in left and right subtrees with state propagation
-            good_count += dfs(node.left, new_max)
-            good_count += dfs(node.right, new_max)
+            left_good_count = dfs(node.left, new_max)
+            right_good_count = dfs(node.right, new_max)
+            good_count += left_good_count + right_good_count
 
             return good_count
 
