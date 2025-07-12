@@ -31,30 +31,38 @@ class Solution:
             if node.val == target:
                 return True
 
+            # Try going left
             path.append("L")
             if find_path(node.left, target, path):
                 return True
-            path.pop()
+            path.pop()  # Backtrack
 
+            # Try going right
             path.append("R")
             if find_path(node.right, target, path):
                 return True
-            path.pop()
+            path.pop()  # Backtrack
 
             return False
 
+        # Find paths from root to both nodes
         start_path: list[str] = []
         dest_path: list[str] = []
 
         find_path(root, startValue, start_path)
         find_path(root, destValue, dest_path)
 
+        # Find the point where paths diverge (LCA)
+        # Remove common prefix (path to LCA)
         i = 0
         while (
             i < len(start_path) and i < len(dest_path) and start_path[i] == dest_path[i]
         ):
             i += 1
 
+        # Build result:
+        # - 'U' for each step from start to LCA
+        # - Remaining path from LCA to destination
         result = "U" * (len(start_path) - i) + "".join(dest_path[i:])
 
         return result
