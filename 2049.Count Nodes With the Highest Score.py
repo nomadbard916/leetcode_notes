@@ -15,17 +15,19 @@ class Solution:
         n = len(parents)
 
         # * build adjacency list representation of the tree as we are only having "parents" relationship array
-        children: Dict[int, List[int]] = defaultdict(list)
+        children_mapping: Dict[int, List[int]] = defaultdict(list)
         for i in range(n):
-            if parents[i] != -1:
-                children[parents[i]].append(i)
+            curr_node_parent_val = parents[i]
+            if curr_node_parent_val != -1:
+                children_list = children_mapping[curr_node_parent_val]
+                children_list.append(i)
 
         # * calculate subtree sizes for each node using DFS
         subtree_sizes = [0] * n
 
         def calculate_subtree_size(node: int) -> int:
             size = 1  # count the root itself
-            for child in children[node]:
+            for child in children_mapping[node]:
                 size += calculate_subtree_size(child)
             subtree_sizes[node] = size
             return size
@@ -40,11 +42,14 @@ class Solution:
         for node in range(n):
             score = 1
 
-            child_subtrees = [subtree_sizes[child] for child in children[node]]
+            child_subtree_sizes = []
+            for child in children_mapping[node]:
+                child_subtree_size = subtree_sizes[child]
+                child_subtree_sizes.append(child_subtree_size)
 
             # * score calculation by components
             # consider children only
-            for child_size in child_subtrees:
+            for child_size in child_subtree_sizes:
                 score *= child_size
 
             # consider everything else that was connected through the parent
