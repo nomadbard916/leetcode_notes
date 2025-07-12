@@ -47,12 +47,14 @@ class Solution:
             for child_size in child_subtrees:
                 score *= child_size
 
-            # consider parent levels
+            # consider everything else that was connected through the parent
             remaining_size = n - subtree_sizes[node]
             if remaining_size > 0:
                 score *= remaining_size
 
             # update global info
+            # When score > max_score, it means we've found a new maximum score that's higher than any we've seen before,
+            # so max resets to 1
             if score > max_score:
                 max_score = score
                 max_count = 1
