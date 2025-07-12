@@ -43,13 +43,13 @@ class Solution:
                 return True
             path.pop()  # Backtrack
 
+            # target not found in both left and right
             return False
 
         # Find paths from root to both nodes
         start_path: list[str] = []
-        dest_path: list[str] = []
-
         find_path(root, startValue, start_path)
+        dest_path: list[str] = []
         find_path(root, destValue, dest_path)
 
         # Find the point where paths diverge (LCA)
