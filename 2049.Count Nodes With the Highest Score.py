@@ -42,7 +42,8 @@ class Solution:
 
             child_subtrees = [subtree_sizes[child] for child in children[node]]
 
-            # score calculation, consider children only
+            # * score calculation by components
+            # consider children only
             for child_size in child_subtrees:
                 score *= child_size
 
@@ -59,6 +60,20 @@ class Solution:
                 max_count += 1
 
         return max_count
+
+        # Time and Space Complexity
+
+        # Time Complexity: O(n) where n is the number of nodes
+        # Building the tree: O(n)
+        # DFS for subtree sizes: O(n) - visits each node once
+        # Score calculation: O(n) - processes each node once
+        # Total: O(n)
+
+        # Space Complexity: O(n)
+        # Children adjacency list: O(n)
+        # Subtree sizes array: O(n)
+        # DFS recursion stack: O(h) where h is tree height, worst case O(n)
+        # Total: O(n)
 
 
 # @lc code=end
