@@ -14,13 +14,13 @@ class Solution:
     def countHighestScoreNodes(self, parents: List[int]) -> int:
         n = len(parents)
 
-        # build adjacency list representation of the tree
+        # * build adjacency list representation of the tree as we are only having "parents" relationship array
         children: Dict[int, List[int]] = defaultdict(list)
         for i in range(n):
             if parents[i] != -1:
                 children[parents[i]].append(i)
 
-        # calculate subtree sizes using DFS
+        # * calculate subtree sizes for each node using DFS
         subtree_sizes = [0] * n
 
         def calculate_subtree_size(node: int) -> int:
@@ -33,7 +33,7 @@ class Solution:
         # start DFS from root (node 0)
         calculate_subtree_size(0)
 
-        # calculate score for each node
+        # * calculate score for each node
         max_score = 0
         max_count = 0
 
@@ -42,13 +42,16 @@ class Solution:
 
             child_subtrees = [subtree_sizes[child] for child in children[node]]
 
+            # score calculation, consider children only
             for child_size in child_subtrees:
                 score *= child_size
 
+            # consider parent levels
             remaining_size = n - subtree_sizes[node]
             if remaining_size > 0:
                 score *= remaining_size
 
+            # update global info
             if score > max_score:
                 max_score = score
                 max_count = 1
