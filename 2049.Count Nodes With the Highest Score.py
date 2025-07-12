@@ -40,15 +40,14 @@ class Solution:
         max_count = 0
 
         for node in range(n):
+            # * score calculation by components
             score = 1
-
+            # consider children only
             child_subtree_sizes = []
             for child in children_mapping[node]:
                 child_subtree_size = subtree_sizes[child]
                 child_subtree_sizes.append(child_subtree_size)
 
-            # * score calculation by components
-            # consider children only
             for child_size in child_subtree_sizes:
                 score *= child_size
 
@@ -57,7 +56,7 @@ class Solution:
             if remaining_size > 0:
                 score *= remaining_size
 
-            # update global info
+            # * update global info
             # When score > max_score, it means we've found a new maximum score that's higher than any we've seen before,
             # so max resets to 1
             if score > max_score:
