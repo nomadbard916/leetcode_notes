@@ -21,6 +21,9 @@ class Solution:
     def getDirections(
         self, root: Optional[TreeNode], startValue: int, destValue: int
     ) -> str:
+        # Core Insight: The shortest path between any two nodes in a tree must pass through their Lowest Common Ancestor (LCA). So the path will be:
+        # - Go UP from start node to LCA
+        # - Go DOWN from LCA to destination node
         def find_path(node: Optional[TreeNode], target: int, path: list[str]) -> bool:
             if not node:
                 return False
@@ -55,6 +58,15 @@ class Solution:
         result = "U" * (len(start_path) - i) + "".join(dest_path[i:])
 
         return result
+
+        # Time and Space Complexity
+        # Time Complexity: O(n) where n is the number of nodes
+        # We visit each node at most once during path finding
+        # Path comparison takes O(h) where h is height
+
+        # Space Complexity: O(h) where h is the height of the tree
+        # Recursion stack depth is O(h)
+        # Path storage is O(h)
 
 
 # @lc code=end
