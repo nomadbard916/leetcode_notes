@@ -43,7 +43,10 @@ class Solution:
                 return True
             path.pop()  # Backtrack
 
-            # target not found in both left and right
+            # The current node is NOT the target node (node.val != target)
+            # The target was NOT found in the left subtree
+            # The target was NOT found in the right subtree
+            # If we removed the return False, the function would implicitly return None in Python.
             return False
 
         # Find paths from root to both nodes
@@ -52,8 +55,7 @@ class Solution:
         dest_path: list[str] = []
         find_path(root, destValue, dest_path)
 
-        # Find the point where paths diverge (LCA)
-        # Remove common prefix (path to LCA)
+        # Find LCA, the point where paths diverge, to remove common prefix (path to LCA)
         i = 0
         while (
             i < len(start_path) and i < len(dest_path) and start_path[i] == dest_path[i]
