@@ -80,6 +80,8 @@ class Solution:
         # Path storage is O(h)
 
         # ! sol2: find LCA directly and start from there
+        #  the LCA approach is NOT faster than the first approach - they have the same time complexity,
+        #  but the first approach is actually more efficient in practice.
         def find_lca(node: TreeNode, p: int, q: int) -> TreeNode:
             if not node:
                 return None
@@ -90,9 +92,11 @@ class Solution:
             left = find_lca(node.left, p, q)
             right = find_lca(node.right, p, q)
 
+            # This means both p and q were found in different subtrees, so root is their LCA.
             if left and right:
                 return node
 
+            # If one is not None, propagate that node up the recursion.
             return left or right
 
         def find_path_from_node(node: TreeNode, target: int, path: list[str]) -> bool:
