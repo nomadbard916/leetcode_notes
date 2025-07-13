@@ -21,6 +21,7 @@ class Solution:
     def getDirections(
         self, root: Optional[TreeNode], startValue: int, destValue: int
     ) -> str:
+        # ! sol1: find the shortest path from start to dest, both starting  root
         # Core Insight: The shortest path between any two nodes in a tree must pass through their Lowest Common Ancestor (LCA). So the path will be:
         # - Go UP from start node to LCA
         # - Go DOWN from LCA to destination node
@@ -55,7 +56,7 @@ class Solution:
         dest_path: list[str] = []
         find_path(root, destValue, dest_path)
 
-        # Find LCA, the point where paths diverge, to remove common prefix (path to LCA)
+        # Find LCA, the point where paths diverge, by comparing paths to remove common prefix (path to LCA)
         i = 0
         while (
             i < len(start_path) and i < len(dest_path) and start_path[i] == dest_path[i]
@@ -77,6 +78,49 @@ class Solution:
         # Space Complexity: O(h) where h is the height of the tree
         # Recursion stack depth is O(h)
         # Path storage is O(h)
+
+        # ! sol2: find LCA directly and start from there
+        def find_lca(node: TreeNode, p: int, q: int) -> TreeNode:
+            if not node:
+                return None
+
+            if node.val == p or node.val == q:
+                return node
+
+            left = find_lca(node.left, p, q)
+            right = find_lca(node.right, p, q)
+
+            if left and right:
+                return node
+
+            return left or right
+
+        def find_path_from_node(node: TreeNode, target: int, path: list[str]) -> bool:
+            if not node:
+                return False
+            if node.val == target:
+                return True
+
+            path.append("L")
+            if find_path_from_node(node.left, target, path):
+                return True
+            path.pop()
+
+            path.append("R")
+            if find_path_from_node(node.right, target, path):
+                return True
+            path.pop()
+
+            return False
+
+        lca = find_lca(root, startValue, destValue)
+
+        start_path: list[str] = []
+        find_path_from_node(lca, startValue, start_path)
+        dest_path: list[str] = []
+        find_path_from_node(lca, startValue, dest_path)
+
+        return "U" * len(start_path) + "".join(dest_path)
 
 
 # @lc code=end
