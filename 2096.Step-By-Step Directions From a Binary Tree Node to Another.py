@@ -80,8 +80,9 @@ class Solution:
         # Path storage is O(h)
 
         # ! sol2: find LCA directly and start from there
-        #  the LCA approach is NOT faster than the first approach - they have the same time complexity,
-        #  but the first approach is actually more efficient in practice.
+        # the LCA approach may look more intuitive but is NOT faster than the first approach - they have the same time complexity,
+        # and LCA makes up to  tree traversals and therefore extra recursion stack,
+        # while the first approach is actually more efficient in practice with 2 tree traversals and has early termination.
         def find_lca(node: TreeNode, p: int, q: int) -> TreeNode:
             if not node:
                 return None
