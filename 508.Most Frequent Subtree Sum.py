@@ -32,11 +32,12 @@ class Solution:
             left_sum = calculate_subtree_sum(node.left)
             right_sum = calculate_subtree_sum(node.right)
 
-            current_sum = node.val + left_sum + right_sum
+            # * post order logic
+            current_subtree_sum = node.val + left_sum + right_sum
 
-            sum_count_mapping[current_sum] += 1
+            sum_count_mapping[current_subtree_sum] += 1
 
-            return current_sum
+            return current_subtree_sum
 
         calculate_subtree_sum(root)
 
@@ -50,6 +51,10 @@ class Solution:
                 result.append(sum_val)
 
         return result
+
+    # Time and Space Complexity:
+    # Time Complexity: O(n) where n is the number of nodes. We visit each node exactly once.
+    # Space Complexity: O(n) for the recursion stack (worst case for skewed tree) plus O(n) for the frequency map in worst case where all subtree sums are unique.
 
 
 # @lc code=end
