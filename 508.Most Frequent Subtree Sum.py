@@ -23,7 +23,7 @@ class Solution:
         if not root:
             return []
 
-        sum_count: Dict[int, int] = defaultdict(int)
+        sum_count_mapping: Dict[int, int] = defaultdict(int)
 
         def calculate_subtree_sum(node: Optional[TreeNode]) -> int:
             if not node:
@@ -34,17 +34,18 @@ class Solution:
 
             current_sum = node.val + left_sum + right_sum
 
-            sum_count[current_sum] += 1
+            sum_count_mapping[current_sum] += 1
 
             return current_sum
 
         calculate_subtree_sum(root)
 
-        max_frequency = max(sum_count.values())
+        max_frequency = max(sum_count_mapping.values())
 
         result = []
 
-        for sum_val, frequency in sum_count.items():
+        # Return all sums that have maximum frequency
+        for sum_val, frequency in sum_count_mapping.items():
             if frequency == max_frequency:
                 result.append(sum_val)
 
