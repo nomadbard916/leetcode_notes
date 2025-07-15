@@ -46,6 +46,34 @@ class Solution:
 
         return result
 
+        # ! sol2: DFS with level recording
+        if not root:
+            return []
+
+        result = []
+
+        def dfs(node: Optional[TreeNode], level: int) -> None:
+            if not node:
+                return
+
+            if level == len(result):
+                result.append(node.val)
+            else:
+                result[level] = max(result[level], node.val)
+
+            dfs(node.left, level + 1)
+            dfs(node.right, level + 1)
+
+        dfs(root, 0)
+
+        return result
+
+        # Time and Space Complexity:
+        # Time Complexity: O(n) where n is the number of nodes (we visit each node exactly once)
+        # Space Complexity:
+        # BFS: O(w) where w is the maximum width of the tree (queue storage)
+        # DFS: O(h) where h is the height of the tree (recursion stack)
+
 
 # @lc code=end
 
