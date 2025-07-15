@@ -31,14 +31,17 @@ class Solution:
             level_size = len(q)
             level_max = float("-inf")
 
+            # Process all nodes in current level
             for _ in range(level_size):
                 curr_node = q.popleft()
                 level_max = max(level_max, curr_node.val)
 
+                # put children of current level to prepare for next level process
                 if curr_node.left:
                     q.append(curr_node.left)
                 if curr_node.right:
                     q.append(curr_node.right)
+
             result.append(level_max)
 
         return result
