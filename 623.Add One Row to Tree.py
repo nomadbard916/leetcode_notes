@@ -22,19 +22,19 @@ class Solution:
     def addOneRow(
         self, root: Optional[TreeNode], val: int, depth: int
     ) -> Optional[TreeNode]:
+        # ! sol1: BFS as the mainly recommended
         # Special case: if depth is 1, we need to create a new root
         if depth == 1:
             new_root = TreeNode(val)
             new_root.left = root
             return new_root
 
-        # Use BFS to find nodes at depth - 1
         queue = deque([(root, 1)])  # (node, current_depth)
 
         while queue:
             node, current_depth = queue.popleft()
 
-            # If we're at the target depth - 1, modify children
+            # * If we're at the target depth - 1, can modify children
             if current_depth == depth - 1:
                 # Save original children
                 original_left = node.left
@@ -47,14 +47,24 @@ class Solution:
                 # Connect original children to new nodes
                 node.left.left = original_left
                 node.right.right = original_right
+            # * Continue BFS if we haven't reached target depth - 1
             else:
-                # Continue BFS if we haven't reached target depth - 1
                 if node.left:
                     queue.append((node.left, current_depth + 1))
                 if node.right:
                     queue.append((node.right, current_depth + 1))
 
         return root
+
+        # Complexity Analysis
+        # Time Complexity: O(n)
+        # - In the worst case, we might need to visit all nodes in the tree (when depth is very large)
+        # - Each node is visited at most once
+
+        # Space Complexity: O(w)
+        # - Where w is the maximum width of the tree (maximum number of nodes at any level)
+        # - For BFS: queue can hold at most w nodes
+        # - For DFS: recursive call stack can be at most h (height of tree) in the worst case
 
 
 # @lc code=end
