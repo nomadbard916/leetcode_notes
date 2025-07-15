@@ -56,9 +56,12 @@ class Solution:
             if not node:
                 return
 
+            # * preorder logic
+            # If this is the first node we've seen at this level
             if level == len(result):
                 result.append(node.val)
             else:
+                # Update the maximum for this level
                 result[level] = max(result[level], node.val)
 
             dfs(node.left, level + 1)
