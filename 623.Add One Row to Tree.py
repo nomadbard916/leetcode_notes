@@ -56,6 +56,34 @@ class Solution:
 
         return root
 
+        # ! sol2: DFS
+        if depth == 1:
+            new_root = TreeNode(val)
+            new_root.left = root
+            return new_root
+
+        def dfs(node: Optional[TreeNode], current_depth: int) -> None:
+            if not node:
+                return
+
+            if current_depth == depth - 1:
+                # Save original children
+                original_left = node.left
+                original_right = node.right
+
+                # Create new nodes and connect them
+                node.left = TreeNode(val)
+                node.right = TreeNode(val)
+                node.left.left = original_left
+                node.right.right = original_right
+            else:
+                # Continue DFS
+                dfs(node.left, current_depth + 1)
+                dfs(node.right, current_depth + 1)
+
+        dfs(root, 1)
+        return root
+
         # Complexity Analysis
         # Time Complexity: O(n)
         # - In the worst case, we might need to visit all nodes in the tree (when depth is very large)
