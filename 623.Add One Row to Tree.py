@@ -1,0 +1,72 @@
+#
+# @lc app=leetcode id=623 lang=python3
+# @lcpr version=30201
+#
+# [623] Add One Row to Tree
+#
+
+# @lc code=start
+# Definition for a binary tree node.
+from collections import deque
+from typing import Optional
+
+# ! it cannot be uncommented, or the whole code breaks
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+
+class Solution:
+    def addOneRow(
+        self, root: Optional[TreeNode], val: int, depth: int
+    ) -> Optional[TreeNode]:
+        # Special case: if depth is 1, we need to create a new root
+        if depth == 1:
+            new_root = TreeNode(val)
+            new_root.left = root
+            return new_root
+
+        # Use BFS to find nodes at depth - 1
+        queue = deque([(root, 1)])  # (node, current_depth)
+
+        while queue:
+            node, current_depth = queue.popleft()
+
+            # If we're at the target depth - 1, modify children
+            if current_depth == depth - 1:
+                # Save original children
+                original_left = node.left
+                original_right = node.right
+
+                # Create new nodes with the given value
+                node.left = TreeNode(val)
+                node.right = TreeNode(val)
+
+                # Connect original children to new nodes
+                node.left.left = original_left
+                node.right.right = original_right
+            else:
+                # Continue BFS if we haven't reached target depth - 1
+                if node.left:
+                    queue.append((node.left, current_depth + 1))
+                if node.right:
+                    queue.append((node.right, current_depth + 1))
+
+        return root
+
+
+# @lc code=end
+
+
+#
+# @lcpr case=start
+# [4,2,6,3,1,5]\n1\n2\n
+# @lcpr case=end
+
+# @lcpr case=start
+# [4,2,null,3,1]\n1\n3\n
+# @lcpr case=end
+
+#
