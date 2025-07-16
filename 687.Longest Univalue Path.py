@@ -19,7 +19,10 @@ class TreeNode:
 
 class Solution:
     def longestUnivaluePath(self, root: Optional[TreeNode]) -> int:
-        # see also: 124, 543, 1372
+        # see also:
+        # 124 Binary Tree Maximum Path Sum,
+        # 543 Diameter of Binary Tree,
+        # 1372 Longest ZigZag Path in Binary Tree
 
         # The key insight is that at each node, we're making a decision:
         # should we extend the path through this node (combining left and right)
@@ -27,7 +30,7 @@ class Solution:
         # We always update our global maximum with the "through-node" option,
         # but only return the single-direction path for the recursive calls above.
 
-        # Using self.max_path is common in tree problems where we need to track a global maximum
+        # * Using self.max_path is common in tree problems where we need to track a global maximum
         # while recursively processing subtrees.
         self.max_path = 0
 
@@ -35,6 +38,9 @@ class Solution:
         # - Single-direction path: Going down from current node to descendants (returned by our function)
         # - Through-node path: Combining left and right paths that pass through current node (used to update global maximum)
 
+        # * DFS Function Purpose:
+        # - Returns the maximum univalue path length going DOWN from current node (single direction)
+        # - Updates global maximum considering paths that pass THROUGH current node
         def dfs(node: Optional[TreeNode]) -> int:
             if not node:
                 return 0
@@ -44,7 +50,8 @@ class Solution:
             right_path_len = dfs(node.right)
 
             # * post order logic
-            # Initialize paths that can extend from current node
+            # Initialize paths that could extend from current node,
+            # assuming first they can't extend
             left_extend_len = 0
             right_extend_len = 0
 
@@ -54,11 +61,11 @@ class Solution:
             if node.right and node.right.val == node.val:
                 right_extend_len = right_path_len + 1
 
-            # Update global maximum: path that passes through current node
+            # * Update global maximum: path that passes through current node
             # This combines left and right extensions
             self.max_path = max(self.max_path, left_extend_len + right_extend_len)
 
-            # Return the maximum single-direction path from current node
+            # * Return the maximum single-direction path from current node
             # (can only go either left or right, not both)
             # A valid path in a tree must be a straight line
             # due to post order traversal data passing must be children to parent.
