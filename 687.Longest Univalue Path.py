@@ -19,6 +19,16 @@ class TreeNode:
 
 class Solution:
     def longestUnivaluePath(self, root: Optional[TreeNode]) -> int:
+        # see also: 124, 543, 1372
+
+        # The key insight is that at each node, we're making a decision:
+        # should we extend the path through this node (combining left and right)
+        # or continue with just one side?
+        # We always update our global maximum with the "through-node" option,
+        # but only return the single-direction path for the recursive calls above.
+
+        # Using self.max_path is common in tree problems where we need to track a global maximum
+        # while recursively processing subtrees.
         self.max_path = 0
 
         # For each node, we need to consider two types of paths:
@@ -50,6 +60,9 @@ class Solution:
 
             # Return the maximum single-direction path from current node
             # (can only go either left or right, not both)
+            # A valid path in a tree must be a straight line
+            # due to post order traversal data passing must be children to parent.
+            #  If we returned both sides, we'd be passing information that "bends" back down, breaking the upward flow
             return max(left_extend_len, right_extend_len)
 
         dfs(root)
