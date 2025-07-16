@@ -25,6 +25,9 @@ class Solution:
         # for any node, all values in the left subtree are smaller,
         # and all values in the right subtree are larger.
 
+        #  Notice how we're not just marking nodes for deletion -
+        # we're actually rebuilding the tree structure by updating parent-child relationships.
+
         if not root:
             return None
 
@@ -40,6 +43,7 @@ class Solution:
         if root.val > high:
             return self.trimBST(root.left, low, high)
 
+        # * post order logic
         # node.val in range:
         # If current node's value is within [low, high],
         # we keep this node and recursively trim both subtrees
