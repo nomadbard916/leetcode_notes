@@ -1,0 +1,51 @@
+#
+# @lc app=leetcode id=669 lang=python3
+# @lcpr version=30201
+#
+# [669] Trim a Binary Search Tree
+#
+
+# @lc code=start
+# Definition for a binary tree node.
+from typing import Optional
+
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+class Solution:
+    def trimBST(
+        self, root: Optional[TreeNode], low: int, high: int
+    ) -> Optional[TreeNode]:
+        if not root:
+            return None
+
+        if root.val < low:
+            return self.trimBST(root.right, low, high)
+
+        if root.val > high:
+            return self.trimBST(root.left, low, high)
+
+        root.left = self.trimBST(root.left, low, high)
+        root.right = self.trimBST(root.right, low, high)
+
+        return root
+
+
+# @lc code=end
+
+
+#
+# @lcpr case=start
+# [1,0,2]\n1\n2\n
+# @lcpr case=end
+
+# @lcpr case=start
+# [3,0,4,null,2,null,null,1]\n1\n3\n
+# @lcpr case=end
+
+#
