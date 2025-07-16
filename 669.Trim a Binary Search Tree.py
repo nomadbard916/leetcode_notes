@@ -40,12 +40,20 @@ class Solution:
         if root.val > high:
             return self.trimBST(root.left, low, high)
 
+        # node.val in range:
         # If current node's value is within [low, high],
         # we keep this node and recursively trim both subtrees
         root.left = self.trimBST(root.left, low, high)
         root.right = self.trimBST(root.right, low, high)
 
         return root
+
+        # Time and Space Complexity
+        # Time Complexity:
+        # O(n) where n is the number of nodes in the tree. In the worst case, we visit every node once.
+        # Space Complexity:
+        # O(h) where h is the height of the tree, due to the recursion stack.
+        # In the worst case (skewed tree), this could be O(n).
 
 
 # @lc code=end
