@@ -21,29 +21,37 @@ class Solution:
     def longestUnivaluePath(self, root: Optional[TreeNode]) -> int:
         self.max_path = 0
 
+        # For each node, we need to consider two types of paths:
+        # - Single-direction path: Going down from current node to descendants (returned by our function)
+        # - Through-node path: Combining left and right paths that pass through current node (used to update global maximum)
+
         def dfs(node: Optional[TreeNode]) -> int:
             if not node:
                 return 0
 
-            left_path = dfs(node.left)
-            right_path = dfs(node.right)
+            left_path_len = dfs(node.left)
+            right_path_len = dfs(node.right)
 
             # * post order logic
-            left_extend = 0
-            right_extend = 0
+            left_extend_len = 0
+            right_extend_len = 0
 
             if node.left and node.left.val == node.val:
-                left_extend = left_path + 1
+                left_extend_len = left_path_len + 1
             if node.right and node.right.val == node.val:
-                right_extend = right_path + 1
+                right_extend_len = right_path_len + 1
 
-            self.max_path = max(self.max_path, left_extend + right_extend)
+            self.max_path = max(self.max_path, left_extend_len + right_extend_len)
 
-            return max(left_extend, right_extend)
+            return max(left_extend_len, right_extend_len)
 
         dfs(root)
 
         return self.max_path
+
+        # complexities
+        # Time Complexity: O(n) - We visit each node exactly once
+        # Space Complexity: O(h) - Recursion stack depth equals tree height
 
 
 # @lc code=end
