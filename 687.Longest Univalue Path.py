@@ -29,20 +29,27 @@ class Solution:
             if not node:
                 return 0
 
+            # Get the longest univalue paths from left and right subtrees
             left_path_len = dfs(node.left)
             right_path_len = dfs(node.right)
 
             # * post order logic
+            # Initialize paths that can extend from current node
             left_extend_len = 0
             right_extend_len = 0
 
+            # extend if possible
             if node.left and node.left.val == node.val:
                 left_extend_len = left_path_len + 1
             if node.right and node.right.val == node.val:
                 right_extend_len = right_path_len + 1
 
+            # Update global maximum: path that passes through current node
+            # This combines left and right extensions
             self.max_path = max(self.max_path, left_extend_len + right_extend_len)
 
+            # Return the maximum single-direction path from current node
+            # (can only go either left or right, not both)
             return max(left_extend_len, right_extend_len)
 
         dfs(root)
