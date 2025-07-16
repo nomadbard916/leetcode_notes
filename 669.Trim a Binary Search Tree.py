@@ -21,15 +21,27 @@ class Solution:
     def trimBST(
         self, root: Optional[TreeNode], low: int, high: int
     ) -> Optional[TreeNode]:
+        #  * The key insight is leveraging the BST property:
+        # for any node, all values in the left subtree are smaller,
+        # and all values in the right subtree are larger.
+
         if not root:
             return None
 
+        # If current node's value is less than low bound,
+        # we need to discard this node and its left subtree
+        # because all values in left subtree are even smaller
         if root.val < low:
             return self.trimBST(root.right, low, high)
 
+        # If current node's value is greater than high bound,
+        # we need to discard this node and its right subtree
+        # because all values in right subtree are even larger
         if root.val > high:
             return self.trimBST(root.left, low, high)
 
+        # If current node's value is within [low, high],
+        # we keep this node and recursively trim both subtrees
         root.left = self.trimBST(root.left, low, high)
         root.right = self.trimBST(root.right, low, high)
 
