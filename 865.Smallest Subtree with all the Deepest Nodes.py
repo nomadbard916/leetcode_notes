@@ -46,20 +46,22 @@ class Solution:
         # ! sol2: two-pass DFS, more intuitive but less efficient
         # first pass: find the max depth
         # second pass: find all deepest nodes and their LCA
+
         def find_max_depth(node: Optional[TreeNode]) -> int:
             if not node:
                 return 0
             left_max_length = find_max_depth(node.left)
             right_max_length = find_max_depth(node.right)
+            # * post order logic
             return 1 + max(left_max_length, right_max_length)
 
         def find_lca_of_deepest(
-            node: Optional[TreeNode], depth: int, max_depth: int
+            node: Optional[TreeNode], curr_depth: int, max_depth: int
         ) -> TreeNode:
-            if not node or depth == max_depth:
+            if not node or curr_depth == max_depth:
                 return node
-            left_result = find_lca_of_deepest(node.left, depth + 1, max_depth)
-            right_result = find_lca_of_deepest(node.right, depth + 1, max_depth)
+            left_result = find_lca_of_deepest(node.left, curr_depth + 1, max_depth)
+            right_result = find_lca_of_deepest(node.right, curr_depth + 1, max_depth)
 
             if left_result and right_result:
                 return node
