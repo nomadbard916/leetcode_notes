@@ -63,9 +63,12 @@ class Solution:
             left_result = find_lca_of_deepest(node.left, curr_depth + 1, max_depth)
             right_result = find_lca_of_deepest(node.right, curr_depth + 1, max_depth)
 
+            #  * post order logic
+            # If both left and right have deepest nodes, current node is LCA
             if left_result and right_result:
                 return node
 
+            # Return whichever subtree has deepest nodes
             return left_result or right_result
 
         max_depth = find_max_depth(root)
