@@ -19,22 +19,41 @@ class TreeNode:
 
 class Solution:
     def subtreeWithAllDeepest(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        # * we need to find the Lowest Common Ancestor (LCA) of all the deepest nodes in the binary tree.
+
+        # ! sol1: one-pass DFS (optimal)
         def dfs(node: Optional[TreeNode]) -> tuple[Optional[TreeNode], int]:
             if not node:
                 return None, 0
+
             left_subtree, left_depth = dfs(node.left)
             right_subtree, right_depth = dfs(node.right)
 
+            # * post order logic
+            # If only one deepest node exists: That node itself is the answer
             if left_depth > right_depth:
                 return left_subtree, left_depth + 1
             elif left_depth < right_depth:
                 return right_subtree, right_depth + 1
+            # both sides, LCA is the answer with either depth can do
             else:
                 return node, left_depth + 1
 
         subtree_root, _ = dfs(root)
 
         return subtree_root
+
+        # Time and Space Complexity
+
+        # Solution 1 (One-Pass DFS):
+
+        # Time Complexity: O(n) - visit each node once
+        # Space Complexity: O(h) - recursion stack, where h is height of tree
+
+        # Solution 2 (Two-Pass):
+
+        # Time Complexity: O(n) - two passes through the tree
+        # Space Complexity: O(h) - recursion stack
 
 
 # @lc code=end
