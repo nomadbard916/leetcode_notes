@@ -20,12 +20,16 @@ class TreeNode:
 class Solution:
     def subtreeWithAllDeepest(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         # * we need to find the Lowest Common Ancestor (LCA) of all the deepest nodes in the binary tree.
+        # see also:
+        # LeetCode 236: Lowest Common Ancestor of Binary Tree
+        # LeetCode 1644: Lowest Common Ancestor of Binary Tree II
 
         # ! sol1: one-pass DFS (optimal)
         def dfs(node: Optional[TreeNode]) -> tuple[Optional[TreeNode], int]:
             if not node:
                 return None, 0
 
+            # For each node, recursively get results from left and right subtrees
             left_subtree, left_depth = dfs(node.left)
             right_subtree, right_depth = dfs(node.right)
 
