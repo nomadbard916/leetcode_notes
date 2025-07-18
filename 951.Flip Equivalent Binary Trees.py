@@ -19,9 +19,13 @@ class TreeNode:
 
 class Solution:
     def flipEquiv(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> bool:
-        # we can define a flip operation as follows: choose any node, and swap the left and right child subtrees.
-        # A binary tree X is flip equivalent to a binary tree Y if and only if
-        # we can make X equal to Y after some number of flip operations.
+        # The key insight is that for any two nodes to be flip equivalent, they must have the same value,
+        # and their subtrees must be flip equivalent in one of two ways:
+
+        # No flip needed: Left subtree of tree1 matches left subtree of tree2,
+        # and right subtree of tree1 matches right subtree of tree2
+        # Flip needed: Left subtree of tree1 matches right subtree of tree2,
+        # and right subtree of tree1 matches left subtree of tree2
 
         # Base case: both nodes are None
         if not root1 and not root2:
