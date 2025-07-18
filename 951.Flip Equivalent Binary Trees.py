@@ -19,6 +19,11 @@ class TreeNode:
 
 class Solution:
     def flipEquiv(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> bool:
+        # see also:
+        # LeetCode 100 (Same Tree)
+        # LeetCode 101 (Symmetric Tree)
+        # LeetCode 572 (Subtree of Another Tree)
+
         # The key insight is that for any two nodes to be flip equivalent, they must have the same value,
         # and their subtrees must be flip equivalent in one of two ways:
 
