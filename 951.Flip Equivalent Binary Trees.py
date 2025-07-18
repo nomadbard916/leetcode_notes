@@ -19,6 +19,9 @@ class TreeNode:
 
 class Solution:
     def flipEquiv(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> bool:
+        # we can define a flip operation as follows: choose any node, and swap the left and right child subtrees.
+        # A binary tree X is flip equivalent to a binary tree Y if and only if
+        # we can make X equal to Y after some number of flip operations.
         if not root1 and not root2:
             return True
         if not root1 or not root2:
@@ -34,6 +37,19 @@ class Solution:
         )
 
         return no_flip or flip
+
+        # Time and Space Complexity
+
+        # Time Complexity: O(min(N1, N2)) where N1 and N2 are the number of nodes in the two trees
+
+        # We visit each node at most once
+        # We stop early if trees have different structures
+
+        # Space Complexity: O(min(H1, H2)) where H1 and H2 are the heights of the two trees
+
+        # This is the maximum recursion depth
+        # In the worst case (skewed tree), this could be O(N)
+        # In the best case (balanced tree), this is O(log N)
 
 
 # @lc code=end
