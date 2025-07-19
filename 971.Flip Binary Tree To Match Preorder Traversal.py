@@ -19,6 +19,9 @@ class TreeNode:
 
 class Solution:
     def flipMatchVoyage(self, root: Optional[TreeNode], voyage: List[int]) -> List[int]:
+        #  * this is fundamentally a "traversal order selection" algorithm disguised as a "tree flipping" algorithm.
+        # The "flipping" is conceptual - we're really just choosing which child to visit first at each step!
+
         # * What We're NOT Doing vs What We ARE Doing
         # NOT Actually Flipping:
         # - We don't modify the tree structure
@@ -39,6 +42,7 @@ class Solution:
         # 2. Simulate the result of flips without actual modifications
         # 3. Validate in linear time
 
+        # TODO: modify this to parameter passing, as functional style has more pros.
         # Store nodes that we flip
         self.flipped = []
         # Track current position in voyage
