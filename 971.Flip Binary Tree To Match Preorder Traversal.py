@@ -49,16 +49,19 @@ class Solution:
             if self.index < len(voyage):
                 curr_voyage_val = voyage[self.index]
                 if node.left.val == curr_voyage_val:
-                    # Left child matches next expected value - no flip needed
+                    # Left child matches next expected value
+                    # No flip needed because the natural traversal order already matches what we want.
                     return dfs(node.left) and dfs(node.right)
                 elif node.right.val == curr_voyage_val:
-                    # Right child matches next expected value - need to flip
+                    # Right child matches next expected value
+                    # The flip is needed because preorder always visits left subtree before right subtree.
                     self.flipped.append(node.val)
                     return dfs(node.right) and dfs(node.left)
                 else:
                     # Neither child matches - impossible to match voyage
                     return False
             else:
+                # Neither child matches - impossible to match voyage
                 return False
 
         if dfs(root):
