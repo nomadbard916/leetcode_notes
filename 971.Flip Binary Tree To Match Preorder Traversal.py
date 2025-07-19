@@ -38,7 +38,7 @@ class Solution:
             if not node.left and not node.right:
                 return True
 
-            # If this is a leaf node, we're done with this subtree
+            # If only one child exists, process it normally
             if not node.left:
                 return dfs(node.right)
             if not node.right:
@@ -46,15 +46,18 @@ class Solution:
 
             # Both children exist - check if we need to flip
             # Look at the next value in voyage to decide
-            if self.index < len(voyage) and node.left.val == voyage[self.index]:
-                # Left child matches next expected value - no flip needed
-                return dfs(node.left) and dfs(node.right)
-            elif self.index < len(voyage) and node.right.val == voyage[self.index]:
-                # Right child matches next expected value - need to flip
-                self.flipped.append(node.val)
-                return dfs(node.right) and dfs(node.left)
+            if self.index < len(voyage):
+                if node.left.val == voyage[self.index]:
+                    # Left child matches next expected value - no flip needed
+                    return dfs(node.left) and dfs(node.right)
+                elif node.right.val == voyage[self.index]:
+                    # Right child matches next expected value - need to flip
+                    self.flipped.append(node.val)
+                    return dfs(node.right) and dfs(node.left)
+                else:
+                    # Neither child matches - impossible to match voyage
+                    return False
             else:
-                # Neither child matches - impossible to match voyage
                 return False
 
         if dfs(root):
