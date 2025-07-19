@@ -85,6 +85,7 @@ class Solution:
             if node.right.val == curr_voyage_val:
                 # The flip is needed because preorder always visits left subtree before right subtree.
                 self.flipped.append(node.val)
+                # traverse right first as it's the new left in pre-order traversal
                 return dfs(node.right) and dfs(node.left)
 
             # Neither child matches - impossible to match voyage
@@ -94,6 +95,17 @@ class Solution:
             return self.flipped
 
         return [-1]
+
+        # Time and Space Complexity
+
+        # Time Complexity: O(n) where n is the number of nodes in the tree
+        # - We visit each node exactly once
+        # - Each node operation is O(1)
+
+        # Space Complexity: O(h + f) where h is the height of the tree and f is the number of flips
+        # - O(h) for the recursion stack (worst case O(n) for skewed tree)
+        # - O(f) for storing the flipped nodes list (worst case O(n))
+        # - Overall: O(n) in the worst case
 
 
 # @lc code=end
