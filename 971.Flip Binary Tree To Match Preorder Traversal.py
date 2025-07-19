@@ -19,6 +19,26 @@ class TreeNode:
 
 class Solution:
     def flipMatchVoyage(self, root: Optional[TreeNode], voyage: List[int]) -> List[int]:
+        # * What We're NOT Doing vs What We ARE Doing
+        # NOT Actually Flipping:
+        # - We don't modify the tree structure
+        # - We don't physically swap left and right pointers
+        # - The tree remains unchanged throughout the algorithm
+
+        # What We ARE Actually Doing:
+        # - Dynamically choosing traversal order based on the voyage requirements
+        # - Recording which nodes would need to be flipped if we were to physically modify the tree
+        # - Simulating the result of what the preorder traversal would be if flips were applied
+
+        # Instead of:
+        # 1. Try all possible combinations of flips → exponential complexity
+        # 2. Actually flip nodes and check → requires tree modification
+
+        # We do:
+        # 1. Greedily decide traversal order based on immediate needs
+        # 2. Simulate the result of flips without actual modifications
+        # 3. Validate in linear time
+
         # Store nodes that we flip
         self.flipped = []
         # Track current position in voyage
@@ -61,7 +81,7 @@ class Solution:
                     # Neither child matches - impossible to match voyage
                     return False
             else:
-                # Neither child matches - impossible to match voyage
+                # already out of bound
                 return False
 
         if dfs(root):
