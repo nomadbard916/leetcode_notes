@@ -19,6 +19,8 @@ class TreeNode:
 
 class Solution:
     def flipMatchVoyage(self, root: Optional[TreeNode], voyage: List[int]) -> List[int]:
+        # * it is asking you to iterate through 2 DS at once, see # 1367
+
         #  * this is fundamentally a "traversal order selection" algorithm disguised as a "tree flipping" algorithm.
         # The "flipping" is conceptual - we're really just choosing which child to visit first at each step!
 
@@ -52,8 +54,11 @@ class Solution:
             if not node:
                 return True
 
+            if self.index >= len(voyage):
+                return False
+
             # Check if current node matches expected value in voyage
-            if self.index >= len(voyage) or node.val != voyage[self.index]:
+            if node.val != voyage[self.index]:
                 return False
 
             self.index += 1
@@ -68,24 +73,20 @@ class Solution:
             if not node.right:
                 return dfs(node.left)
 
-            # Both children exist - check if we need to flip
+            # * Both children exist - check if we need to flip
             # Look at the next value in voyage to decide
-            if self.index < len(voyage):
-                curr_voyage_val = voyage[self.index]
-                if node.left.val == curr_voyage_val:
-                    # Left child matches next expected value
-                    # No flip needed because the natural traversal order already matches what we want.
-                    return dfs(node.left) and dfs(node.right)
-                elif node.right.val == curr_voyage_val:
-                    # Right child matches next expected value
-                    # The flip is needed because preorder always visits left subtree before right subtree.
-                    self.flipped.append(node.val)
-                    return dfs(node.right) and dfs(node.left)
-                else:
-                    # Neither child matches - impossible to match voyage
-                    return False
+            curr_voyage_val = voyage[self.index]
+            if node.left.val == curr_voyage_val:
+                # Left child matches next expected value
+                # No flip needed because the natural traversal order already matches what we want.
+                return dfs(node.left) and dfs(node.right)
+            elif node.right.val == curr_voyage_val:
+                # Right child matches next expected value
+                # The flip is needed because preorder always visits left subtree before right subtree.
+                self.flipped.append(node.val)
+                return dfs(node.right) and dfs(node.left)
             else:
-                # already out of bound
+                # Neither child matches - impossible to match voyage
                 return False
 
         if dfs(root):
