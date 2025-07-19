@@ -74,20 +74,21 @@ class Solution:
                 return dfs(node.left)
 
             # * Both children exist - check if we need to flip
-            # Look at the next value in voyage to decide
             curr_voyage_val = voyage[self.index]
+
+            # Left child matches next expected value
             if node.left.val == curr_voyage_val:
-                # Left child matches next expected value
                 # No flip needed because the natural traversal order already matches what we want.
                 return dfs(node.left) and dfs(node.right)
-            elif node.right.val == curr_voyage_val:
-                # Right child matches next expected value
+
+            # Right child matches next expected value
+            if node.right.val == curr_voyage_val:
                 # The flip is needed because preorder always visits left subtree before right subtree.
                 self.flipped.append(node.val)
                 return dfs(node.right) and dfs(node.left)
-            else:
-                # Neither child matches - impossible to match voyage
-                return False
+
+            # Neither child matches - impossible to match voyage
+            return False
 
         if dfs(root):
             return self.flipped
