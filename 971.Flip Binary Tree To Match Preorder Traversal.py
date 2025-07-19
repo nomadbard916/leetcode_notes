@@ -47,10 +47,11 @@ class Solution:
             # Both children exist - check if we need to flip
             # Look at the next value in voyage to decide
             if self.index < len(voyage):
-                if node.left.val == voyage[self.index]:
+                curr_voyage_val = voyage[self.index]
+                if node.left.val == curr_voyage_val:
                     # Left child matches next expected value - no flip needed
                     return dfs(node.left) and dfs(node.right)
-                elif node.right.val == voyage[self.index]:
+                elif node.right.val == curr_voyage_val:
                     # Right child matches next expected value - need to flip
                     self.flipped.append(node.val)
                     return dfs(node.right) and dfs(node.left)
