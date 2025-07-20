@@ -44,9 +44,9 @@ class Solution:
         # 2. Simulate the result of flips without actual modifications
         # 3. Validate in linear time
 
-        # TODO: modify this to parameter passing, as functional style has more pros.
         # Store nodes that we flip
-        self.flipped = []
+        flipped = []
+        # TODO: modify this to parameter passing, as functional style has more pros.
         # Track current position in voyage
         self.index = 0
 
@@ -84,15 +84,15 @@ class Solution:
             # Right child matches next expected value
             if node.right.val == curr_voyage_val:
                 # The flip is needed because preorder always visits left subtree before right subtree.
-                self.flipped.append(node.val)
-                # traverse right first as it's the new left in pre-order traversal
+                flipped.append(node.val)
+                # traverse right first as it's the new left after flipped in pre-order traversal
                 return dfs(node.right) and dfs(node.left)
 
             # Neither child matches - impossible to match voyage
             return False
 
         if dfs(root):
-            return self.flipped
+            return flipped
 
         return [-1]
 
