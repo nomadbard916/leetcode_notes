@@ -35,6 +35,7 @@ class Solution:
             Negative = deficit coins needed from parent
             """
             nonlocal moves
+
             if not node:
                 return 0
 
@@ -55,6 +56,11 @@ class Solution:
         dfs(root)
 
         return moves
+
+        # Time and Space Complexity
+
+        # Time Complexity: O(n) where n is number of nodes - visit each node once
+        # Space Complexity: O(h) where h is tree height - recursion stack depth
 
 
 # @lc code=end
