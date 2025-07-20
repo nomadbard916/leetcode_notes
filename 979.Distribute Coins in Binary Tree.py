@@ -18,6 +18,10 @@ class TreeNode:
 
 
 class Solution:
+    # Similar Problems:
+    # 968. Binary Tree Cameras - Similar post-order DP approach
+    # 337. House Robber III - Binary tree DP with state propagation
+    # 124. Binary Tree Maximum Path Sum - Post-order with value propagation
     def distributeCoins(self, root: Optional[TreeNode]) -> int:
         # * Approach: Post-order DFS
         # - For each node, calculate how many coins it needs or has excess
@@ -39,7 +43,9 @@ class Solution:
 
             # * post order logic
             # Count moves: absolute value of flow = number of moves
-            moves += abs(left_flow) + abs(right_flow)
+            left_move = abs(left_flow)
+            right_move = abs(right_flow)
+            moves += left_move + right_move
 
             # Calculate net flow from current node to its parent
             # = coins_in_node + coins_from_children - coins_needed
