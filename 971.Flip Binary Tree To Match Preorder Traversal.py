@@ -46,22 +46,25 @@ class Solution:
 
         # Store nodes that we flip
         flipped = []
-        # TODO: modify this to parameter passing, as functional style has more pros.
         # Track current position in voyage
-        self.index = 0
+        # it can also be variable passing in dfs() to be pure functional,
+        # but this way is clearer
+        index = 0
 
         def dfs(node: Optional[TreeNode]) -> bool:
+            nonlocal index
+
             if not node:
                 return True
 
-            if self.index >= len(voyage):
+            if index >= len(voyage):
                 return False
 
             # Check if current node matches expected value in voyage
-            if node.val != voyage[self.index]:
+            if node.val != voyage[index]:
                 return False
 
-            self.index += 1
+            index += 1
 
             # If this is a leaf node, we're done with this subtree
             if not node.left and not node.right:
@@ -74,7 +77,7 @@ class Solution:
                 return dfs(node.left)
 
             # * Both children exist - check if we need to flip
-            curr_voyage_val = voyage[self.index]
+            curr_voyage_val = voyage[index]
 
             # Left child matches next expected value
             if node.left.val == curr_voyage_val:
