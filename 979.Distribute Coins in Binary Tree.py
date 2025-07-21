@@ -38,6 +38,9 @@ class Solution:
             """
             nonlocal moves
 
+            # every node need to have exactly 1 coin
+            COINS_NEEDED = 1
+
             if not node:
                 return 0
 
@@ -53,7 +56,12 @@ class Solution:
             # Calculate net flow from current node to its parent
             # = coins_in_node + coins_from_children - coins_needed
             # = node.val + left_flow + right_flow - 1
-            return node.val + left_flow_from_children + right_flow_from_children - 1
+            return (
+                node.val
+                + left_flow_from_children
+                + right_flow_from_children
+                - COINS_NEEDED
+            )
 
         dfs(root)
 
