@@ -23,6 +23,8 @@ class Solution:
     # 337. House Robber III - Binary tree DP with state propagation
     # 124. Binary Tree Maximum Path Sum - Post-order with value propagation
     def distributeCoins(self, root: Optional[TreeNode]) -> int:
+        # * The key insight is to think about net coin flow between nodes and their parents.
+        # For each subtree, we calculate how many coins it will send to (or request from) its parent.
         # * Approach: Post-order DFS
         # - For each node, calculate how many coins it needs or has excess
         # - Move coins up to parent, counting each move
@@ -39,19 +41,19 @@ class Solution:
             if not node:
                 return 0
 
-            left_flow = dfs(node.left)
-            right_flow = dfs(node.right)
+            left_flow_from_children = dfs(node.left)
+            right_flow_from_children = dfs(node.right)
 
             # * post order logic
             # Count moves: absolute value of flow = number of moves
-            left_move = abs(left_flow)
-            right_move = abs(right_flow)
+            left_move = abs(left_flow_from_children)
+            right_move = abs(right_flow_from_children)
             moves += left_move + right_move
 
             # Calculate net flow from current node to its parent
             # = coins_in_node + coins_from_children - coins_needed
             # = node.val + left_flow + right_flow - 1
-            return node.val + left_flow + right_flow - 1
+            return node.val + left_flow_from_children + right_flow_from_children - 1
 
         dfs(root)
 
