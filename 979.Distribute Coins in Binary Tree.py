@@ -55,7 +55,7 @@ class Solution:
 
             # Calculate net flow from current node to its parent
             # = coins_in_node + coins_from_children - coins_needed
-            # = node.val + left_flow + right_flow - 1
+            # = node.val + (left_flow + right_flow) - 1
             return (
                 node.val
                 + left_flow_from_children
