@@ -1,6 +1,5 @@
 class Solution:
     def question(self, nums: List[int]) -> List[List[int]]:
-
         result = []
 
         # sanity check on data source
@@ -23,7 +22,7 @@ class Solution:
             # can be in the form by index manipulation
 
             for item in option_list:
-                # make decision, may need to do sanity check first
+                # make decision/change state, may need to do sanity check first
                 # may need to update option list
                 updated_path = current_path.append(item)
 
@@ -31,7 +30,7 @@ class Solution:
                 # sometimes the path and option lists can even be modified directly in calling backtrack()
                 backtrack(updated_path, "updated options")
 
-                # cancel decision,
+                # cancel decision/recover state,
                 # or don't do anything when backtracking is done with updated_path, ie. a clone of current_path
 
                 current_path.pop()
