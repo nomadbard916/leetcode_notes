@@ -19,6 +19,7 @@ from typing import List, Optional
 
 class Solution:
     def constructMaximumBinaryTree(self, nums: List[int]) -> Optional[TreeNode]:
+        # ! sol 1: Recursive Divide and Conquer
         if not nums:
             return None
 
@@ -44,6 +45,43 @@ class Solution:
         # Space Complexity: O(n)
         # Recursion depth: O(n) in worst case
         # Array slicing creates new arrays: O(n) space
+
+        # ! sol2: Optimized Stack Solution (Advanced)
+        # Key Insights:
+        # 1. Process numbers left to right
+        # 2. Maintain stack of nodes in decreasing order
+        # 3. When we find a larger number, it becomes the parent of smaller numbers we pop
+
+        # How it works:
+        # - Stack maintains potential parents in decreasing order
+        # - When current number > stack top: current becomes parent of popped elements
+        # - When current number < stack top: current becomes right child of stack top
+        stack = []
+
+        for num in nums:
+            node = TreeNode(num)
+
+            # Pop smaller elements and make the last popped element
+            # the left child of current node
+            last_popped = None
+            while stack and stack[-1].val < nums:
+                last_popped = stack.pop()
+
+                if last_popped:
+                    node.left = last_popped
+
+                # If stack is not empty, current node becomes right child
+                # of the top element in stack
+                if stack:
+                    stack[-1].right = node
+
+                stack.append(node)
+
+        # The bottom element of stack is the root
+        if stack:
+            return stack[0]
+
+        return None
 
 
 # @lc code=end
