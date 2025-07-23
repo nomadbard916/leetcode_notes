@@ -64,24 +64,51 @@ class Solution:
             # Pop smaller elements and make the last popped element
             # the left child of current node
             last_popped = None
-            while stack and stack[-1].val < nums:
+            while stack and stack[-1].val < num:
                 last_popped = stack.pop()
 
-                if last_popped:
-                    node.left = last_popped
+            if last_popped:
+                node.left = last_popped
 
-                # If stack is not empty, current node becomes right child
-                # of the top element in stack
-                if stack:
-                    stack[-1].right = node
+            # If stack is not empty, current node becomes right child
+            # of the top element in stack
+            if stack:
+                stack[-1].right = node
 
-                stack.append(node)
+            stack.append(node)
 
         # The bottom element of stack is the root
         if stack:
             return stack[0]
 
         return None
+
+        # Time Complexity: O(n)
+        # Detailed breakdown:
+        # - Outer loop: Iterates through each element in nums exactly once → O(n)
+        # - Inner while loop: Each element can be pushed to the stack at most once and popped at most once
+        #   - Total pushes across all iterations: n
+        #   - Total pops across all iterations: ≤ n
+        #   - Amortized analysis: Even though we have nested loops, each element is processed at most twice (once when pushed, once when popped)
+
+        # - Stack operations: Push and pop are O(1) each
+        # - Overall: O(n) - linear time, much better than the recursive O(n²) solution
+
+        # Space Complexity: O(n)
+        # Components:
+        # - Stack space: In worst case, all elements could remain in the stack
+        #   - Example: Decreasing array [6,5,4,3,2,1] → all elements stay in stack
+        #   - Maximum stack size: n elements → O(n)
+        # - TreeNode objects: We create exactly n TreeNode objects (one per input element) → O(n)
+        # - No recursion overhead: Unlike the recursive solution, no call stack depth
+        # - No array slicing: Unlike the recursive solution, no additional arrays created
+        # - Overall: O(n) space
+
+        # Why Stack Solution is More Efficient:
+        # - No repeated work: Each element processed exactly once
+        # - No array slicing: Avoids O(n) copying operations
+        # - Iterative: No recursion call stack overhead
+        # - Single pass: Builds the tree in one left-to-right traversal
 
 
 # @lc code=end
