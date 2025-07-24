@@ -22,6 +22,9 @@ class Solution:
             # can be in the form by index manipulation
 
             for item in option_list:
+                if pruning_condition:
+                    continue
+
                 # make decision/change state, may need to do sanity check first
                 # may need to update option list
                 updated_path = current_path.append(item)
