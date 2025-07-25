@@ -16,7 +16,7 @@ class Solution:
         ans = []
 
         def backtrack(current_path):
-            # ending condition:
+            # * ending condition:
             # all the nums are already considered
             if len(current_path) == perm_n:
                 ans.append(current_path)
@@ -28,7 +28,7 @@ class Solution:
                 if num in current_path:
                     continue
 
-                # modify state
+                # * modify state
                 updated_path = current_path + [num]
 
                 backtrack(updated_path)
