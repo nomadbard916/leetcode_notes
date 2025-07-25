@@ -16,12 +16,13 @@ class Solution:
         ans = []
 
         def backtrack(current_path):
-            # * ending condition
+            # ending condition:
+            # all the nums are already considered
             if len(current_path) == perm_n:
                 ans.append(current_path)
                 return
 
-            # * for each position, which balls can be put in?
+            # for each position, which balls can be put in?
             for num in nums:
                 # * pruning condition
                 if num in current_path:
@@ -32,10 +33,9 @@ class Solution:
 
                 backtrack(updated_path)
 
-                # theres no need to recover state
+                # theres no need to recover state as the state keeps copied into arg
 
-        current_path = []
-        backtrack(current_path)
+        backtrack([])
 
         return ans
 
