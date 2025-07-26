@@ -26,11 +26,21 @@ class Solution:
 
         for num in nums:
             # Iterate backwards to avoid using the same number twice
+            # Why iterate backwards?
+            # If we go forwards, we might use the same number multiple times in one iteration.
+            # For example, with num = 3, if we go forwards:
+            # - dp[3] = True (using the number once)
+            # - dp[6] = dp[6] or dp[3] = True (incorrectly using the number twice)
             for j in range(target, num - 1, -1):
                 # If we can make sum (j - num), then we can make sum j by adding num
                 dp[j] = dp[j] or dp[j - num]
 
         return dp[target]
+
+        # Time Complexity: O(n × sum) where n is array length and sum is total sum
+        # Space Complexity:
+        # DP approach: O(sum)
+        # Recursive approach: O(n × sum) for memoization + O(n) for recursion stack
 
 
 # @lc code=end
