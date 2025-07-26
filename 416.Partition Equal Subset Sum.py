@@ -22,18 +22,33 @@ class Solution:
         target = total_sum // 2
 
         # DP approach: dp[i] represents whether sum i is achievable
-        dp_target_num = [False] * (target + 1)
+        dp_target_num = [False] * (target + 1)  # target itself and dummy start 0
         dp_target_num[0] = True  # Sum of 0 is always achievable (empty subset)
 
         for num in nums:
-            # Iterate backwards to avoid using the same number twice
+            # * Iterate backwards to avoid using the same number twice
+            # We don't have to start from the last one! We can start from anywhere and go backwards, but we must go backwards to avoid dependency cycles.
             # Why iterate backwards?
             # If we go forwards, we might use the same number multiple times in one iteration.
             # For example, with num = 3, if we go forwards:
             # - dp[3] = True (using the number once)
             # - dp[6] = dp[6] or dp[3] = True (incorrectly using the number twice)
+            # When processing number 3:
+            # dp[3] depends on dp[0]
+            # dp[6] depends on dp[3] ← Potential cycle here!
+            # dp[9] depends on dp[6]
+            # * Why We Choose target as Starting Point:
+            # It's just optimal efficiency:
+            # We want to find if dp[target] becomes True
+            # Starting from target gives us the maximum chance to set dp[target] = True
+            # Starting from middle means we might miss opportunities to reach the target
+            # * The Real Pattern You're Seeing:
+            # This isn't greedy behavior - it's topological ordering in disguise!
+            # We're processing dependencies in an order that avoids cycles.
+            # The "last to first" is just the most convenient way to ensure proper dependency ordering.
             for j in range(target, num - 1, -1):
                 # Only update if we can make sum (j - num)
+                # don't worry if the previous one as not set yet, we have idx 0 True
                 if dp_target_num[j - num]:
                     dp_target_num[j] = True
 
