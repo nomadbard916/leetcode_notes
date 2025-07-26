@@ -64,6 +64,38 @@ class Solution:
 
         return dp_target_num[target]
 
+        # ! sol2: recursive
+
+        total_sum = sum(nums)
+
+        if total_sum % 2 != 0:
+            return False
+
+        target = total_sum // 2
+        memo = {}
+
+        def dfs(index: int, current_sum: int) -> bool:
+            # base cases
+            if current_sum == target:
+                return True
+            if index >= len(nums) or current_sum > target:
+                return False
+
+            # check memo
+            if (index, current_sum) in memo:
+                return memo[(index, current_sum)]
+
+            # two choices: include current number or skip it
+            result = (
+                dfs(index + 1, current_sum + nums[index])  # include
+                or dfs(index + 1, current_sum)
+            )  # skip
+
+            memo[(index, current_sum)] = result
+            return result
+
+        return dfs(0, 0)
+
         # Time Complexity: O(n × sum) where n is array length and sum is total sum
         # Space Complexity:
         # DP approach: O(sum)
