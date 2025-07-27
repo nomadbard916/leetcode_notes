@@ -80,7 +80,7 @@ class Solution:
         memo = {}
 
         def dfs(curr_index: int, curr_sum: int) -> bool:
-            # base cases
+            # * ending condition
             if curr_sum == target:
                 return True
             if curr_index >= len(nums) or curr_sum > target:
@@ -90,7 +90,7 @@ class Solution:
             if (curr_index, curr_sum) in memo:
                 return memo[(curr_index, curr_sum)]
 
-            # two choices: include current number or skip it
+            # * two choices: include current number or skip it
             result = (
                 dfs(curr_index + 1, curr_sum + nums[curr_index])  # include
                 or dfs(curr_index + 1, curr_sum)  # skip
