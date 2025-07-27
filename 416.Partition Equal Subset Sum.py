@@ -22,6 +22,7 @@ class Solution:
         target = total_sum // 2
 
         # DP approach: dp[i] represents whether sum i is achievable, no matter the combination of num
+        # it's essentially a "compressed state"
         dp_sum = [False] * (target + 1)  # target itself and dummy start 0
         dp_sum[0] = True  # Sum of 0 is always achievable (empty subset)
 
@@ -40,6 +41,7 @@ class Solution:
             # dp[3] depends on dp[0]
             # dp[6] depends on dp[3] ← Potential cycle here!
             # dp[9] depends on dp[6]
+            # this way only contains information from previous iterations, not the current
             # * Why We Choose target as Starting Point:
             # It's just optimal efficiency:
             # We want to find if dp[target] becomes True
@@ -60,6 +62,7 @@ class Solution:
                 # - We don't need to know WHICH combination - just that it exists
                 # - Adding current number num gives us sum j
                 if dp_sum[j - num]:
+                    # dp[j] = "Can any subset sum to j?"
                     dp_sum[j] = True
 
         return dp_sum[target]
