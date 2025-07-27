@@ -6,7 +6,7 @@
 #
 
 # @lc code=start
-from typing import List
+from typing import Dict, List, Tuple
 
 
 class Solution:
@@ -65,6 +65,7 @@ class Solution:
                     # dp[j] = "Can any subset sum to j?"
                     dp_sum[j] = True
 
+        # We don't care about the journey, only the destination.
         return dp_sum[target]
 
         # ! sol2: recursive, more intuitive but less space-efficient
@@ -77,7 +78,7 @@ class Solution:
             return False
 
         target = total_sum // 2
-        memo = {}
+        memo: Dict[Tuple[int, int], bool] = {}
 
         def dfs(curr_index: int, curr_sum: int) -> bool:
             # * ending condition
@@ -86,7 +87,7 @@ class Solution:
             if curr_index >= len(nums) or curr_sum > target:
                 return False
 
-            # check memo
+            # check memo first
             if (curr_index, curr_sum) in memo:
                 return memo[(curr_index, curr_sum)]
 
