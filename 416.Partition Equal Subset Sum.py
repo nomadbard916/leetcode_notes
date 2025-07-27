@@ -69,7 +69,9 @@ class Solution:
         return dp_sum[target]
 
         # ! sol2: recursive, more intuitive but less space-efficient
-        # At each index, we have two choices: include the current number or skip it
+        # it's essentially ball-box thinking
+        # At each index, we have two choices: include the current number or skip it,
+        # that is: Should I put this ball (number) in the box (current subset)
         # Use memoization to avoid recalculating the same subproblems
 
         total_sum = sum(nums)
@@ -91,11 +93,12 @@ class Solution:
             if (curr_index, curr_sum) in memo:
                 return memo[(curr_index, curr_sum)]
 
-            # * two choices: include current number or skip it
-            result = (
-                dfs(curr_index + 1, curr_sum + nums[curr_index])  # include
-                or dfs(curr_index + 1, curr_sum)  # skip
-            )
+            # * two choices: two boxes/choices for each ball (number)
+            # Box 1: "Include this number"
+            include = dfs(curr_index + 1, curr_sum + nums[curr_index])
+            # Box 2: "Exclude this number"
+            exclude = dfs(curr_index + 1, curr_sum)
+            result = include or exclude
 
             memo[(curr_index, curr_sum)] = result
             return result
