@@ -67,7 +67,9 @@ class Solution:
 
         return dp_sum[target]
 
-        # ! sol2: recursive
+        # ! sol2: recursive, more intuitive but less space-efficient
+        # At each index, we have two choices: include the current number or skip it
+        # Use memoization to avoid recalculating the same subproblems
 
         total_sum = sum(nums)
 
@@ -77,24 +79,24 @@ class Solution:
         target = total_sum // 2
         memo = {}
 
-        def dfs(index: int, current_sum: int) -> bool:
+        def dfs(curr_index: int, curr_sum: int) -> bool:
             # base cases
-            if current_sum == target:
+            if curr_sum == target:
                 return True
-            if index >= len(nums) or current_sum > target:
+            if curr_index >= len(nums) or curr_sum > target:
                 return False
 
             # check memo
-            if (index, current_sum) in memo:
-                return memo[(index, current_sum)]
+            if (curr_index, curr_sum) in memo:
+                return memo[(curr_index, curr_sum)]
 
             # two choices: include current number or skip it
             result = (
-                dfs(index + 1, current_sum + nums[index])  # include
-                or dfs(index + 1, current_sum)
-            )  # skip
+                dfs(curr_index + 1, curr_sum + nums[curr_index])  # include
+                or dfs(curr_index + 1, curr_sum)  # skip
+            )
 
-            memo[(index, current_sum)] = result
+            memo[(curr_index, curr_sum)] = result
             return result
 
         return dfs(0, 0)
