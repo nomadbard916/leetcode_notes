@@ -21,9 +21,9 @@ class Solution:
 
         target = total_sum // 2
 
-        # DP approach: dp[i] represents whether sum i is achievable
-        dp_target_num = [False] * (target + 1)  # target itself and dummy start 0
-        dp_target_num[0] = True  # Sum of 0 is always achievable (empty subset)
+        # DP approach: dp[i] represents whether sum i is achievable, no matter the combination of num
+        dp_sum = [False] * (target + 1)  # target itself and dummy start 0
+        dp_sum[0] = True  # Sum of 0 is always achievable (empty subset)
 
         # * We Process One Number at a Time, But the DP Table Accumulates ALL Combinations
         # dp[j] represents whether sum j can be made using ANY combination of numbers processed so far,
@@ -59,10 +59,10 @@ class Solution:
                 # - dp[j-num] = True means "some combination of previous numbers sums to j-num"
                 # - We don't need to know WHICH combination - just that it exists
                 # - Adding current number num gives us sum j
-                if dp_target_num[j - num]:
-                    dp_target_num[j] = True
+                if dp_sum[j - num]:
+                    dp_sum[j] = True
 
-        return dp_target_num[target]
+        return dp_sum[target]
 
         # ! sol2: recursive
 
