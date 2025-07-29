@@ -29,6 +29,7 @@ class Solution:
         # * We Process One Number at a Time, But the DP Table Accumulates ALL Combinations
         # dp[j] represents whether sum j can be made using ANY combination of numbers processed so far,
         # not just the current number.
+        # for the first loop the decision of whether or not to take nums[0] is taken into consideration, second loop nums[0] and nums[1]...... finally all.
         for num in nums:
             # * Iterate backwards to avoid using the same number twice
             # We don't have to start from the last one! We can start from anywhere and go backwards, but we must go backwards to avoid dependency cycles.
