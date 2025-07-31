@@ -16,27 +16,29 @@ class Solution:
     def mergeTwoLists(
         self, l1: ListNode | None, l2: ListNode | None
     ) -> ListNode | None:
-        # each node move 1 step at once
+        # it's outside and in front of all nodes
         dummy = ListNode()
-        prev = dummy
+
+        # starting from outsider dummy node
+        curr_head = dummy
 
         while l1 and l2:
             if l1.val > l2.val:
-                prev.next = l2
+                curr_head.next = l2
                 l2 = l2.next
             else:
-                prev.next = l1
+                curr_head.next = l1
                 l1 = l1.next
 
-            prev = prev.next
+            curr_head = curr_head.next
         while l1:
-            prev.next = l1
+            curr_head.next = l1
             l1 = l1.next
-            prev = prev.next
+            curr_head = curr_head.next
         while l2:
-            prev.next = l2
+            curr_head.next = l2
             l2 = l2.next
-            prev = prev.next
+            curr_head = curr_head.next
 
         return dummy.next
 
