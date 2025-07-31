@@ -16,25 +16,24 @@ class Solution:
     def partition(self, head: ListNode | None, x: int) -> ListNode | None:
         # refer to # 328 for odd even list chaining
 
-        # use dummy nodes as outsiders and start from dummy
+        # * use dummy nodes as outsider starting point
         before_node = dummy_before = ListNode()
         after_node = dummy_after = ListNode()
 
-        # traverse the linked list
+        # * traverse the linked list
         # find the heads of two lists and link them in the process
         while head:
             if head.val < x:
                 before_node.next = head
                 before_node = before_node.next
+            # this list will contain the target
             else:
                 after_node.next = head
                 after_node = after_node.next
 
             head = head.next
 
-        # when the traversal is done, so are the linking of two lists
-        # but still need to cut the link for after list (the after_node here is the last node of the list)
-        # and link before and after lists together
+        # * Finish by connecting the two lists and terminating the after list.
         after_node.next = None
         before_node.next = dummy_after.next
 
