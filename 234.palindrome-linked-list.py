@@ -6,24 +6,35 @@ from collections import deque
 # [234] Palindrome Linked List
 #
 
+
 # @lc code=start
 # Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
 class Solution:
     def isPalindrome(self, head: ListNode) -> bool:
-        if not head or not head.next:
-            return True
+        # ! sol2: convert linked list to array, then check with two pointers
+        # easier to understand, but uses unnecessary extra space
+        values = []
 
-        container = []
-        while head:
-            container.append(head.val)
-            head = head.next
+        current = head
+        while current:
+            values.append(current.val)
+            current = current.next
 
-        return container == container[::-1]
+        left, right = 0, len(values) - 1
+
+        while left < right:
+            if values[left] != values[right]:
+                return False
+            left += 1
+            right -= 1
+
+        return True
 
 
 # @lc code=end
-

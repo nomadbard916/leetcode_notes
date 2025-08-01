@@ -27,6 +27,7 @@ class LRUCache:
         # move to end: pop and re-add
         value = self.cache.pop(key)
         self.cache[key] = value
+        # OrderedDict has a very convenient move_to_end(key)
 
         return value
 
