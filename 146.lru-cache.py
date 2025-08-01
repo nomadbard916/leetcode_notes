@@ -1,4 +1,5 @@
 from collections import deque
+from typing import Dict
 
 #
 # @lc app=leetcode id=146 lang=python3
@@ -6,41 +7,41 @@ from collections import deque
 # [146] LRU Cache
 #
 
+
 # @lc code=start
 class LRUCache:
+    # deal with order
+    # deal with unordered record
+
     def __init__(self, capacity: int):
-        # deal with order
-        # deal with unordered record
-
         # main container to make lookup as fast as possible with O(1),
-        # yet it's unordered, needs another container to record orders
-        self.m = {}
-        # make add/delete as fast as possible with O(1) with deque
-        self.q = deque()
+        # it's ordered already after py 3.7, but still lacks some convenient helpers in OrderedDict
+        self.cache: Dict[int, int] = {}
 
-        self.c = capacity
+        self.capacity = capacity
 
     def get(self, key: int) -> int:
-        if key not in self.m:
+        if key not in self.cache:
             return -1
 
-        self.q.remove(key)
-        self.q.append(key)
-
-        value = self.m[key]
+        # move to end: pop and re-add
+        value = self.cache.pop(key)
+        self.cache[key] = value
 
         return value
 
     def put(self, key: int, value: int) -> None:
-        if key in self.m:
-            self.q.remove(key)
-        else:
-            if len(self.q) == self.c:
-                oldest = self.q.popleft()
-                del self.m[oldest]
+        if key in self.cache:
+            # remove from old position first
+            self.cache.pop(key)
+        elif len(self.cache) >= self.capacity:
+            # remove oldest item first
+            oldest = next(iter(self.cache))
+            del self.cache[oldest]
+            # OrderedDict has a very convenient popitem(last=False)
 
-        self.q.append(key)
-        self.m[key] = value
+        # add to end
+        self.cache[key] = value
 
 
 # Your LRUCache object will be instantiated and called as such:
@@ -48,4 +49,3 @@ class LRUCache:
 # param_1 = obj.get(key)
 # obj.put(key,value)
 # @lc code=end
-
