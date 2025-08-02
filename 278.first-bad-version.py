@@ -13,23 +13,18 @@
 
 class Solution:
     def firstBadVersion(self, n):
-        """
-        :type n: int
-        :rtype: int
-        """
+        # ! left bound binary search, as everything after it is bad version
         if n == 1:
             return 1
 
-        l, r = 1, n
+        l, r = 1, n - 1
 
-        # sol1
-        while l < r:
+        while l <= r:
             mid = (l + r) // 2
             if isBadVersion(mid):
-                r = mid
+                r = mid - 1
             else:
                 l = mid + 1
-        # when l == r, it is the first bad version
         return l
 
 
