@@ -73,5 +73,19 @@ class Solution:
 
         return True
 
+        # Time and Space Complexity
+        # Optimal Solution:
+
+        # Time Complexity: O(n) where n is the number of nodes
+
+        # O(n/2) to find middle + O(n/2) to reverse + O(n/2) to compare = O(n)
+
+        # Space Complexity: O(1) - only using a constant amount of extra variables
+
+        # Array Solution:
+
+        # Time Complexity: O(n) - traverse once to build array, then O(n) to check palindrome
+        # Space Complexity: O(n) - storing all values in an array
+
 
 # @lc code=end
