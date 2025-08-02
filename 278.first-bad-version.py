@@ -32,23 +32,5 @@ class Solution:
         # when l == r, it is the first bad version
         return l
 
-        # sol2 is also good, but takes a bit more code.
-
-        # while l <= r:
-        #     mid = (l + r) // 2
-        #     if isBadVersion(mid):
-        #         # sanity check
-        #         mid_is_first = mid == 1
-
-        #         pre_mid = mid - 1
-        #         pre_mid_not_bad = not isBadVersion(pre_mid)
-        #         if mid_is_first or (pre_mid >= 1 and pre_mid_not_bad):
-        #             return mid
-
-        #         r = mid - 1
-        #     else:
-        #         l = mid + 1
-        #         # l cannot be bad, otherwise all versions afterward will be bad either
-
 
 # @lc code=end
