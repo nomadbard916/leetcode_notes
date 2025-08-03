@@ -22,19 +22,25 @@ class TimeMap:
         if key not in self.data:
             return ""
 
-        pairs = self.data[key]
+        # List[[timestamp, value]]
+        data_pairs = self.data[key]
 
-        left, right = 0, len(pairs) - 1
+        left, right = 0, len(data_pairs) - 1
 
         result = ""
 
         while left <= right:
             mid = (left + right) // 2
 
-            if pairs[mid][0] <= timestamp:
-                result = pairs[mid][1]
+            mid_data_pair_ts, mid_data_pair_val = data_pairs[mid]
+
+            if mid_data_pair_ts <= timestamp:
+                # This timestamp is valid, save the value
+                result = mid_data_pair_val
+                # Look for a potentially larger valid timestamp
                 left = mid + 1
             else:
+                # This timestamp is too large, search left half
                 right = mid - 1
 
         return result
