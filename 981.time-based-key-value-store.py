@@ -6,16 +6,18 @@
 
 # @lc code=start
 from collections import defaultdict
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 
 class TimeMap:
     def __init__(self):
-        # each key maps to a list of [timestamp, value]
-        self.data: Dict[str, List[List]] = defaultdict(list)
+        # each key maps to a list of ( timestamp, value )
+        self.data: Dict[str, List[Tuple[int, str]]] = defaultdict(list)
 
     def set(self, key: str, value: str, timestamp: int) -> None:
-        self.data[key].append([timestamp, value])
+        self.data[key].append((timestamp, value))
+
+        # O(1)
 
     def get(self, key: str, timestamp: int) -> str:
         if key not in self.data:
@@ -28,6 +30,8 @@ class TimeMap:
 
         result = ""
 
+        # essentially searching right-most, so bisect_right may be used,
+        # but memory explodes on this
         while left <= right:
             mid = (left + right) // 2
 
@@ -43,6 +47,7 @@ class TimeMap:
                 right = mid - 1
 
         return result
+        # O(log n)
 
 
 # Your TimeMap object will be instantiated and called as such:
