@@ -5,38 +5,39 @@
 #
 
 # @lc code=start
-from bisect import bisect
-from collections import defaultdict
+from typing import Dict, List
 
 
 class TimeMap:
     def __init__(self):
-        # need to get value by key => dict
-        # while search by value, timestamp pair
-        # => two lists to store value and timestamp for the same key in dict
-        self._t = defaultdict(list)
-        self._v = defaultdict(list)
-        # * self._max_t helps to return early when timestamp already exceeds the max,
-        # but not necessary
-        # self._max_t = defaultdict(int)
+        # each key maps to a list of [timestamp, value]
+        self.data: Dict[str, List[List]] = {}
 
     def set(self, key: str, value: str, timestamp: int) -> None:
-        self._t[key].append(timestamp)
-        self._v[key].append(value)
-        # self._max_t[key] = max(self._max_t[key], timestamp)
+        if key not in self.data:
+            self.data[key] = []
+        self.data[key].append([timestamp, value])
 
     def get(self, key: str, timestamp: int) -> str:
-        if key not in self._t:
+        if key not in self.data:
             return ""
 
-        # if timestamp >= self._max_t[key]:
-        #     return self._v[key][-1]
+        pairs = self.data[key]
 
-        if timestamp := bisect(self._t[key], timestamp):
-            real_index = timestamp - 1
-            return self._v[key][real_index]
+        left, right = 0, len(pairs) - 1
 
-        return ""
+        result = ""
+
+        while left <= right:
+            mid = (left + right) // 2
+
+            if pairs[mid][0] <= timestamp:
+                result = pairs[mid][1]
+                left = mid + 1
+            else:
+                right = mid - 1
+
+        return result
 
 
 # Your TimeMap object will be instantiated and called as such:
