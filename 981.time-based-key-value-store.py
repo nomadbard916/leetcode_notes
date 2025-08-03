@@ -5,17 +5,16 @@
 #
 
 # @lc code=start
+from collections import defaultdict
 from typing import Dict, List
 
 
 class TimeMap:
     def __init__(self):
         # each key maps to a list of [timestamp, value]
-        self.data: Dict[str, List[List]] = {}
+        self.data: Dict[str, List[List]] = defaultdict(list)
 
     def set(self, key: str, value: str, timestamp: int) -> None:
-        if key not in self.data:
-            self.data[key] = []
         self.data[key].append([timestamp, value])
 
     def get(self, key: str, timestamp: int) -> str:
