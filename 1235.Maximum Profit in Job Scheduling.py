@@ -17,18 +17,23 @@ class Solution:
         n = len(startTime)
 
         jobs = list(zip(startTime, endTime, profit))
-        jobs.sort(key=lambda x: x[1])
+        jobs.sort(key=lambda x: x[1])  # Sort by end time
 
         end_times = [job[1] for job in jobs]
 
+        # dp[i] represents maximum profit using jobs 0 to i
         dp = [0] * n
-        dp[0] = jobs[0][2]
+        dp[0] = jobs[0][2]  # First job's profit
 
         for i in range(1, n):
             curr_start, curr_end, curr_profit = jobs[i]
 
+            # Option 1: Don't take current job
             profit_without_curr = dp[i - 1]
 
+            # Option 2: Take current job
+            # Find the latest job that doesn't overlap with current job
+            # We need a job that ends <= current_start
             latest_non_overlap_idx = bisect_right(end_times, curr_start) - 1
 
             if latest_non_overlap_idx >= 0:
@@ -36,6 +41,7 @@ class Solution:
             else:
                 profit_with_curr = curr_profit
 
+            # Take maximum of both options
             dp[i] = max(profit_without_curr, profit_with_curr)
 
         return dp[n - 1]
