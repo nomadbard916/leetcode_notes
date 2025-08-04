@@ -20,26 +20,26 @@ class TimeMap:
         # O(1)
 
     def get(self, key: str, timestamp: int) -> str:
-        if key not in self.data:
-            return ""
-
         # List[[timestamp, value]]
         data_pairs = self.data[key]
+        if not data_pairs:
+            return ""
 
         left, right = 0, len(data_pairs) - 1
 
         result = ""
 
-        # essentially searching right-most, so bisect_right may be used,
-        # but memory explodes on this
+        # essentially searching right-most for the largest ts less than target,
+        # so bisect_right may be used,
+        # but memory explodes when manually making timestamps list
         while left <= right:
             mid = (left + right) // 2
 
-            mid_data_pair_ts, mid_data_pair_val = data_pairs[mid]
+            mid_data_ts, mid_data_val = data_pairs[mid]
 
-            if mid_data_pair_ts <= timestamp:
+            if mid_data_ts <= timestamp:
                 # This timestamp is valid, save the value
-                result = mid_data_pair_val
+                result = mid_data_val
                 # Look for a potentially larger valid timestamp
                 left = mid + 1
             else:
