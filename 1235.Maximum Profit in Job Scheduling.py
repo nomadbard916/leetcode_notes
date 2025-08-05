@@ -20,6 +20,7 @@ class Solution:
         # - Optimal Substructure: The optimal solution contains optimal solutions to subproblems
         # - Clear State: We can uniquely identify each subproblem by the current job index
 
+        # ! sol1: pure DP
         n = len(startTime)
 
         jobs = list(zip(startTime, endTime, profit))
@@ -37,7 +38,7 @@ class Solution:
         dp_max_profit = [0] * n
         dp_max_profit[0] = jobs[0][2]
 
-        # ! careful: positions start from 1, not index 0
+        # careful: positions start from 1, not index 0
         for i in range(1, n):
             curr_start, curr_end, curr_profit = jobs[i]
 
@@ -77,6 +78,48 @@ class Solution:
         # DP array: O(n)
         # Jobs array: O(n)
         # Total: O(n)
+
+        # ! sol2: recursion with memo
+        n = len(startTime)
+        jobs = list(zip(startTime, endTime, profit))
+        jobs.sort(key=lambda x: x[1])
+
+        memo = {}
+
+        def find_next_job(curr_idx: int) -> int:
+            """Find the next job that doesn't overlap with current job."""
+            curr_end = jobs[curr_idx][1]
+
+            # binary search for the first job that starts >= curr_end
+            l, r = curr_idx + 1, n
+            while l < r:
+                mid = (l + r) // 2
+                if jobs[mid][0] >= curr_end:
+                    r = mid
+                else:
+                    l = mid + 1
+            return l
+
+        def dp(idx: int) -> int:
+            """return max profix starting from job idx."""
+            if idx >= n:
+                return 0
+
+            if idx in memo:
+                return memo[idx]
+
+            # option 1: skip current job
+            skip_profit = dp(idx + 1)
+
+            # option2: take current job
+            next_job_idx = find_next_job(idx)
+            take_profit = jobs[idx][2] + dp(next_job_idx)
+
+            memo[idx] = max(skip_profit, take_profit)
+
+            return memo[idx]
+
+        return dp(0)
 
 
 # @lc code=end
