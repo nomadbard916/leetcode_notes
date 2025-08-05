@@ -25,22 +25,22 @@ class Solution:
         jobs = list(zip(startTime, endTime, profit))
         jobs.sort(key=lambda x: x[1])  # Sort by end time
 
-        # If you choose a job that ends at time X you will be able to start another job that starts at time X.
+        # If you choose a job that ends at time X, you will be able to start another job that starts at time X.
         # => just focus on end time
         # This is crucial because it allows us to make optimal decisions in order -
         # when we reach job i, we've already computed the optimal solution for all jobs that end before job i.
         end_times = [job[1] for job in jobs]
 
         # dp[i] represents maximum profit using jobs 0 to i
-        dp = [0] * n
-        dp[0] = jobs[0][2]  # First job's profit
+        dp_max_profit = [0] * n
+        dp_max_profit[0] = jobs[0][2]
 
         for i in range(1, n):
             curr_start, curr_end, curr_profit = jobs[i]
 
             # * state for i dp[i]: greater of taking the job vs. not taking
             # Option 1: Don't take current job
-            profit_without_curr = dp[i - 1]
+            profit_without_curr = dp_max_profit[i - 1]
 
             # Option 2: Take current job
             # Find the latest job that doesn't overlap with current job
@@ -48,14 +48,27 @@ class Solution:
             latest_non_overlap_idx = bisect_right(end_times, curr_start) - 1
 
             if latest_non_overlap_idx >= 0:
-                profit_with_curr = dp[latest_non_overlap_idx] + curr_profit
+                profit_with_curr = dp_max_profit[latest_non_overlap_idx] + curr_profit
             else:
                 profit_with_curr = curr_profit
 
             # Take maximum of both options
-            dp[i] = max(profit_without_curr, profit_with_curr)
+            dp_max_profit[i] = max(profit_without_curr, profit_with_curr)
 
-        return dp[n - 1]
+        return dp_max_profit[n - 1]
+
+        # Time and Space Complexity:
+        # Time Complexity: O(n log n)
+
+        # Sorting: O(n log n)
+        # For each job, binary search: O(log n)
+        # Total: O(n log n)
+
+        # Space Complexity: O(n)
+
+        # DP array: O(n)
+        # Jobs array: O(n)
+        # Total: O(n)
 
 
 # @lc code=end
