@@ -31,7 +31,9 @@ class Solution:
         # when we reach job i, we've already computed the optimal solution for all jobs that end before job i.
         end_times = [job[1] for job in jobs]
 
-        # dp[i] represents maximum profit using jobs 0 to i
+        # dp[i] represents maximum profit using jobs 0 to i.
+        # The information is accumulative; every position includes the info from previous positions.
+        # Every dp[i] contains the OPTIMAL solution that already considers ALL previous positions (0 to i).
         dp_max_profit = [0] * n
         dp_max_profit[0] = jobs[0][2]
 
@@ -47,6 +49,8 @@ class Solution:
             # "What's the best profit I could have made from all the jobs that happened BEFORE this one?"
             # Find the latest job that doesn't overlap with current job
             # We need a job that ends before curr_start
+            # bisect_right() finds the first position where end_time > current_start.
+            # Subtracting 1 gives us the last position where end_time ≤ current_start.
             latest_non_overlap_idx = bisect_right(end_times, curr_start) - 1
 
             # exists
