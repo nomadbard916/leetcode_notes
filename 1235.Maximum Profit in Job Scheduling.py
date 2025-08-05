@@ -35,20 +35,24 @@ class Solution:
         dp_max_profit = [0] * n
         dp_max_profit[0] = jobs[0][2]
 
+        # ! careful: positions start from 1, not index 0
         for i in range(1, n):
             curr_start, curr_end, curr_profit = jobs[i]
 
             # * state for i dp[i]: greater of taking the job vs. not taking
-            # Option 1: Don't take current job
+            # Option 1: Don't take current job, so the profix is only about previous max
             profit_without_curr = dp_max_profit[i - 1]
 
             # Option 2: Take current job
+            # "What's the best profit I could have made from all the jobs that happened BEFORE this one?"
             # Find the latest job that doesn't overlap with current job
-            # We need a job that ends <= current_start
+            # We need a job that ends before curr_start
             latest_non_overlap_idx = bisect_right(end_times, curr_start) - 1
 
+            # exists
             if latest_non_overlap_idx >= 0:
                 profit_with_curr = dp_max_profit[latest_non_overlap_idx] + curr_profit
+            # doesn't exist
             else:
                 profit_with_curr = curr_profit
 
