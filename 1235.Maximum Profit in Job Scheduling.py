@@ -90,12 +90,12 @@ class Solution:
             """Find the next job that doesn't overlap with current job."""
             curr_end = jobs[curr_idx][1]
 
-            # binary search for the first job that starts >= curr_end
+            # left bound search for the first job that starts >= curr_end
             l, r = curr_idx + 1, n
-            while l < r:
+            while l <= r:
                 mid = (l + r) // 2
                 if jobs[mid][0] >= curr_end:
-                    r = mid
+                    r = mid - 1
                 else:
                     l = mid + 1
             return l
