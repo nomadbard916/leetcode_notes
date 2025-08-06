@@ -16,10 +16,12 @@ class Solution:
             if i == 1 or i == 2:
                 table[i] = i
             else:
+                # To reach step n, you can either:
+                # - Come from step n-1 and take 1 step
+                # - Come from step n-2 and take 2 steps
                 table[i] = table[i - 1] + table[i - 2]
 
         return table[-1]
 
 
 # @lc code=end
-
