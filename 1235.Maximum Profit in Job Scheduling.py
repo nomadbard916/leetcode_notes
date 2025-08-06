@@ -20,7 +20,7 @@ class Solution:
         # - Optimal Substructure: The optimal solution contains optimal solutions to subproblems
         # - Clear State: We can uniquely identify each subproblem by the current job index
 
-        # ! sol1: pure DP
+        # ! sol1: pure DP, most efficient
         n = len(startTime)
 
         jobs = list(zip(startTime, endTime, profit))
@@ -79,7 +79,8 @@ class Solution:
         # Jobs array: O(n)
         # Total: O(n)
 
-        # ! sol2: recursion with memo
+        # ! sol2: recursion with memo,
+        # intuitive but less efficient for using more memory space due to call stack
         n = len(startTime)
         jobs = list(zip(startTime, endTime, profit))
         jobs.sort(key=lambda x: x[1])
@@ -115,11 +116,17 @@ class Solution:
             next_job_idx = find_next_job(idx)
             take_profit = jobs[idx][2] + dp(next_job_idx)
 
-            memo[idx] = max(skip_profit, take_profit)
+            curr_max_profit = max(skip_profit, take_profit)
+            memo[idx] = curr_max_profit
 
-            return memo[idx]
+            return curr_max_profit
 
         return dp(0)
+
+        # time complexity:
+        # O(n log n)
+        # space complexity:
+        # O(n) memo + O(n) stack
 
 
 # @lc code=end
