@@ -5,9 +5,27 @@
 #
 
 # @lc code=start
+from typing import List
+
+
 class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
-        # This is a classic dynamic programming problem solved efficiently using Kadane's Algorithm.
+        # !sol1: DP with Kadane's Algorithm. most efficient
+
+        # Dynamic Programming has three essential characteristics, and this problem exhibits all of them:
+        # - optimal substructure
+        # If we know the maximum sum subarray ending at position i-1, we can optimally decide what to do at position i
+        # The global maximum is the best among all "maximum subarrays ending at each position"
+        # - overlapping subproblems
+        # We repeatedly use the solution to "maximum subarray ending at position i-1"
+        # to solve "maximum subarray ending at position i"
+        # Without DP, we'd recalculate the same subproblems multiple times
+        # - Memoization/Tabulation:
+        # We store intermediate results (either in current_sum or explicit dp array)
+
+        # Why This Works:
+        # - If current_sum + nums[i] < nums[i], it means the previous subarray is dragging us down, so we start fresh
+        # - We keep track of the maximum sum encountered so far, which gives us our answer
         if len(nums) == 0:
             return 0
 
@@ -26,6 +44,10 @@ class Solution:
             max_sum = max(max_sum, current_sum)
 
         return max_sum
+
+        # Complexity Analysis:
+        # - Time Complexity: O(n) - Single pass through the array
+        # - Space Complexity: O(1) - Only using constant extra space
 
 
 # @lc code=end
