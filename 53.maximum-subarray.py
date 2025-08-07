@@ -26,6 +26,18 @@ class Solution:
         # Why This Works:
         # - If current_sum + nums[i] < nums[i], it means the previous subarray is dragging us down, so we start fresh
         # - We keep track of the maximum sum encountered so far, which gives us our answer
+
+        # Think about it this way:
+        # - Big Problem: "Find max subarray sum in entire array"
+        # - Subproblem: "Find max subarray sum ending at position i"
+        # - Relationship: To solve the big problem, solve all subproblems and take the maximum
+
+        # At each position, we're building a decision tree:
+        # Position i: Should I include nums[i] in my subarray?
+        # ├─ YES: Then should I start fresh or extend?
+        # │   ├─ Start fresh: cost = nums[i]
+        # │   └─ Extend: cost = dp[i-1] + nums[i]
+        # └─ NO: This doesn't make sense because we need subarrays ending at i
         if len(nums) == 0:
             return 0
 
