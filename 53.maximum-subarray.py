@@ -7,22 +7,25 @@
 # @lc code=start
 class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
+        # This is a classic dynamic programming problem solved efficiently using Kadane's Algorithm.
         if len(nums) == 0:
             return 0
 
-        max_val = nums[0]
+        # Initialize with the first element
+        max_sum = nums[0]
         current_sum = nums[0]
 
+        # Iterate through the rest of the array
         for n in nums[1:]:
-            if current_sum > 0:
-                current_sum += n
-            else:
-                current_sum = n
+            # At each position, decide whether to:
+            # 1. Start a new subarray from current element, or
+            # 2. Extend the existing subarray by including current element
+            current_sum = max(n, current_sum + n)
 
-            max_val = max(max_val, current_sum)
+            # Update the maximum sum seen so far
+            max_sum = max(max_sum, current_sum)
 
-        return max_val
+        return max_sum
 
 
 # @lc code=end
-
