@@ -38,8 +38,20 @@ class Solution:
         # │   ├─ Start fresh: cost = nums[i]
         # │   └─ Extend: cost = dp[i-1] + nums[i]
         # └─ NO: This doesn't make sense because we need subarrays ending at i
+
+        # The beauty is that once you understand the DP nature here, you can tackle similar problems like:
+        # - Maximum Product Subarray
+        # - Maximum Sum Circular Subarray
+        # - Best Time to Buy and Sell Stock
+        # - House Robber
         if len(nums) == 0:
             return 0
+
+        # * core of Kdane's algorithm:
+        # I can keep accumulation from the beginning of array,
+        # but once I've found a single bigger number than this current sum,
+        # just get rid of the previous subarray totally,
+        # and focus only on the rest part of the array.
 
         # Initialize with the first element
         max_sum = nums[0]
