@@ -73,5 +73,18 @@ class Solution:
         # - Time Complexity: O(n) - Single pass through the array
         # - Space Complexity: O(1) - Only using constant extra space
 
+        # ! sol2: explicit DP
+        n = len(nums)
+
+        # dp[i] represents max sum of subarray ending at position i
+        dp = [0] * n
+        dp[0] = nums[0]  # base case
+
+        for i in range(1, n):
+            # Either start fresh from nums[i] or extend previous subarray
+            dp[i] = max(nums[i], dp[i - 1] + nums[i])
+
+        return max(dp)
+
 
 # @lc code=end
