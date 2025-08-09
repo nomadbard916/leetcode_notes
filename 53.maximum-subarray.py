@@ -44,6 +44,7 @@ class Solution:
         # - Maximum Sum Circular Subarray
         # - Best Time to Buy and Sell Stock
         # - House Robber
+        # - Maximum Rectangle
         if len(nums) == 0:
             return 0
 

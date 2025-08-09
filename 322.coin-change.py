@@ -5,6 +5,9 @@
 #
 
 # @lc code=start
+from typing import List
+
+
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
         # sanity check
@@ -13,17 +16,18 @@ class Solution:
         if min(coins) > amount:
             return -1
 
-        # tabulation with $0 presented as 0 and others as infinity
-        inf_int = 2 << 32
-        table = [0] + [inf_int] * amount
+        DP = [amount + 1] * (amount + 1)
+        DP[0] = 0
 
-        for i in range(1, amount + 1):
+        for curr_amount in range(1, amount + 1):
             for coin in coins:
-                if coin <= i:
-                    table[i] = min((table[i - coin] + 1), table[i])
+                if coin <= curr_amount:
+                    DP[curr_amount] = min((DP[curr_amount - coin] + 1), DP[curr_amount])
 
-        return table[amount] if table[amount] != inf_int else -1
+        if DP[amount] == amount + 1:
+            return -1
+
+        return DP[amount]
 
 
 # @lc code=end
-
