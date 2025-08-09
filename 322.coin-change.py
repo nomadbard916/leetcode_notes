@@ -10,6 +10,11 @@ from typing import List
 
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
+        # Related Problems to Practice:
+        # 0/1 Knapsack: True "take or don't take" each item once
+        # Combination Sum: Like coin change but return all combinations
+        # Word Break: Can you form a word using dictionary words?
+
         # sanity check
         if amount <= 0:
             return 0
@@ -29,14 +34,26 @@ class Solution:
                 # If this coin can be used (doesn't exceed current amount)
                 if coin <= curr_amount:
                     # Update dp[current_amount] with minimum of:
-                    # 1. Current value
-                    # 2. Using this coin + minimum coins for remaining amount
-                    DP[curr_amount] = min((DP[curr_amount - coin] + 1), DP[curr_amount])
+                    DP[curr_amount] = min(
+                        # 1. Current value, don't take the new one
+                        DP[curr_amount],
+                        # 2. Using this coin (+1) + minimum coins for remaining amount
+                        (DP[curr_amount - coin] + 1),
+                    )
 
         if DP[amount] == IMPOSSIBLE_VALUE:
             return -1
 
         return DP[amount]
+
+        # Time Complexity: O(amount × number of coins)
+
+        # We iterate through each amount from 1 to amount
+        # For each amount, we try all coin denominations
+
+        # Space Complexity: O(amount)
+
+        # We use a dp array of size amount + 1
 
 
 # @lc code=end
