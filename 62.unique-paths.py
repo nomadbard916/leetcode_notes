@@ -7,6 +7,7 @@
 # @lc code=start
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
+        # ! sol1: 2D DP
         dp = [[0] * n for _ in range(m)]
 
         # every other grid should be the sum of (x-1, y), (x, y-1) following the restricted moving direction
@@ -26,6 +27,20 @@ class Solution:
         # complexities
         # Time: O(m × n) - fill every cell once
         # Space: O(m × n) - 2D array storage
+
+        # ! sol2: 1D DP, state compression
+        # Use only one row to store the results
+        # dp[j] represents the number of ways to reach column j in the current row
+        dp = [1] * n
+
+        # Process each row starting from the second row
+        for y in range(1, m):
+            for x in range(1, n):
+                # dp[j] currently contains the value from the row above (previous iteration)
+                # dp[j-1] contains the value from the left cell in the current row
+                dp[x] = dp[x] + dp[x - 1]
+
+        return dp[n - 1]
 
 
 # @lc code=end
