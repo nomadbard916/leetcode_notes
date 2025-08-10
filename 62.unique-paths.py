@@ -23,5 +23,9 @@ class Solution:
 
         return dp[m - 1][n - 1]
 
+        # complexities
+        # Time: O(m × n) - fill every cell once
+        # Space: O(m × n) - 2D array storage
+
 
 # @lc code=end
