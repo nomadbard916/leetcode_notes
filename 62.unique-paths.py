@@ -28,19 +28,25 @@ class Solution:
         # Time: O(m × n) - fill every cell once
         # Space: O(m × n) - 2D array storage
 
-        # ! sol2: 1D DP, state compression
+        # ! sol2: 1D DP, space optimized with state compression
         # Use only one row to store the results
         # dp[j] represents the number of ways to reach column j in the current row
+        # so we only need to reuse the same array
         dp = [1] * n
 
         # Process each row starting from the second row
         for y in range(1, m):
             for x in range(1, n):
-                # dp[j] currently contains the value from the row above (previous iteration)
-                # dp[j-1] contains the value from the left cell in the current row
+                # Before updating dp[j] for the current row:
+                # dp[j] still contains the value from the previous row (what we need for "above")
+                # dp[j-1] contains the updated value from the current row (what we need for "left")
                 dp[x] = dp[x] + dp[x - 1]
 
         return dp[n - 1]
+
+        # complexities
+        # Time: O(m × n) - same number of operations
+        # Space: O(n) - only store one row
 
 
 # @lc code=end
