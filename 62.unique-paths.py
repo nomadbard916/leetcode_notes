@@ -48,5 +48,23 @@ class Solution:
         # Time: O(m × n) - same number of operations
         # Space: O(n) - only store one row
 
+        # ! sol3: math
+        """
+        Mathematical approach using combinations.
+
+        To reach (m-1, n-1) from (0, 0), we need exactly:
+        - (m-1) down moves
+        - (n-1) right moves
+        - Total moves = (m-1) + (n-1) = m + n - 2
+
+        The problem becomes: "In how many ways can we choose (m-1) positions
+        for down moves out of (m + n - 2) total moves?"
+
+        This is a combination problem: C(m + n - 2, m - 1) = C(m + n - 2, n - 1)
+        """
+        from math import comb
+
+        return comb(m + n - 2, m - 1)
+
 
 # @lc code=end
