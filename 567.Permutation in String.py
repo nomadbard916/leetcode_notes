@@ -25,11 +25,11 @@ class Solution:
 
         while r < len(s2):
             # * step 1: keep enlarging the window until required chars count met
-            c = s2[r]
+            curr_c_r = s2[r]
             # data manipulation in window
-            if c in need:
-                window[c] += 1
-                if window[c] == need[c]:
+            if curr_c_r in need:
+                window[curr_c_r] += 1
+                if window[curr_c_r] == need[curr_c_r]:
                     valid_chars_cnt += 1
             r += 1
 
@@ -40,14 +40,13 @@ class Solution:
                 # determine if valid substring is found
                 if valid_chars_cnt == len(need):
                     return True
-                d = s2[l]
+                curr_c_l = s2[l]
                 # update data in window
-                if d in need:
-                    if window[d] == need[d]:
+                if curr_c_l in need:
+                    if window[curr_c_l] == need[curr_c_l]:
                         valid_chars_cnt -= 1
-                    window[d] -= 1
+                    window[curr_c_l] -= 1
                 l += 1
-        # substring not found
         return False
 
 
