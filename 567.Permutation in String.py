@@ -35,22 +35,24 @@ class Solution:
 
             # * step 2: check if to shrink left window side
             # the window length is actually fixed to s1,
-            # so we should use "if" instead of "while"
             # In this problem, you are looking for a substring in s2 that is a permutation of s1.
             # Since a permutation must have the same length as s1,
             # the sliding window should always be of length len(s1) as it moves through s2.
             # That's why the code checks if r - l >= len(s1):—to ensure the window size matches s1's length before checking for a valid permutation.
-            if r - l >= len(s1):
-                # determine if valid substring is found
-                if valid_chars_cnt == len(needed):
-                    return True
-                curr_c_l = s2[l]
-                # update data in window
-                if curr_c_l in needed:
-                    if window[curr_c_l] == needed[curr_c_l]:
-                        valid_chars_cnt -= 1
-                    window[curr_c_l] -= 1
-                l += 1
+            if r - l + 1 <= len(s1):
+                continue
+
+            # window too big, should shrink
+            # determine if valid substring is found
+            if valid_chars_cnt == len(needed):
+                return True
+            curr_c_l = s2[l]
+            # update data in window
+            if curr_c_l in needed:
+                if window[curr_c_l] == needed[curr_c_l]:
+                    valid_chars_cnt -= 1
+                window[curr_c_l] -= 1
+            l += 1
         return False
 
 
