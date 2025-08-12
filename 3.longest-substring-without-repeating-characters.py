@@ -5,6 +5,9 @@
 #
 
 # @lc code=start
+from typing import Dict
+
+
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
         # set initial length = 0
@@ -14,7 +17,7 @@ class Solution:
 
         # how to determine next position when the temp result is found?
 
-        seen = {}
+        seen_char_pos: Dict[str, int] = {}
 
         l = 0
         r = 0
@@ -25,11 +28,11 @@ class Solution:
         while l < n and r < n and l <= r:
             current_c = s[r]
 
-            if current_c in seen:
+            if current_c in seen_char_pos:
                 # a new string must exclude previously seen character
-                l = max(l, seen[current_c] + 1)
+                l = max(l, seen_char_pos[current_c] + 1)
 
-            seen[current_c] = r
+            seen_char_pos[current_c] = r
 
             max_length = max(max_length, r - l + 1)
 
@@ -39,4 +42,3 @@ class Solution:
 
 
 # @lc code=end
-
