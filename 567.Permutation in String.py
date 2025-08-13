@@ -54,6 +54,43 @@ class Solution:
                 l += 1
         return False
 
+        # ! sol2: it's not folowing the template, but easier to understand    if len(s1) > len(s2):
+
+        from collections import Counter
+        from typing import Dict
+
+        # Count frequency of characters in s1
+        s1_count: Dict[str, int] = Counter(s1)
+        window_size = len(s1)
+
+        # Initialize sliding window with first window_size characters of s2
+        window_count: Dict[str, int] = Counter(s2[:window_size])
+
+        # Check if first window matches
+        if window_count == s1_count:
+            return True
+
+        # Slide the window through the rest of s2
+        for i in range(window_size, len(s2)):
+            # Add the new character (right side of window)
+            new_char = s2[i]
+            window_count[new_char] = window_count.get(new_char, 0) + 1
+
+            # Remove the old character (left side of window)
+            old_char = s2[i - window_size]
+            window_count[old_char] -= 1
+
+            # Remove the character from counter if count becomes 0
+            # This keeps the counter clean and helps with comparison
+            if window_count[old_char] == 0:
+                del window_count[old_char]
+
+            # Check if current window matches s1's character frequency
+            if window_count == s1_count:
+                return True
+
+        return False
+
 
 # @lc code=end
 
