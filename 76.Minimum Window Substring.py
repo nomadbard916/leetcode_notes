@@ -21,7 +21,7 @@ class Solution:
 
         # record the starting index and length of min covering substring
         res_start = 0
-        res_length = float("inf")
+        min_length = float("inf")
         while r < len(s):
             # * step 1: keep enlarging the window until required chars count met
             # char-moving into window
@@ -37,9 +37,9 @@ class Solution:
             # * step 2: check if to shrink left window side
             while valid_chars_cnt == len(char_cnt_needed):
                 # update min covering substring
-                if r - l < res_length:
+                if r - l < min_length:
                     res_start = l
-                    res_length = r - l
+                    min_length = r - l
                 # char moving out of window
                 d = s[l]
                 # update data in window
@@ -50,11 +50,11 @@ class Solution:
                 # shrink the window
                 l += 1
 
-        if res_length == float("inf"):
+        if min_length == float("inf"):
             return ""
 
         # return min covering substring
-        return s[res_start : res_start + res_length]
+        return s[res_start : res_start + min_length]
 
 
 # @lc code=end
