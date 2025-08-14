@@ -22,6 +22,9 @@ class Solution:
             for j in range(i + 1, n):
                 matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
 
+        # or we may call matrix.reverse() at the very beginning
+        # calling later is more intuitive and easier to debug mentally,
+        # plus transpose appears in many other matrix problems
         # Step 2: Reverse each row
         for i in range(n):
             matrix[i].reverse()
