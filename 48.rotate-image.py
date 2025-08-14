@@ -5,22 +5,26 @@
 #
 
 # @lc code=start
+from typing import List
+
+
 class Solution:
     def rotate(self, matrix: List[List[int]]) -> None:
         """
         Do not return anything, modify matrix in-place instead.
         """
 
-        # https://blog.csdn.net/xie810005152/article/details/90339964
+        n = len(matrix)
 
-        matrix[:] = list(zip(*matrix[::-1]))
+        # Step 1: Transpose the matrix (swap elements across main diagonal)
+        # Main diagonal goes from top-left to bottom-right
+        for i in range(n):
+            for j in range(i + 1, n):
+                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
 
-        # sol2:
-        # matrix.reverse()
-        # for i in range(len(matrix)):
-        #     for j in range(i):
-        #         matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+        # Step 2: Reverse each row
+        for i in range(n):
+            matrix[i].reverse()
 
 
 # @lc code=end
-
