@@ -29,5 +29,21 @@ class Solution:
         for i in range(n):
             matrix[i].reverse()
 
+        # Time Complexity: O(n²) - we must visit every element once
+        # Space Complexity: O(1) - only using constant extra space
+
+        # * Matrix Transformations Pattern:
+
+        # 90° counterclockwise: reverse rows → transpose
+        # 180°: reverse rows → reverse columns
+        # Mirror horizontally: reverse rows
+        # Mirror vertically: reverse columns
+
+        # * In-place Algorithm Techniques:
+
+        # When you can't use extra space, look for mathematical patterns
+        # Sometimes breaking complex operations into simpler ones helps
+        # Consider cyclic swaps for rearranging elements
+
 
 # @lc code=end
