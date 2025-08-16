@@ -15,11 +15,9 @@ class Solution:
         if LEN < 3:
             return []
 
-        # Sort first to help with duplicate handling
+        # it looks like "two-pointer" could be applied => sort first
         nums.sort()
-        unique_triplets: set[tuple] = (
-            set()
-        )  # Use set to automatically handle duplicates
+        unique_triplets: set[tuple] = set()
 
         # Fix the first element of triplet,
         # so it needs leave two places for second and third elements
@@ -30,24 +28,18 @@ class Solution:
             if first_idx > 0 and first_element == nums[first_idx - 1]:
                 continue
 
-            seen_elements: set[int] = (
-                set()
-            )  # Track elements we've seen for current first_element
+            seen_elements: set[int] = set()
 
-            # Look for second and third elements in remaining array
             for second_element in nums[first_idx + 1 :]:
                 # Calculate what the third element should be; it's essentially complement
                 third_element = -(first_element + second_element)
 
-                # Check if we've seen the third element before
                 if third_element in seen_elements:
-                    # Found a valid triplet! Add to result
                     triplet = tuple(
                         sorted([first_element, second_element, third_element])
                     )
                     unique_triplets.add(triplet)
 
-                # Add current element to seen set for future iterations
                 seen_elements.add(second_element)
 
         # Convert set of tuples back to list of lists
