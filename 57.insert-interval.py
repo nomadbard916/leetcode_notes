@@ -12,6 +12,7 @@ class Solution:
     def insert(
         self, intervals: List[List[int]], newInterval: List[int]
     ) -> List[List[int]]:
+        # ! three-way partitioning
         # ref: merge interval
 
         n = len(intervals)
@@ -20,9 +21,9 @@ class Solution:
             return [newInterval]
 
         # rearrange intervals to:
-        # left to newInterval with all elements smaller then newInterval,
-        # overlapping,
-        # right to newInterval with all elements greater than newInterval
+        # - left to newInterval with all elements smaller then newInterval,
+        # - overlapping,
+        # - right to newInterval with all elements greater than newInterval
         left, right = [], []
         ni_start, ni_end = newInterval
 
