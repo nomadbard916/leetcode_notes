@@ -11,25 +11,32 @@ from typing import List
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         # Edge case
-        if len(nums) < 3:
+        LEN = len(nums)
+        if LEN < 3:
             return []
 
         # Sort first to help with duplicate handling
         nums.sort()
-        unique_triplets = set()  # Use set to automatically handle duplicates
+        unique_triplets: set[tuple] = (
+            set()
+        )  # Use set to automatically handle duplicates
 
-        # Fix the first element of triplet
-        for first_idx in range(len(nums) - 2):
+        # Fix the first element of triplet,
+        # so it needs leave two places for second and third elements
+        # enumerate cannot be used as it's args is about "start"
+        for first_idx in range(LEN - 2):
             # Skip duplicates for first element
-            if first_idx > 0 and nums[first_idx] == nums[first_idx - 1]:
+            first_element = nums[first_idx]
+            if first_idx > 0 and first_element == nums[first_idx - 1]:
                 continue
 
-            first_element = nums[first_idx]
-            seen_elements = set()  # Track elements we've seen for current first_element
+            seen_elements: set[int] = (
+                set()
+            )  # Track elements we've seen for current first_element
 
             # Look for second and third elements in remaining array
             for second_element in nums[first_idx + 1 :]:
-                # Calculate what the third element should be
+                # Calculate what the third element should be; it's essentially complement
                 third_element = -(first_element + second_element)
 
                 # Check if we've seen the third element before
