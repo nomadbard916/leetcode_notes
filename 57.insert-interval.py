@@ -24,7 +24,7 @@ class Solution:
         # overlapping,
         # right to newInterval with all elements greater than newInterval
         left, right = [], []
-        ni_start, ni_end = newInterval  # unpack
+        ni_start, ni_end = newInterval
 
         for interval in intervals:
             current_start, current_end = interval
@@ -40,6 +40,9 @@ class Solution:
         # concat the intervals
         return left + [[ni_start, ni_end]] + right
 
+        # Time Complexity: O(n) - We visit each interval once
+        # Space Complexity: O(n) - uses additional space for left and right arrays,
+        # but this is the same asymptotic complexity as building the result array
+
 
 # @lc code=end
-
