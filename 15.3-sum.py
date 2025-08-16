@@ -10,39 +10,41 @@ from typing import List
 
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-        LEN = len(nums)
-        if LEN < 3:
+        # Edge case
+        if len(nums) < 3:
             return []
 
-        # it looks like two-pointer could be applied => sort first
+        # Sort first to help with duplicate handling
         nums.sort()
+        unique_triplets = set()  # Use set to automatically handle duplicates
 
-        # prevent duplicates
-        ans = set()
-
-        # implicit two pointer
-        # fix v as left pointer, below x as right pointer for iteration,
-        # then the third must be the complement of v+x
-
-        # keep two places at last
-        for i, v in enumerate(nums[:-2]):
-            # don't count in duplicates
-            if i >= 1 and v == nums[i - 1]:
+        # Fix the first element of triplet
+        for first_idx in range(len(nums) - 2):
+            # Skip duplicates for first element
+            if first_idx > 0 and nums[first_idx] == nums[first_idx - 1]:
                 continue
 
-            iterated_complements = set()
-            # fix v as left pointer,
-            # just add 1 to make the starting of right pointer x,
-            # and iterate to check for their complement
-            for x in nums[i + 1 :]:
-                current_complement = -(v + x)
-                if x not in iterated_complements:
-                    iterated_complements.add(current_complement)
-                else:
-                    # list cannot be hashed by set.add()
-                    ans.add((v, current_complement, x))
+            first_element = nums[first_idx]
+            seen_elements = set()  # Track elements we've seen for current first_element
 
-        return list(ans)
+            # Look for second and third elements in remaining array
+            for second_element in nums[first_idx + 1 :]:
+                # Calculate what the third element should be
+                third_element = -(first_element + second_element)
+
+                # Check if we've seen the third element before
+                if third_element in seen_elements:
+                    # Found a valid triplet! Add to result
+                    triplet = tuple(
+                        sorted([first_element, second_element, third_element])
+                    )
+                    unique_triplets.add(triplet)
+
+                # Add current element to seen set for future iterations
+                seen_elements.add(second_element)
+
+        # Convert set of tuples back to list of lists
+        return [list(triplet) for triplet in unique_triplets]
 
         # sol 2: explicit two pointers.
         # sol 1 follows the thinking path of 2-sum
