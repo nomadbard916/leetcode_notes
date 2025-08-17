@@ -57,6 +57,7 @@ class Solution:
 
         # Time Complexity: O(n²)
         # Space Complexity: O(n) for the hash set
+
         # Pros: Intuitive if you're familiar with 2Sum
         # Cons: Extra space needed, slightly more complex duplicate handling
 
@@ -98,8 +99,16 @@ class Solution:
 
         return res
 
-        # Time Complexity: O(n²)
-        # Space Complexity: O(1)
+        # - Time Complexity: O(n²)
+        # Sorting takes O(n log n)
+        # The outer loop runs n times
+        # For each iteration, the two-pointer approach takes O(n) time
+        # Overall: O(n log n) + O(n²) = O(n²)
+        # - Space Complexity: O(1) or O(log n)
+        # If we don't count the output array, we only use constant extra space
+        # The sorting algorithm might use O(log n) space for recursion stack
+        # Output space is not counted in space complexity analysis
+
         # Pros: More space efficient, elegant, easier to handle duplicates
         # Cons: Requires understanding of two-pointer technique
 
