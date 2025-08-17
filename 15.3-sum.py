@@ -10,7 +10,9 @@ from typing import List
 
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-        # ! sol1: implicit two pointer, like two-sum
+        # ! sol1: implicit two pointer, easier to understand
+        # like two-sum that uses helper dict
+
         # key challenges
         # - Finding triplets that sum to 0
         # - Avoiding duplicate triplets
@@ -61,8 +63,7 @@ class Solution:
         # Pros: Intuitive if you're familiar with 2Sum
         # Cons: Extra space needed, slightly more complex duplicate handling
 
-        # ! sol 2: explicit two pointers.
-        # sol 1 follows the thinking path of 2-sum
+        # ! sol 2: explicit two pointers, more efficient
 
         # edge case
         if len(nums) < 3:
@@ -80,13 +81,14 @@ class Solution:
 
             # We move pointers based on whether the current sum is too small or too large
             while l < r:
-                s = nums[i] + nums[l] + nums[r]
-                if s < 0:
-                    # move l to the right
+                curr_sum = nums[i] + nums[l] + nums[r]
+                # the smaller l too small, make it bigger
+                if curr_sum < 0:
                     l += 1
-                elif s > 0:
-                    # move r to the left
+                # the larger r too large, make it smaller
+                elif curr_sum > 0:
                     r -= 1
+                # answer found, further process
                 else:
                     res.append([nums[i], nums[l], nums[r]])
                     # skip duplicate elements
