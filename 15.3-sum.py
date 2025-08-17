@@ -11,6 +11,11 @@ from typing import List
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         # ! sol1: implicit two pointer, like two-sum
+        # key challenges
+        # - Finding triplets that sum to 0
+        # - Avoiding duplicate triplets
+        # - Doing this efficiently
+
         # Edge case
         LEN = len(nums)
         if LEN < 3:
@@ -20,9 +25,10 @@ class Solution:
         nums.sort()
         unique_triplets: set[tuple] = set()
 
-        # Fix the first element of triplet,
-        # so it needs leave two places for second and third elements
-        # enumerate cannot be used as it's args is about "start"
+        # Fix the first element of triplet.
+        # For each fixed element, we need to find two other elements that sum to the negative of this first element.
+        # It needs leave two places for second and third elements.
+        # enumerate() cannot be used as it's args is about "start"
         for first_idx in range(LEN - 2):
             # Skip duplicates for first element
             first_element = nums[first_idx]
@@ -60,14 +66,18 @@ class Solution:
         # edge case
         if len(nums) < 3:
             return []
-        res = []
         nums.sort()
+        res = []
 
+        # fix the first number, then use l and r for second and third
         for i in range(len(nums)):
             # skip duplicate elements
             if i > 0 and nums[i] == nums[i - 1]:
                 continue
+
             l, r = i + 1, len(nums) - 1
+
+            # We move pointers based on whether the current sum is too small or too large
             while l < r:
                 s = nums[i] + nums[l] + nums[r]
                 if s < 0:
