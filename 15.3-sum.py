@@ -45,6 +45,15 @@ class Solution:
                 # it's essentially the complement to sum of first and second
                 third_element = -(first_element + second_element)
 
+                # The "seen before" check ensures we don't use the same array position twice.
+                # The "seen before" check is really a position check in disguise!
+                # It ensures we're not trying to use the same array element in multiple positions of our triplet.
+
+                #  when we find third_element in our seen set, it means:
+                # - We've already passed over that number in our iteration
+                # - That number exists in the remaining subarray we're searching
+                # - We have all three numbers: first_element, second_element (current),
+                # and third_element (from seen set)
                 if third_element in seen_elements:
                     # list cannot be hashed by set.add(),
                     # that's why we are using tuple and keep type converting
@@ -53,6 +62,7 @@ class Solution:
                     )
                     unique_triplets.add(triplet)
 
+                # Add current element to seen set for future iterations
                 seen_elements.add(second_element)
 
         return [list(triplet) for triplet in unique_triplets]
