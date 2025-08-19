@@ -5,6 +5,9 @@
 #
 
 # @lc code=start
+from typing import List
+
+
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
         # append the first period, then check if the following ones can be combined with the previous one;
@@ -19,7 +22,7 @@ class Solution:
         ans = []
         ans.append(intervals[0])
 
-        for i, current_interval in enumerate(intervals, start=1):
+        for _, current_interval in enumerate(intervals, start=1):
             prev_interval = ans[-1]
 
             if current_interval[0] <= prev_interval[1]:
@@ -31,4 +34,3 @@ class Solution:
 
 
 # @lc code=end
-

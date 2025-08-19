@@ -13,7 +13,7 @@ class Solution:
         self, intervals: List[List[int]], newInterval: List[int]
     ) -> List[List[int]]:
         # ! three-way partitioning
-        # ref: merge interval
+        # ref: merge interval, sort color
 
         n = len(intervals)
         # sanity check immediately
