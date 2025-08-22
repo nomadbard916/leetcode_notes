@@ -5,7 +5,7 @@
 #
 
 # @lc code=start
-import collections
+from collections import deque
 from typing import List
 
 
@@ -18,7 +18,7 @@ class Solution:
         # assume every 1 is unreachable before actually calculating
         distances = [[-1] * n for _ in range(m)]
 
-        q = collections.deque()
+        q = deque()
         # start from 0 to update 1, or time complexity will be high
         for i in range(m):
             for j in range(n):
@@ -34,18 +34,16 @@ class Solution:
             for dx, dy in directions:
                 new_x, new_y = cur_x + dx, cur_y + dy
 
+                # this neighbor is not out of bound and not calculated yet
                 new_x_y_could_update = (
-                    0 <= new_x < n and 0 <= new_y < m and mat[new_y][new_x] == 1
+                    0 <= new_x < n and 0 <= new_y < m and distances[new_y][new_x] == -1
                 )
                 if not new_x_y_could_update:
                     continue
 
                 cur_distance = distances[cur_y][cur_x]
-                # means it's cell '1' still at initial state,
-                # and should be visited exactly once
-                if distances[new_y][new_x] == -1:
-                    distances[new_y][new_x] = cur_distance + 1
-                    q.append((new_x, new_y))
+                distances[new_y][new_x] = cur_distance + 1
+                q.append((new_x, new_y))
 
         return distances
 
