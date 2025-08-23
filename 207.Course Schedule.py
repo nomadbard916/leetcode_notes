@@ -13,15 +13,15 @@ from typing import List
 class Solution:
     def __init__(self):
         self.on_path_nodes_list: List[bool] = []
-        self.visited: List[bool] = []
+        self.taken: List[bool] = []
         self.has_cycle: bool = False
 
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         # ! sol1: DFS with cycle detection
         # record nodes in recursion stack
-        # if visited nodes are checked redundantly, it will timeout => skip  "visited"
+        # if visited nodes are checked redundantly, it will timeout => skip  "visited", it's like locking when path  traversal
         self.on_path_nodes_list = [False] * numCourses
-        self.visited = [False] * numCourses
+        self.taken = [False] * numCourses
 
         # * adjacency list is almost a must in a graph problem
         # some slot may not be used, but let's make all of them for convenience's sake
@@ -42,10 +42,10 @@ class Solution:
             if self.on_path_nodes_list[course]:
                 self.has_cycle = True
                 return
-            if self.visited[course]:
+            if self.taken[course]:
                 return
             # preorder code
-            self.visited[course] = True
+            self.taken[course] = True
             self.on_path_nodes_list[course] = True
             # traversal
             for unblocked_course in graph[course]:
