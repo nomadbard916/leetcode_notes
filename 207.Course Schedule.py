@@ -32,28 +32,29 @@ class Solution:
         # Indexing into a list is O(1) and has lower overhead than dictionary lookups. This can be beneficial for performance in graph algorithms.
         # 3. Simplicity:
         # A list-of-lists clearly maps each course to its prerequisites (or adjacent courses) using 0-indexed integers. This is more straightforward than managing keys in a dictionary when the set of nodes is guaranteed to be consecutive integers.
-        graph = [[] for _ in range(numCourses)]
+        graph: List[List[int]] = [[] for _ in range(numCourses)]
         for course, prerequisite in prerequisites:
             graph[prerequisite].append(course)
 
-        def traverse(graph: List[List[int]], s: int):
+        def traverse(course: int):
             if self.has_cycle:
                 return
-            if self.on_path_nodes_list[s]:
+            if self.on_path_nodes_list[course]:
                 self.has_cycle = True
                 return
-            if self.visited[s]:
+            if self.visited[course]:
                 return
             # preorder code
-            self.visited[s] = True
-            self.on_path_nodes_list[s] = True
-            for t in graph[s]:
-                traverse(graph, t)
+            self.visited[course] = True
+            self.on_path_nodes_list[course] = True
+            # traversal
+            for unblocked_course in graph[course]:
+                traverse(unblocked_course)
             # postorder code
-            self.on_path_nodes_list[s] = False
+            self.on_path_nodes_list[course] = False
 
         for course in range(numCourses):
-            traverse(graph, course)
+            traverse(course)
 
         return not self.has_cycle
 
