@@ -23,7 +23,7 @@ class Solution:
     # - Handling cycles - graphs can have circular references, so we need to track visited nodes
     # - Deep copying - creating new nodes rather than copying references
     # - Preserving relationships - ensuring all neighbor connections are maintained
-    visited: Dict[Node, Node] = {}
+    cloned: Dict[Node, Node] = {}
 
     def cloneGraph(self, node: Node) -> Optional[Node]:
         return self.dfs(node)
@@ -33,15 +33,14 @@ class Solution:
     # - The HashMap prevents infinite recursion by tracking already-cloned nodes
     # - It's intuitive and has optimal time/space complexity
     def dfs(self, node: Node) -> Optional[Node]:
-        # If already cloned, return the clone
-        if node in self.visited:
-            return self.visited[node]
+        if not node:
+            return
+        if node in self.cloned:
+            return self.cloned[node]
 
-        # clone the node with only value and empty neighbors
-        node_clone = Node(node.val, [])
-
-        # record the current node, which will be manipulated by reference later
-        self.visited[node] = node_clone
+        # create clone of current node
+        node_clone = Node(node.val)
+        self.cloned[node] = node_clone
 
         # filling in neighbors for each node clone
         for neighbor in node.neighbors:
