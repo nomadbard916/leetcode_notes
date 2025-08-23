@@ -24,33 +24,33 @@ class Solution:
     # - Deep copying - creating new nodes rather than copying references
     # - Preserving relationships - ensuring all neighbor connections are maintained
 
-    # or we can put it in dfs() args to save space, but less intuitive
-    cloned: Dict[Node, Node] = {}
-
     def cloneGraph(self, node: Node) -> Optional[Node]:
-        return self.dfs(node)
+        # or we can put it in dfs() args to save space, but less intuitive
+        cloned: Dict[Node, Node] = {}
 
-    # The DFS approach with a HashMap is most commonly used because:
-    # - It naturally handles the recursive structure of graphs
-    # - The HashMap prevents infinite recursion by tracking already-cloned nodes
-    # - It's intuitive and has optimal time/space complexity
-    def dfs(self, node: Node) -> Optional[Node]:
-        if not node:
-            return
-        if node in self.cloned:
-            return self.cloned[node]
+        # The DFS approach with a HashMap is most commonly used because:
+        # - It naturally handles the recursive structure of graphs
+        # - The HashMap prevents infinite recursion by tracking already-cloned nodes
+        # - It's intuitive and has optimal time/space complexity
+        def dfs(node: Node) -> Optional[Node]:
+            if not node:
+                return
+            if node in cloned:
+                return cloned[node]
 
-        # create clone of current node
-        node_clone = Node(node.val)
-        self.cloned[node] = node_clone
+            # create clone of current node
+            node_clone = Node(node.val)
+            cloned[node] = node_clone
 
-        # filling in neighbors for each node clone
-        for neighbor in node.neighbors:
-            neighbor_clone = self.dfs(neighbor)
-            if neighbor_clone:
-                node_clone.neighbors.append(neighbor_clone)
+            # filling in neighbors for each node clone
+            for neighbor in node.neighbors:
+                neighbor_clone = dfs(neighbor)
+                if neighbor_clone:
+                    node_clone.neighbors.append(neighbor_clone)
 
-        return node_clone
+            return node_clone
+
+        return dfs(node)
 
         # Complexity Analysis
         # - Time Complexity: O(N + M)
