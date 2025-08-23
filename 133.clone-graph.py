@@ -23,6 +23,8 @@ class Solution:
     # - Handling cycles - graphs can have circular references, so we need to track visited nodes
     # - Deep copying - creating new nodes rather than copying references
     # - Preserving relationships - ensuring all neighbor connections are maintained
+
+    # or we can put it in dfs() args to save space, but less intuitive
     cloned: Dict[Node, Node] = {}
 
     def cloneGraph(self, node: Node) -> Optional[Node]:
@@ -44,7 +46,6 @@ class Solution:
 
         # filling in neighbors for each node clone
         for neighbor in node.neighbors:
-            # reaching the end first by dfs, then leveling up
             neighbor_clone = self.dfs(neighbor)
             if neighbor_clone:
                 node_clone.neighbors.append(neighbor_clone)
