@@ -9,7 +9,7 @@
 # c.f.: 138
 
 # Definition for a Node.
-from typing import Optional
+from typing import Dict, Optional
 
 
 class Node:
@@ -19,14 +19,21 @@ class Node:
 
 
 class Solution:
-    visited: dict = {}
+    # key challenges are:
+    # - Handling cycles - graphs can have circular references, so we need to track visited nodes
+    # - Deep copying - creating new nodes rather than copying references
+    # - Preserving relationships - ensuring all neighbor connections are maintained
+    visited: Dict[Node, Node] = {}
 
     def cloneGraph(self, node: Node) -> Optional[Node]:
         return self.dfs(node)
 
+    # The DFS approach with a HashMap is most commonly used because:
+    # - It naturally handles the recursive structure of graphs
+    # - The HashMap prevents infinite recursion by tracking already-cloned nodes
+    # - It's intuitive and has optimal time/space complexity
     def dfs(self, node: Node) -> Optional[Node]:
-        if not node:
-            return
+        # If already cloned, return the clone
         if node in self.visited:
             return self.visited[node]
 
@@ -44,6 +51,16 @@ class Solution:
                 node_clone.neighbors.append(neighbor_clone)
 
         return node_clone
+
+        # Complexity Analysis
+        # - Time Complexity: O(N + M)
+        # N = number of nodes
+        # M = number of edges
+        # We visit each node and edge exactly once
+
+        # - Space Complexity: O(N)
+        # HashMap to store N cloned nodes
+        # Recursion stack depth up to N (in worst case of linear graph)
 
 
 # @lc code=end
