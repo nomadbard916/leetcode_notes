@@ -64,6 +64,10 @@ class Solution:
 
         # !sol2: BFS + Topological Sort (Kahn's Algorithm)
         # Core Idea: Process courses with no prerequisites first, then gradually "unlock" other courses.
+        # essentially: we are handling the same "level" of courses,
+        # that is the courses that have no prerequisites first, "unlock" the courses depending on them,
+        # put these newly unlocked courses into the queue,
+        # and process these newly unlocked same level of courses, until all processed.
         # * build adjacency list graph and indegree array
         graph = defaultdict(list)
         # Track incoming edges (indegree) for each course
