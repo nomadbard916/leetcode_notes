@@ -7,7 +7,7 @@
 
 # @lc code=start
 from collections import defaultdict
-from typing import List
+from typing import Dict, List
 
 
 class UnionFind:
@@ -39,24 +39,35 @@ class UnionFind:
 
 class Solution:
     def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
+        # Key points:
+        # - A person can have any number of accounts initially, but all of their accounts definitely have the same name GitHubLeetCode
+        # - After merging the accounts, return the accounts in the following format: the first element of each account is the name, and the rest of the elements are emails in sorted order GitHubLeetCode
+        # - Even accounts with the same name may belong to different people if they don't share emails
         # ! sol1: union find, which is the common solution
         n = len(accounts)
         uf = UnionFind(n)
 
-        email_to_account = {}
+        # Map email to the first account index that contains it
+        email_to_account: Dict[str, int] = {}
 
+        # Build the union-find structure
         for i, account in enumerate(accounts):
+            # Skip the name (first element)
             for email in account[1:]:
                 if email in email_to_account:
+                    # Union this account with the account that first had this email
                     uf.union(i, email_to_account[email])
                 else:
+                    # First time seeing this email
                     email_to_account[email] = i
 
+        # Group accounts by their root parent
         groups = defaultdict(list)
         for i in range(n):
             root = uf.find(i)
             groups[root].append(i)
 
+        # Build the result
         result = []
         for account_indices in groups.values():
             emails = set()
@@ -66,6 +77,7 @@ class Solution:
                     name = accounts[idx][0]
                 emails.update(accounts[idx][1:])
 
+            # Create the merged account: [name] + sorted emails
             merged_account = [name] + sorted(emails)
             result.append(merged_account)
 
