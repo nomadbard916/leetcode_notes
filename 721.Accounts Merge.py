@@ -41,10 +41,10 @@ class Solution:
     def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
         # Key points:
         # - A person can have any number of accounts initially,
-        # but all of their accounts definitely have the same name GitHubLeetCode
+        # but all of their accounts definitely have the same name
         # - After merging the accounts, return the accounts in the following format:
         # the first element of each account is the name,
-        # and the rest of the elements are emails in sorted order GitHubLeetCode
+        # and the rest of the elements are emails in sorted order
         # - Even accounts with the same name may belong to different people if they don't share emails
         # ! sol1: union find, which is the common solution
         n = len(accounts)
@@ -61,9 +61,10 @@ class Solution:
             for email in account[1:]:
                 if email in email_to_account:
                     # Union this account with the account that first had this email
+                    # i gets bigger than 0, and therefore will be the root in afterwards unions
                     uf.union(i, email_to_account[email])
+                # First time seeing this email
                 else:
-                    # First time seeing this email
                     email_to_account[email] = i
 
         # * step 2: Group accounts by their root parent in the union-find structure
