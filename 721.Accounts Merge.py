@@ -93,8 +93,46 @@ class Solution:
         # where N is the number of accounts, M is the total number of emails, and α is the inverse Ackermann function
         # Space Complexity: O(N + M)
 
+        # ! sol2: graph DFS
+        # build adjacency list for emails
+        email_graph = defaultdict(set)
+        email_to_name = {}
 
-# ! sol2: graph DFS
+        for account in accounts:
+            name = account[0]
+            emails = account[1:]
+
+            # connect all emails in this account to each other
+            for email in emails:
+                email_to_name[email] = name
+                for other_email in emails:
+                    if email != other_email:
+                        email_graph[email].add(other_email)
+
+        visited = set()
+        result = []
+
+        def dfs(email, component):
+            if email in visited:
+                return
+            visited.add(email)
+            component.append(email)
+
+            for neighbor in email_graph[email]:
+                dfs(neighbor, component)
+
+        # find all connected components
+        for email in email_to_name:
+            if email not in visited:
+                component = []
+                dfs(email, component)
+                name = email_to_name[email]
+                result.append([name] + sorted(component))
+
+        return result
+
+        # Time Complexity: O(M log M + E), where M is total emails and E is total edges in the email graph
+        # Space Complexity: O(M + E)
 
 
 # @lc code=end
