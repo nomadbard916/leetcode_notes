@@ -40,8 +40,11 @@ class UnionFind:
 class Solution:
     def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
         # Key points:
-        # - A person can have any number of accounts initially, but all of their accounts definitely have the same name GitHubLeetCode
-        # - After merging the accounts, return the accounts in the following format: the first element of each account is the name, and the rest of the elements are emails in sorted order GitHubLeetCode
+        # - A person can have any number of accounts initially,
+        # but all of their accounts definitely have the same name GitHubLeetCode
+        # - After merging the accounts, return the accounts in the following format:
+        # the first element of each account is the name,
+        # and the rest of the elements are emails in sorted order GitHubLeetCode
         # - Even accounts with the same name may belong to different people if they don't share emails
         # ! sol1: union find, which is the common solution
         n = len(accounts)
@@ -50,7 +53,9 @@ class Solution:
         # Map email to the first account index that contains it
         email_to_account: Dict[str, int] = {}
 
-        # Build the union-find structure
+        # * step 1: Build the union-find structure
+        # For each email, if we've seen it before,
+        # union the current account with the account that first contained this email
         for i, account in enumerate(accounts):
             # Skip the name (first element)
             for email in account[1:]:
@@ -61,13 +66,13 @@ class Solution:
                     # First time seeing this email
                     email_to_account[email] = i
 
-        # Group accounts by their root parent
+        # * step 2: Group accounts by their root parent in the union-find structure
         groups = defaultdict(list)
         for i in range(n):
             root = uf.find(i)
             groups[root].append(i)
 
-        # Build the result
+        # * step 3: For each group, collect all emails and sort them
         result = []
         for account_indices in groups.values():
             emails = set()
@@ -83,7 +88,12 @@ class Solution:
 
         return result
 
-        # ! sol2: graph DFS
+        # Time Complexity: O(N × α(N) + M log M),
+        # where N is the number of accounts, M is the total number of emails, and α is the inverse Ackermann function
+        # Space Complexity: O(N + M)
+
+
+# ! sol2: graph DFS
 
 
 # @lc code=end
