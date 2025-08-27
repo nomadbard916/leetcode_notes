@@ -33,7 +33,8 @@ class BasicUnionFind:
         we see if they have the same root
         """
         if self.parent[x] != x:
-            # If x is not its own parent, keep going up the chain
+            # If x is not its own parent,
+            # keep going up the chain of tree structure
             return self.find(self.parent[x])
         return x
 
