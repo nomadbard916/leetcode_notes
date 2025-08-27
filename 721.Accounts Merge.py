@@ -112,22 +112,22 @@ class Solution:
         visited = set()
         result = []
 
-        def dfs(email, component):
+        def dfs(email, emails_container):
             if email in visited:
                 return
             visited.add(email)
-            component.append(email)
+            emails_container.append(email)
 
             for neighbor in email_graph[email]:
-                dfs(neighbor, component)
+                dfs(neighbor, emails_container)
 
         # find all connected components
         for email in email_to_name:
             if email not in visited:
-                component = []
-                dfs(email, component)
+                emails_container = []
+                dfs(email, emails_container)
                 name = email_to_name[email]
-                result.append([name] + sorted(component))
+                result.append([name] + sorted(emails_container))
 
         return result
 
