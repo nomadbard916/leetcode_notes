@@ -61,14 +61,14 @@ class Solution:
             for email in account[1:]:
                 if email in email_to_account:
                     # Union this account with the account that first had this email
-                    # i gets bigger than 0, and therefore will be the root in afterwards unions
+                    # i gets rank bigger than 0, and therefore will be the root in afterwards unions
                     uf.union(i, email_to_account[email])
                 # First time seeing this email
                 else:
                     email_to_account[email] = i
 
         # * step 2: Group accounts by their root parent in the union-find structure
-        groups = defaultdict(list)
+        groups: Dict[int, List[int]] = defaultdict(list)
         for i in range(n):
             root = uf.find(i)
             groups[root].append(i)
@@ -94,7 +94,8 @@ class Solution:
         # Space Complexity: O(N + M)
 
         # ! sol2: graph DFS
-        # build adjacency list for emails
+        # build adjacency list for emails,
+        #  where each email is connected to all other emails in the same account
         email_graph = defaultdict(set)
         email_to_name = {}
 
@@ -112,6 +113,7 @@ class Solution:
         visited = set()
         result = []
 
+        #  Use DFS to find connected components of emails
         def dfs(email, emails_container):
             if email in visited:
                 return
@@ -122,6 +124,7 @@ class Solution:
                 dfs(neighbor, emails_container)
 
         # find all connected components
+        #  Each connected component becomes one merged account
         for email in email_to_name:
             if email not in visited:
                 emails_container = []
