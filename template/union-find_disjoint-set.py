@@ -34,7 +34,8 @@ class BasicUnionFind:
         """
         if self.parent[x] != x:
             # If x is not its own parent,
-            # keep going up the chain of tree structure
+            # keep going up the chain of tree structure;
+            # it's also "path compression"
             return self.find(self.parent[x])
         return x
 
