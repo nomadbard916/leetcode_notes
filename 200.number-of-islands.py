@@ -10,6 +10,7 @@ from typing import List
 
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
+        # !sol1: DFS
         # find the first island piece 1 and update counter,
         # modify it as 0 then iterate 4-direction of it, until there's no way to expend
         LENGTH, WIDTH = len(grid), len(grid[0])
@@ -44,6 +45,17 @@ class Solution:
                     dfs(grid, i, j)
 
         return counter
+
+        # Time Complexity:
+        # O(M × N)
+        # Where M is the number of rows and N is the number of columns.
+        # Each cell is visited at most once by the DFS.
+
+        # Space Complexity:
+        # O(M × N) in the worst case (if the entire grid is land, the recursion stack could go as deep as all cells).
+        # There is no extra space used for a visited matrix, but the recursion stack can grow up to the total number of cells in the grid.
+
+        # !sol2: union find
 
 
 # @lc code=end
