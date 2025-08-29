@@ -8,53 +8,52 @@
 from typing import List
 
 
-class UnionFind:
-    """
-    Union-Find (Disjoint Set Union) data structure with path compression and union by rank.
-    Used to efficiently group elements into disjoint sets and check connectivity.
-    """
-
-    def __init__(self, n: int):
-        # Each element is initially its own parent
-        self.parent = list(range(n))
-        # Rank (approximate depth) of each tree
-        self.rank = [0] * n
-        # Number of distinct components
-        self.count = 0
-
-    def find(self, x: int) -> int:
-        if self.parent[x] != x:
-            # Path compression: make x point directly to root
-            self.parent[x] = self.find(self.parent[x])
-        return x
-
-    def union(self, x: int, y: int) -> bool:
-        root_x = self.find(x)
-        root_y = self.find(y)
-        # Already in same set
-        if root_x == root_y:
-            return False
-
-        # Union by rank: attach smaller tree under root of larger tree
-        if self.rank[root_x] < self.rank[root_y]:
-            self.parent[root_x] = root_y
-        elif self.rank[root_x] > self.rank[root_y]:
-            self.parent[root_y] = root_x
-        else:
-            # Same rank: make one root and increase its rank
-            self.parent[root_y] = root_x
-            self.rank[root_x] += 1
-
-        # Two components merged into one
-        self.count -= 1
-
-        return True
-
-    def add_component(self) -> None:
-        self.count += 1
-
-
 class Solution:
+    class UnionFind:
+        """
+        Union-Find (Disjoint Set Union) data structure with path compression and union by rank.
+        Used to efficiently group elements into disjoint sets and check connectivity.
+        """
+
+        def __init__(self, n: int):
+            # Each element is initially its own parent
+            self.parent = list(range(n))
+            # Rank (approximate depth) of each tree
+            self.rank = [0] * n
+            # Number of distinct components
+            self.count = 0
+
+        def find(self, x: int) -> int:
+            if self.parent[x] != x:
+                # Path compression: make x point directly to root
+                self.parent[x] = self.find(self.parent[x])
+            return x
+
+        def union(self, x: int, y: int) -> bool:
+            root_x = self.find(x)
+            root_y = self.find(y)
+            # Already in same set
+            if root_x == root_y:
+                return False
+
+            # Union by rank: attach smaller tree under root of larger tree
+            if self.rank[root_x] < self.rank[root_y]:
+                self.parent[root_x] = root_y
+            elif self.rank[root_x] > self.rank[root_y]:
+                self.parent[root_y] = root_x
+            else:
+                # Same rank: make one root and increase its rank
+                self.parent[root_y] = root_x
+                self.rank[root_x] += 1
+
+            # Two components merged into one
+            self.count -= 1
+
+            return True
+
+        def add_component(self) -> None:
+            self.count += 1
+
     def numIslands(self, grid: List[List[str]]) -> int:
         # !sol1: DFS
         # find the first island piece 1 and update counter,
@@ -117,7 +116,7 @@ class Solution:
             return 0
 
         rows, cols = len(grid), len(grid[0])
-        uf = UnionFind(rows * cols)
+        uf = Solution.UnionFind(rows * cols)
 
         def get_index(row: int, col: int) -> int:
             """Convert 2D coordinates to 1D index."""
