@@ -12,8 +12,11 @@ from typing import List, Set
 
 class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        # ! sol1: plain BFS
         # use BFS as it's about "shortest path"
         # so it's faster than backtrack even as both are essentially brute force
+
+        # this one is pretty much like lc 752 open the lock
 
         # Convert wordList to set for O(1) lookup
         word_set = set(wordList)
@@ -67,6 +70,8 @@ class Solution:
         # Queue can store up to N words, each of length M
         # Visited set can store up to N words
         # Word set stores N words of length M each
+
+        # ! sol2: bidirectional BFS
 
 
 # @lc code=end
