@@ -72,6 +72,42 @@ class Solution:
         # Word set stores N words of length M each
 
         # ! sol2: bidirectional BFS
+        # it's under the same time and space complexity but faster.
+        # it's searches from both ends simultaneously. This can significantly reduce the search space:
+        # - Instead of exploring one large tree, we explore two smaller trees
+        # - When they meet, we've found the shortest path
+        # - Time complexity remains the same in worst case, but average case is much better
+        # - Space complexity is similar but with potential for better cache performance
+        word_set = set(wordList)
+        if endWord not in word_set:
+            return 0
+
+        begin_set = {beginWord}
+        end_set = {endWord}
+        visited = set()
+        steps = 1
+
+        while begin_set and end_set:
+            if len(begin_set) > len(end_set):
+                begin_set, end_set = end_set, begin_set
+
+            next_set = set()
+            for word in begin_set:
+                for i in range(len(word)):
+                    for c in "abcdefghijklmnopqrstuvwxyz":
+                        if c == word[i]:
+                            continue
+                        new_word = word[:i] + c + word[i + 1 :]
+
+                        if new_word in end_set:
+                            return steps + 1
+
+                        if new_word in word_set and new_word not in visited:
+                            visited.add(new_word)
+                            next_set.add(new_word)
+            begin_set = next_set
+            steps += 1
+        return 0
 
 
 # @lc code=end
