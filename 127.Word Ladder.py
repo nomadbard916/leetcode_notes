@@ -95,6 +95,7 @@ class Solution:
                 begin_set, end_set = end_set, begin_set
 
             next_set = set()
+            # If no new words are found, begin_set becomes empty, and the loop exits.
             for word in begin_set:
                 for i in range(len(word)):
                     for c in "abcdefghijklmnopqrstuvwxyz":
