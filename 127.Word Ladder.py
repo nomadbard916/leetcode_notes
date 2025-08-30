@@ -71,7 +71,7 @@ class Solution:
         # Visited set can store up to N words
         # Word set stores N words of length M each
 
-        # ! sol2: bidirectional BFS
+        # ! sol2: bi-directional BFS
         # it's under the same time and space complexity but faster.
         # it's searches from both ends simultaneously. This can significantly reduce the search space:
         # - Instead of exploring one large tree, we explore two smaller trees
@@ -82,12 +82,15 @@ class Solution:
         if endWord not in word_set:
             return 0
 
+        # Two sets for bidirectional search
         begin_set = {beginWord}
         end_set = {endWord}
+
         visited = set()
         steps = 1
 
         while begin_set and end_set:
+            # Always expand the smaller set for better performance
             if len(begin_set) > len(end_set):
                 begin_set, end_set = end_set, begin_set
 
@@ -97,11 +100,14 @@ class Solution:
                     for c in "abcdefghijklmnopqrstuvwxyz":
                         if c == word[i]:
                             continue
+
                         new_word = word[:i] + c + word[i + 1 :]
 
+                        # If new_word is in the other search direction, we found a path
                         if new_word in end_set:
                             return steps + 1
 
+                        # Add to next level if it's a valid unvisited word
                         if new_word in word_set and new_word not in visited:
                             visited.add(new_word)
                             next_set.add(new_word)
