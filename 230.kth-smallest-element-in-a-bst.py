@@ -18,7 +18,42 @@ class Solution:
     count: int = 0
 
     def kthSmallest(self, root: TreeNode, k: int) -> int:
-        # brute force:
+        # ! sol1: iterative in-order traversal, most efficient
+        stack = []
+        current = root
+        count = 0
+
+        while stack or current:
+            # go to the leftmost node
+            while current:
+                stack.append(current)
+                current = current.left
+
+            #  process the current node
+            current = stack.pop()
+            count += 1
+
+            # if we've found the kth element, return it
+            if count == k:
+                return current.val
+
+            # move to right subtree
+            current = current.right
+
+        # Should never reach here if k is valid
+        return -1
+
+        # Iterative/Recursive Early Stopping:
+
+        # Time Complexity: O(H + k) where H is height of tree
+        # Best case (balanced): O(log n + k)
+        # Worst case (skewed): O(n + k) ≈ O(n)
+
+        # Space Complexity: O(H) for stack space
+        # Best case: O(log n)
+        # Worst case: O(n)
+
+        # !sol: brute force:
         # traverse postorderly the tree and put elements into a t_list,
         # then fetch t_list[-k]
 
@@ -42,6 +77,9 @@ class Solution:
         DFS(root)
 
         return self.ans
+
+        # Time Complexity: O(n) - must visit all nodes
+        # Space Complexity: O(n) - store all values
 
 
 # @lc code=end
