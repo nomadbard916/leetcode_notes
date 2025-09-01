@@ -89,5 +89,31 @@ class Solution:
         # Time Complexity: O(n) - must visit all nodes
         # Space Complexity: O(n) - store all values
 
+        # ! sol4: min heap
+        # we just use min heap as it's conceptually simple, but it's less efficient than max heap,
+        # as max heap can keep only k smallest elements seen so far.
+        #  Advantage: Works with ANY data structure, not just BSTs
+        import heapq
+
+        min_heap = []
+
+        def traverse(node: TreeNode) -> None:
+            if not node:
+                return
+            heapq.heappush(min_heap, node.val)
+            traverse(node.left)
+            traverse(node.right)
+
+        traverse(root)
+
+        for _ in range(k - 1):
+            heapq.heappop(min_heap)
+
+        return heapq.heappop(min_heap)
+
+        # complexities
+        #  Time: O(n log n + k log n)
+        #  Space: O(n)
+
 
 # @lc code=end
