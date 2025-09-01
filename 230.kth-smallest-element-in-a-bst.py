@@ -14,9 +14,6 @@ class TreeNode:
 
 
 class Solution:
-    ans: int = 0
-    count: int = 0
-
     def kthSmallest(self, root: TreeNode, k: int) -> int:
         # ! sol1: iterative in-order traversal, most efficient
         stack = []
@@ -77,30 +74,17 @@ class Solution:
         # Best case: O(log n)
         # Worst case: O(n)
 
-        # !sol: brute force:
-        # traverse postorderly the tree and put elements into a t_list,
-        # then fetch t_list[-k]
+        # !sol3: brute force:
+        # traverse postorderly the tree and put elements into a list,
+        # then fetch list[k-1]
 
-        # in-order traversal for BST, and record k ordering in the process
-        # when to update k value?
+        def inorder(node: TreeNode) -> list[int]:
+            if not node:
+                return []
+            return inorder(node.left) + [node.val] + inorder(node.right)
 
-        def DFS(root):
-            if root is None:
-                return
-
-            DFS(root.left)
-
-            # in BST, as left child node must be smaller than parent rood node,
-            # the traversal count should be recorded here
-            self.count += 1
-            if self.count == k:
-                self.ans = root.val
-
-            DFS(root.right)
-
-        DFS(root)
-
-        return self.ans
+        values = inorder(root)
+        return values[k - 1]  # k is 1-indexed, list is 0-indexed
 
         # Time Complexity: O(n) - must visit all nodes
         # Space Complexity: O(n) - store all values
