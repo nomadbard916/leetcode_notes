@@ -43,6 +43,30 @@ class Solution:
         # Should never reach here if k is valid
         return -1
 
+        # ! sol2: recursive
+        self.result = None
+        self.count = 0
+
+        def inorder(node: TreeNode):
+            if not node or self.result is not None:
+                return
+
+            # * traverse left subtree
+            inorder(node.left)
+
+            # * process current
+            if self.result is None:
+                self.count += 1
+                if self.count == k:
+                    self.result = node.val
+                    return
+
+            # * traverse right subtree
+            inorder(node.right)
+
+        inorder(root)
+        return self.result
+
         # Iterative/Recursive Early Stopping:
 
         # Time Complexity: O(H + k) where H is height of tree
