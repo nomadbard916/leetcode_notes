@@ -45,18 +45,17 @@ class Solution:
         self.count = 0
 
         def inorder(node: TreeNode):
-            if not node or self.result is not None:
+            if not node:
                 return
 
             # * traverse left subtree
             inorder(node.left)
 
             # * process current
-            if self.result is None:
-                self.count += 1
-                if self.count == k:
-                    self.result = node.val
-                    return
+            self.count += 1
+            if self.count == k:
+                self.result = node.val
+                return
 
             # * traverse right subtree
             inorder(node.right)
