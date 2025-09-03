@@ -5,33 +5,36 @@
 #
 
 # @lc code=start
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
 from collections import deque
+from typing import List
+
+
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
 
 
 class Solution:
     def levelOrder(self, root: TreeNode) -> List[List[int]]:
         ans = []
-        q = deque([root])
-
         # sanity check
         if not root:
             return ans
 
+        q = deque([root])
+
         while q:
-            current_level = []
-            length = len(q)
+            curr_lv_nodes = []
+            curr_q_len = len(q)
 
             # check each node in this level
-            for i in range(length):
+            for _ in range(curr_q_len):
                 # current level operation
                 current_node = q.popleft()
-                current_level.append(current_node.val)
+                curr_lv_nodes.append(current_node.val)
 
                 # check next level and put nodes into queue
                 if current_node.left:
@@ -39,8 +42,8 @@ class Solution:
                 if current_node.right:
                     q.append(current_node.right)
 
-            if len(current_level) > 0:
-                ans.append(current_level)
+            if len(curr_lv_nodes) > 0:
+                ans.append(curr_lv_nodes)
 
         return ans
 
@@ -71,4 +74,3 @@ class Solution:
 
 
 # @lc code=end
-
