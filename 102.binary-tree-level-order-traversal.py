@@ -48,29 +48,29 @@ class Solution:
         return ans
 
         # sol2: DFS
-        # if root is None:
-        #     return root
+        if root is None:
+            return root
 
-        # ans = []
+        ans = []
 
-        # def DFS(root=root, current_depth=1):
-        #     if root is None:
-        #         return root
+        def DFS(root=root, current_depth=1):
+            if root is None:
+                return root
 
-        #     previous_depth = len(ans)
+            previous_depth = len(ans)
 
-        #     if current_depth > previous_depth:
-        #         ans.append([])
+            if current_depth > previous_depth:
+                ans.append([])
 
-        #     ans[current_depth - 1].append(root.val)
+            ans[current_depth - 1].append(root.val)
 
-        #     next_depth = current_depth + 1
-        #     DFS(root.left, next_depth)
-        #     DFS(root.right, next_depth)
+            next_depth = current_depth + 1
+            DFS(root.left, next_depth)
+            DFS(root.right, next_depth)
 
-        # DFS()
+        DFS()
 
-        # return ans
+        return ans
 
 
 # @lc code=end
