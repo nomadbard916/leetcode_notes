@@ -18,12 +18,17 @@ from typing import Optional
 
 
 class Codec:
+    # it's essentially try to traverse the tree,
+    # build the string, and recover the string using the same traversal method
+    NULL_NODE_CHAR = "#"
+
     def serialize(self, root):
         """Encodes a tree to a single string.
 
         :type root: TreeNode
         :rtype: str
         """
+        # 即便你包含了空指针的信息，也只有前序和后序的遍历结果才能唯一还原二叉树，中序遍历结果做不到
 
         def preorder(node: Optional[TreeNode]) -> None:
             if node:
@@ -31,8 +36,7 @@ class Codec:
                 preorder(node.left)
                 preorder(node.right)
             else:
-                # Use "#" to represent null nodes
-                vals.append("#")
+                vals.append(self.NULL_NODE_CHAR)
 
         vals = []
         preorder(root)
@@ -47,7 +51,7 @@ class Codec:
 
         def build_tree() -> Optional[TreeNode]:
             val = next(vals_iter)
-            if val == "#":
+            if val == self.NULL_NODE_CHAR:
                 return None
             node = TreeNode(int(val))
             node.left = build_tree()  # Recursively build left subtree
@@ -56,6 +60,18 @@ class Codec:
 
         vals_iter = iter(data.split(","))
         return build_tree()
+
+        # Complexity Analysis
+        # Time Complexity: O(n) where n is the number of nodes
+
+        # Serialization: Visit each node exactly once
+        # Deserialization: Process each value in the string exactly once
+
+        # Space Complexity: O(n)
+
+        # Serialization: O(n) for the result string + O(h) recursion stack where h is tree height
+        # Deserialization: O(h) recursion stack space
+        # In worst case (skewed tree), h = n, so O(n) total
 
 
 # Your Codec object will be instantiated and called as such:
