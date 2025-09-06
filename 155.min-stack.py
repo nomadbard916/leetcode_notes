@@ -6,6 +6,8 @@
 
 # @lc code=start
 class MinStack:
+    # you can also use two stacks, which is more space efficient
+    # one for all elements, another for current min value only
     def __init__(self):
         """
         initialize your data structure here.
@@ -37,6 +39,14 @@ class MinStack:
             return self.stack[-1][1]
         else:
             return None
+
+    #     Time & Space Complexity
+
+    # Time Complexity: O(1) for all operations (push, pop, top, getMin)
+    # Space Complexity: O(n) where n is the number of elements
+
+    # In worst case (decreasing sequence), min_stack stores all elements
+    # In best case (increasing sequence), min_stack stores only one element
 
 
 # Your MinStack object will be instantiated and called as such:
