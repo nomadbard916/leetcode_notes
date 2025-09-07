@@ -87,17 +87,22 @@ class Solution:
         water_trapped = 0
         n = len(height)
 
+        # Skip first and last positions
         for i in range(1, n - 1):
+            # Find maximum height to the left
             left_max = 0
             for j in range(i):
                 left_max = max(left_max, height[j])
 
+            # Find maximum height to the right
             right_max = 0
             for j in range(i + 1, n):
                 right_max = max(right_max, height[j])
 
+            # Water level at position i
             water_level = min(left_max, right_max)
 
+            # If water level is higher than current height, water can be trapped
             if water_level > height[i]:
                 water_trapped += water_level - height[i]
 
