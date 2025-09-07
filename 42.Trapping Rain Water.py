@@ -19,7 +19,7 @@ class Solution:
     # when the difficulty calibration wasn't as refined
     # - Edge Cases: Problem 42 has slightly more edge cases to handle (empty arrays, arrays with < 3 elements)
     def trap(self, height: List[int]) -> int:
-        # ! sol1: two pointer, also most efficient
+        # ! sol1: two pointers (with two additional state-tracking pointers), also most efficient
         # The key insight is that the amount of water that can be trapped at any position
         # depends on the minimum of the maximum heights to its left and right
 
@@ -33,22 +33,25 @@ class Solution:
             return 0
 
         l, r = 0, LEN - 1
-        l_max, r_max = 0, 0
-        water_trapped: int = 0
+        max_height_l, max_height_r = 0, 0
+        water_trapped = 0
 
         while l < r:
-            if height[l] < height[r]:
-                if height[l] >= l_max:
-                    l_max = height[l]
+            curr_height_l = height[l]
+            curr_height_r = height[r]
+
+            if curr_height_l < curr_height_r:
+                if curr_height_l >= max_height_l:
+                    max_height_l = curr_height_l
                 else:
-                    water_trapped += l_max - height[l]
+                    water_trapped += max_height_l - curr_height_l
                 l += 1
 
             else:
-                if height[r] >= r_max:
-                    r_max = height[r]
+                if curr_height_r >= max_height_r:
+                    max_height_r = curr_height_r
                 else:
-                    water_trapped += r_max - height[r]
+                    water_trapped += max_height_r - curr_height_r
                 r -= 1
         return water_trapped
 
