@@ -40,7 +40,24 @@ class Solution:
             curr_height_l = height[l]
             curr_height_r = height[r]
 
+            # - If left_height < right_height, then right side definitely has a higher max
+            # - So we can safely process the left side
+            # - Vice versa for the right side
+
+            # We're not splitting the problem - we're choosing which side we can safely process
+            # based on which side gives us enough information to make a definitive calculation.
+
+            # The algorithm is brilliant because it realizes:
+            # We don't need to know the exact maximum on both sides -
+            # we just need to know which side is the limiting factor!
+
+            # Think of it like this:
+            # If I'm standing between two walls, the water level is determined by the shorter wall
+            # If I can see that the right wall is definitely taller than where I'm standing, then I only need to worry about the left wall height
+            # I don't need to measure the exact height of the right wall!
+
             if curr_height_l < curr_height_r:
+                # Process left side
                 if curr_height_l >= max_height_l:
                     max_height_l = curr_height_l
                 else:
@@ -48,16 +65,46 @@ class Solution:
                 l += 1
 
             else:
+                # Process right side
                 if curr_height_r >= max_height_r:
                     max_height_r = curr_height_r
                 else:
                     water_trapped += max_height_r - curr_height_r
                 r -= 1
+
         return water_trapped
 
         #     Complexity Analysis
         # Time Complexity: O(n) - single pass through the array
         # Space Complexity: O(1) - only using variables, no extra arrays
+
+        # ! sol2: brute force
+        # For each position, find max height to left and right,
+        # then calculate water that can be trapped.
+        if not height:
+            return 0
+
+        water_trapped = 0
+        n = len(height)
+
+        for i in range(1, n - 1):
+            left_max = 0
+            for j in range(i):
+                left_max = max(left_max, height[j])
+
+            right_max = 0
+            for j in range(i + 1, n):
+                right_max = max(right_max, height[j])
+
+            water_level = min(left_max, right_max)
+
+            if water_level > height[i]:
+                water_trapped += water_level - height[i]
+
+        return water_trapped
+
+        # Time Complexity: O(n²) - for each position, scan left and right
+        # Space Complexity: O(1) - no extra space
 
 
 # @lc code=end
