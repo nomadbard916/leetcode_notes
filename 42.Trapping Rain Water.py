@@ -127,7 +127,7 @@ class Solution:
         right_max = [0] * n
         right_max[n - 1] = height[n - 1]
         for i in range(n - 2, -1, -1):
-            right_max[i] = max(left_max[i + 1], height[i])
+            right_max[i] = max(right_max[i + 1], height[i])
 
         # calculate trapped water
         water_trapped = 0
@@ -140,6 +140,8 @@ class Solution:
 
         # Time Complexity: O(n) - three passes through array
         # Space Complexity: O(n) - two additional arrays
+
+        # ! there's another stack solution, which I don't have enough will power to deal with...
 
 
 # @lc code=end
