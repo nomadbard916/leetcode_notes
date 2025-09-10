@@ -77,6 +77,25 @@ class Solution:
         # Time Complexity: O(n) - each bar is pushed and popped at most once
         # Space Complexity: O(n) - for the stack in worst case
 
+        # ! sol2: Alternative approach using sentinel values for cleaner code
+        """
+        Optimized version using sentinel values to avoid edge case handling.
+        Add 0 at the beginning and end to handle edge cases elegantly.
+        """
+        # add sentinel values: 0 at start and end
+        heights = [0] + heights + [0]
+        stack = []
+        max_area = 0
+
+        for i in range(len(heights)):
+            while stack and heights[i] < heights[stack[-1]]:
+                height = heights[stack.pop()]
+                width = i - stack[-1] - 1
+                max_area = max(max_area, height * width)
+            stack.append()
+
+        return max_area
+
 
 # @lc code=end
 
