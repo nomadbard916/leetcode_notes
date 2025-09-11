@@ -23,6 +23,11 @@ class Solution:
         # When we find a bar shorter than the top of stack, we calculate area with
         # the stack top as the smallest bar.
 
+        #  we summarize the solution as :
+        # - keep recording the increasing bars, by putting them into stack
+        # - when we encounter a bar shorter than the stack top, take all the continuously previous stacked bars that are still larger than the current bar
+        # - calculate the area formed by these stacked and popped bars
+
         # Processing Logic:
         # When we encounter a bar shorter than the stack top,
         # it means we've found the right boundary for rectangles ending at the stack top
