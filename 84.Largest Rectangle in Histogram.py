@@ -82,7 +82,18 @@ class Solution:
         Optimized version using sentinel values to avoid edge case handling.
         Add 0 at the beginning and end to handle edge cases elegantly.
         """
+        # In the first solution, we needed two rounds because of edge cases:
+        # Some bars never find a "right boundary"
+        # Width calculation has special cases (empty stack vs non-empty)
+        # We need different logic for "during loop" vs "after loop"
+
         # add sentinel values: 0 at start and end
+        # The Left Sentinel (height = 0)
+        # - Purpose: Ensures the stack is never empty during width calculation
+        # - Effect: Every bar has a guaranteed "left boundary reference"
+        # The Right Sentinel (height = 0)
+        # - Purpose: Forces ALL remaining bars to be processed in the main loop
+        # - Effect: Eliminates the need for a second round entirely
         heights = [0] + heights + [0]
         stack = []
         max_area = 0
@@ -90,6 +101,11 @@ class Solution:
         for i in range(len(heights)):
             while stack and heights[i] < heights[stack[-1]]:
                 height = heights[stack.pop()]
+                # With sentinels, width calculation becomes always the same formula
+                # No special cases needed because:
+                # - stack[-1] always exists (left sentinel guarantees non-empty stack)
+                # - i is the right boundary (could be a real bar or right sentinel)
+                # - The -1 accounts for exclusive boundaries
                 width = i - stack[-1] - 1
                 max_area = max(max_area, height * width)
             stack.append()
