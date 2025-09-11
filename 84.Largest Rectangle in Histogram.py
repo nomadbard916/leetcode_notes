@@ -15,6 +15,9 @@ class Solution:
         # For any rectangle in the histogram, its height is determined by the shortest bar it contains.
         # So for each bar, we want to find the largest rectangle where that bar is the shortest.
 
+        # Monotonic Stack Pattern:
+        # This problem showcases the monotonic stack technique - maintaining stack elements in a specific order (increasing/decreasing). This pattern appears in many problems.
+
         # !sol1
         # Approach: Use a stack to keep track of indices of bars in increasing order.
         # When we find a bar shorter than the top of stack, we calculate area with
@@ -30,6 +33,20 @@ class Solution:
 
         n = len(heights)
 
+        #     WHY TWO ROUNDS?
+        # The key insight is that every bar needs both a LEFT and RIGHT boundary
+        # to calculate its maximum possible rectangle area.
+        # The stack algorithm finds these boundaries, but not all at once.
+        # Round 1: Process each bar, handling cases where we find a "right boundary"
+        # Round 2: Handle remaining bars that never found a right boundary
+        # These bars can extend all the way to the end of the histogram
+
+        # Think of it this way: each bar needs both left and right boundaries to
+        # calculate its maximum rectangle. The stack helps us find these boundaries.
+
+        # Round 1: Finding Right Boundaries
+        # During the main loop, we're essentially asking: "What's the first bar to the right that's shorter than me?"
+        # When we find such a bar, it becomes the right boundary for the taller bars in our stack.
         # Process each bar
         for i in range(n):
             # Key insight: when heights[i] < heights[stack[-1]],
@@ -52,14 +69,11 @@ class Solution:
 
             stack.append(i)
 
+        # Round 2: Handling "Never-Found" Right Boundaries
+        # Some bars never encounter a shorter bar to their right -
+        # they can extend their rectangles all the way to the end of the histogram!
+        # These remain in the stack after Round 1.
         # Process remaining bars in stack
-        #     WHY TWO ROUNDS?
-        # Round 1: Process each bar, handling cases where we find a "right boundary"
-        # Round 2: Handle remaining bars that never found a right boundary
-        # These bars can extend all the way to the end of the histogram
-
-        # Think of it this way: each bar needs both left and right boundaries to
-        # calculate its maximum rectangle. The stack helps us find these boundaries.
         while stack:
             curr_bar = stack.pop()
             height = heights[curr_bar]
