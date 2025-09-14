@@ -6,12 +6,65 @@
 #
 
 # @lc code=start
-from typing import Counter, List
+import heapq
+from collections import Counter
+from typing import List
 
 
 class Solution:
     def leastInterval(self, tasks: List[str], n: int) -> int:
-        # ! sol 1: Mathematical Formula (Optimal)
+        # ! col 1: Greedy Simulation with max heap
+        """
+        Alternative greedy approach using max heap simulation.
+        This approach actually simulates the scheduling process.
+        """
+        if n == 0:
+            return len(tasks)
+
+        # Count frequencies
+        task_count = Counter(tasks)
+
+        # Use max heap (negate values for min heap in Python)
+        max_heap = [-count for count in task_count.values()]
+        heapq.heapify(max_heap)
+
+        time = 0
+
+        while max_heap:
+            # Store tasks that are in cooling period
+            temp = []
+            tasks_done = 0
+
+            # Try to schedule n+1 tasks (including current time slot)
+            for _ in range(n + 1):
+                if max_heap:
+                    tasks_done += 1
+                    # Get most frequent task
+                    freq = heapq.heappop(max_heap)
+                    # If still has remaining tasks after this execution
+                    if freq < -1:  # freq is negative, so -1 means originally 1
+                        temp.append(freq + 1)  # Decrease frequency
+
+            # Put back tasks that still need to be executed
+            for freq in temp:
+                heapq.heappush(max_heap, freq)
+
+            # If heap is empty, we've scheduled all tasks
+            # Add only the actual tasks scheduled, not idle time
+            if not max_heap:
+                time += tasks_done
+                break
+            else:
+                # Full cycle completed (n+1 time units)
+                time += n + 1
+
+        return time
+
+        # complexities
+        # Time: O(N log 26) = O(N) since heap operations are on at most 26 elements
+        # Space: O(1) for the same reason
+
+        # ! sol 2: Mathematical Formula (Optimal, but too specific for this problem only)
         # Key Insight: The bottleneck is always the most frequent task(s).
 
         task_freq_count = Counter(tasks)
@@ -33,15 +86,6 @@ class Solution:
         # complexities
         # Time: O(N) where N is number of tasks (for counting frequencies)
         # Space: O(1) since we have at most 26 different task types
-
-        # ! col 2: Greedy Simulation with max heap
-        """
-        Alternative greedy approach using max heap simulation.
-        This approach actually simulates the scheduling process.
-        """
-        # complexities
-        # Time: O(N log 26) = O(N) since heap operations are on at most 26 elements
-        # Space: O(1) for the same reason
 
 
 # @lc code=end
