@@ -15,17 +15,19 @@ class Solution:
     def leastInterval(self, tasks: List[str], n: int) -> int:
         # ! col 1: Greedy Simulation with max heap
         """
-        Alternative greedy approach using max heap simulation.
+        Greedy approach using max heap simulation.
         This approach actually simulates the scheduling process.
+        The greedy choice is always to execute the task with largest remaining frequency
+        (to avoid it creating many future forced idles).
         """
         if n == 0:
             return len(tasks)
 
         # Count frequencies
-        task_count = Counter(tasks)
+        task_freq_count = Counter(tasks)
 
         # Use max heap (negate values for min heap in Python)
-        max_heap = [-count for count in task_count.values()]
+        max_heap = [-count for count in task_freq_count.values()]
         heapq.heapify(max_heap)
 
         time = 0
@@ -35,23 +37,26 @@ class Solution:
             temp = []
             tasks_done = 0
 
-            # Try to schedule n+1 tasks (including current time slot)
+            # Try to schedule n+1 tasks (including current time slot) in a box, then fill in box by box
             for _ in range(n + 1):
                 if max_heap:
                     tasks_done += 1
                     # Get most frequent task
                     freq = heapq.heappop(max_heap)
                     # If still has remaining tasks after this execution
+                    # If freq == -1 that means there was exactly 1 remaining before execution;
+                    # after executing there are 0 left, so you must NOT push it back.
                     if freq < -1:  # freq is negative, so -1 means originally 1
                         temp.append(freq + 1)  # Decrease frequency
 
-            # Put back tasks that still need to be executed
+            # Put back tasks that still need to be executed with freq already decreased
             for freq in temp:
                 heapq.heappush(max_heap, freq)
 
             # If heap is empty, we've scheduled all tasks
             # Add only the actual tasks scheduled, not idle time
             if not max_heap:
+                # it's always less than n + 1
                 time += tasks_done
                 break
             else:
