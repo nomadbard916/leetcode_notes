@@ -20,10 +20,11 @@ class MedianFinder:
     # Time Complexity: O(1)
     # Space Complexity: O(1)
     def __init__(self):
+        # median happens on midpoint between max of smaller and min of larger
         # Python heapq is min heap by default
         # For max heap, we store negative values
-        self.max_heap = []  # Left half (smaller numbers) - stores negative values
-        self.min_heap = []  # Right half (larger numbers) - stores positive values
+        self.smaller_max_heap = []  # Left half (smaller numbers) - stores negative values
+        self.larger_min_heap = []  # Right half (larger numbers) - stores positive values
 
     def addNum(self, num: int) -> None:
         """
@@ -38,21 +39,21 @@ class MedianFinder:
         Space Complexity: O(n) - storing all numbers
         """
         # Step 1: Add number to appropriate heap
-        if not self.max_heap or num <= -self.max_heap[0]:
-            heapq.heappush(self.max_heap, -num)
+        if not self.smaller_max_heap or num <= -self.smaller_max_heap[0]:
+            heapq.heappush(self.smaller_max_heap, -num)
         else:
-            heapq.heappush(self.min_heap, num)
+            heapq.heappush(self.larger_min_heap, num)
 
         # Step 2: Balance heaps
         # Ensure max_heap has at most 1 more element than min_heap
-        if len(self.max_heap) > len(self.min_heap) + 1:
+        if len(self.smaller_max_heap) > len(self.larger_min_heap) + 1:
             # Move top element from max_heap to min_heap
-            val = -heapq.heappop(self.max_heap)
-            heapq.heappush(self.min_heap, val)
-        elif len(self.min_heap) > len(self.max_heap):
+            val = -heapq.heappop(self.smaller_max_heap)
+            heapq.heappush(self.larger_min_heap, val)
+        elif len(self.larger_min_heap) > len(self.smaller_max_heap):
             # Move top element from min_heap to max_heap
-            val = heapq.heappop(self.min_heap)
-            heapq.heappush(self.max_heap, -val)
+            val = heapq.heappop(self.larger_min_heap)
+            heapq.heappush(self.smaller_max_heap, -val)
 
     def findMedian(self) -> float:
         """
@@ -61,12 +62,12 @@ class MedianFinder:
         Time Complexity: O(1) - just accessing heap tops
         Space Complexity: O(1) - no additional space
         """
-        if len(self.max_heap) > len(self.min_heap):
+        if len(self.smaller_max_heap) > len(self.larger_min_heap):
             # Odd number of elements, median is top of max_heap
-            return float(-self.max_heap[0])
+            return float(-self.smaller_max_heap[0])
         else:
             # Even number of elements, median is average of both heap tops
-            return (-self.max_heap[0] + self.min_heap[0]) / 2.0
+            return (-self.smaller_max_heap[0] + self.larger_min_heap[0]) / 2.0
 
 
 # Your MedianFinder object will be instantiated and called as such:
