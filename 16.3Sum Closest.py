@@ -35,7 +35,17 @@ class Solution:
                 else:
                     # need smaller sum
                     right -= 1
+
         return int(closest_sum)
+
+        # Time Complexity: O(n²)
+        # Sorting: O(n log n)
+        # Nested loops: O(n) × O(n) = O(n²)
+        # Overall: O(n²) dominates
+
+        # Space Complexity: O(1)
+        # Only using a constant amount of extra space
+        # The sorting is typically done in-place
 
 
 # @lc code=end
