@@ -11,6 +11,20 @@ from typing import List
 
 class Solution:
     def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
+        # Key Insight - Greedy Strategy:
+        # The optimal approach is to always keep the interval with the earliest end time when there's an overlap.
+        # Why? Because keeping an interval that ends earlier leaves more room for future intervals,
+        # maximizing our chances of keeping more intervals overall.
+
+        # Why this works:
+        # By always choosing intervals that end earliest, we maximize the remaining time space
+        # This greedy choice leads to the globally optimal solution
+        # It's similar to the classic "Activity Selection Problem"
+
+        # Alternative sorting strategies:
+        # - Sorting by start time doesn't work optimally
+        # - Sorting by interval length doesn't work either
+        # - Only sorting by end time guarantees optimal solution
         if not intervals:
             return 0
 
@@ -29,6 +43,10 @@ class Solution:
                 last_end = end
 
         return removed_count
+
+        # Time and Space Complexity
+        # Time Complexity: O(n log n) - dominated by the sorting step
+        # Space Complexity: O(1) - only using constant extra space (not counting input)
 
 
 # @lc code=end
