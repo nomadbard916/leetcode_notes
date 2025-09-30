@@ -6,8 +6,9 @@
 #
 
 # @lc code=start
+import heapq
 from collections import deque
-from typing import List
+from typing import Deque, List
 
 
 class Solution:
@@ -30,7 +31,7 @@ class Solution:
             return []
 
         #  Deque stores indices of elements in decreasing order of their values
-        dq = deque()
+        dq: Deque[int] = deque()
         res = []
 
         for i in range(len(nums)):
@@ -49,7 +50,7 @@ class Solution:
             dq.append(i)
 
             # The front of deque always contains the index of maximum element
-            # Start adding to result once we have a complete window (i >= k - 1)
+            # Start adding to result once we start to have a complete window (i >= k - 1)
             if i >= k - 1:
                 res.append(nums[dq[0]])
 
@@ -63,6 +64,26 @@ class Solution:
         # Space Complexity: O(k)
         # The deque stores at most k elements (the window size)
         # The result array is O(n - k + 1), but that's for output, not counting towards auxiliary space
+
+        # ! sol2: max heap
+        result = []
+        heap = []  # max heap (use negative values)
+
+        for i in range(len(nums)):
+            heapq.heappush(heap, (-nums[i], i))
+
+            # Remove elements outside window
+            while heap and heap[0][1] < i - k + 1:
+                heapq.heappop(heap)
+
+            if i >= k - 1:
+                result.append(-heap[0][0])
+
+        return result
+
+        # Time: O(n log n) - heap operations
+        # Space: O(n)
+        # Better than brute force but not optimal
 
 
 # @lc code=end
