@@ -46,11 +46,14 @@ class Solution:
                 left = word[:j]
                 right = word[j:]
 
+                # * these two cases can contain empty string as palindrome
+
                 # Case 1: If left part is palindrome
                 # We need reversed(right) to exist as another word
                 # When we concatenate: reversed(right) + word, it forms a palindrome
                 if is_palindrome(left):
                     reversed_right = right[::-1]
+                    # also need to make sure it's not itself
                     if reversed_right in word_map and word_map[reversed_right] != i:
                         result.append([word_map[reversed_right], i])
 
@@ -60,6 +63,7 @@ class Solution:
                 # Use j != len(word) to avoid duplicate when right is empty
                 if j != len(word) and is_palindrome(right):
                     reversed_left = left[::-1]
+                    # also need to make sure it's not itself
                     if reversed_left in word_map and word_map[reversed_left] != i:
                         result.append([i, word_map[reversed_left]])
         return result
