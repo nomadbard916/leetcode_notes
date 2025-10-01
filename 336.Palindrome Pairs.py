@@ -27,8 +27,11 @@ class Solution:
            - If right part is palindrome, check if reversed left part exists
         3. Handle special cases like empty strings
         """
-        word_map = {word: i for i, word in enumerate(words)}
         result = []
+
+        word_map = {}
+        for i, word in enumerate(words):
+            word_map[word] = i
 
         def is_palindrome(s: str) -> bool:
             left, right = 0, len(s) - 1
@@ -44,11 +47,10 @@ class Solution:
             # Check all possible splits of current word
             for j in range(len(word) + 1):
                 left = word[:j]
+                # these two cases can contain empty string (when j out of bound for right) as palindrome
                 right = word[j:]
 
-                # * these two cases can contain empty string as palindrome
-
-                # Case 1: If left part is palindrome
+                # * Case 1: If left part is palindrome
                 # We need reversed(right) to exist as another word
                 # When we concatenate: reversed(right) + word, it forms a palindrome
                 if is_palindrome(left):
@@ -57,10 +59,10 @@ class Solution:
                     if reversed_right in word_map and word_map[reversed_right] != i:
                         result.append([word_map[reversed_right], i])
 
-                # Case 2: If right part is palindrome
+                # * Case 2: If right part is palindrome
                 # We need reversed(left) to exist as another word
                 # When we concatenate: word + reversed(left), it forms a palindrome
-                # Use j != len(word) to avoid duplicate when right is empty
+                # Use j != len(word) to deduplicate once here, for self-palindrome like "aa"
                 if j != len(word) and is_palindrome(right):
                     reversed_left = left[::-1]
                     # also need to make sure it's not itself
