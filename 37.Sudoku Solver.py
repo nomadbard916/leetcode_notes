@@ -19,6 +19,12 @@ class Solution:
         # - If it leads to a dead end, backtrack (undo) and try another choice
         # - Continue until you find the exit (complete solution)
 
+        # Why This Works
+        # The key insight is constraint propagation:
+        # - By tracking what's already used, we only try valid numbers
+        # - If a path fails, we backtrack and try different choices
+        # - The recursion explores the entire search space systematically
+
         # Track which numbers are already used in each row, column, and box
         # Using sets allows O(1) lookup to check if a number is already used.
         rows: List[Set[str]] = [set() for _ in range(9)]
