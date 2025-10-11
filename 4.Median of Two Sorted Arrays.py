@@ -23,15 +23,33 @@ class Solution:
         # Even though we can't merge, can we figure out which elements would be at that position?
         # Yes—through strategic partitioning.
 
-        # we cut both arrays from middle of equal size, and recombine to new twos.
+        # in my own words:
+        # ✓ Partition the first array to find the proper position for median
+        # ✓ Use binary search and swap arrays to search on the smaller array
+        # ✓ The partition position of the second array is determined by the partition of array 1
+        # ✓ Check min/max of left and right parts
+        # We're checking TWO conditions simultaneously:
+        # 1. maxLeft1 ≤ minRight2?
+        # 2. maxLeft2 ≤ minRight1?
 
-        # step 1: ensure nums1 is the smaller array, to optimize binary search on smaller one
+        # If BOTH are true → Found it! ✓
+        # If maxLeft1 > minRight2 → partition1 is TOO FAR RIGHT
+        #                         → Move right pointer LEFT
+        # If maxLeft2 > minRight1 → partition1 is TOO FAR LEFT
+        #                         → Move left pointer RIGHT
+        # ✓ If not correct, move pointers until the answer is found
+
+        # we cut two arrays at partition position, and the positions don't have to be the same
+        # so now there are four parts: left1, right1, left2, right2
+
+        # * step 1: ensure nums1 is the smaller array, to optimize binary search on smaller one
+        # it's handy and does not cost much, so please do.
         if len(nums1) > len(nums2):
             nums1, nums2 = nums2, nums1
 
         m, n = len(nums1), len(nums2)
 
-        # step2: Binary search on the smaller array
+        # * step2: Binary search on the smaller array to get the correct partition position
         left, right = 0, m
 
         while left <= right:
@@ -47,7 +65,7 @@ class Solution:
             # - If total is odd (e.g., 9 elements): left side needs 5 elements (one more)
             partition2 = (m + n + 1) // 2 - partition1
 
-            # Step 3: Check validity, for each partition we check maxLeft1 < minRight2, and maxLeft2 < minRight1
+            # * Step 3: Check validity, for each partition we check maxLeft1 < minRight2, and maxLeft2 < minRight1
             # If both conditions hold, we found the answer!
             # Handle edge cases where partition is at the boundary
             maxLeft1 = float("-inf") if partition1 == 0 else nums1[partition1 - 1]
@@ -56,7 +74,7 @@ class Solution:
             maxLeft2 = float("-inf") if partition2 == 0 else nums2[partition2 - 1]
             minRight2 = float("inf") if partition2 == n else nums2[partition2]
 
-            # Step 4: Calculate median
+            # * Step 4: Calculate median
             # Check if we found a valid partition
             if maxLeft1 <= minRight2 and maxLeft2 <= minRight1:
                 # If total length is even
@@ -67,7 +85,7 @@ class Solution:
             # Move partition to the right if maxLeft1 is too large
             elif maxLeft1 > minRight2:
                 right = partition1 - 1
-                # Move partition to the left if maxLeft1 is too small
+            # Move partition to the left if maxLeft1 is too small
             else:
                 left = partition1 + 1
 
