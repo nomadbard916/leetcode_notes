@@ -23,20 +23,32 @@ class Solution:
         # Even though we can't merge, can we figure out which elements would be at that position?
         # Yes—through strategic partitioning.
 
-        # ensure nums1 is the smaller array to optimize binary search
+        # we cut both arrays from middle of equal size, and recombine to new twos.
+
+        # step 1: ensure nums1 is the smaller array, to optimize binary search on smaller one
         if len(nums1) > len(nums2):
             nums1, nums2 = nums2, nums1
 
         m, n = len(nums1), len(nums2)
 
+        # step2: Binary search on the smaller array
         left, right = 0, m
 
         while left <= right:
+            # For a valid partition:
+            # - All elements on the left ≤ all elements on the right
+            # - max(left) and min(right) give us the median for even-length arrays
+
             # partition1 is the number of elements from nums1 on the left side
             partition1 = (left + right) // 2
             # partition2 is the number of elements from nums2 on the left side
+            # The formula (m + n + 1) // 2 ensures the left side has enough elements:
+            # -If total is even (e.g., 8 elements): left side needs 4 elements
+            # - If total is odd (e.g., 9 elements): left side needs 5 elements (one more)
             partition2 = (m + n + 1) // 2 - partition1
 
+            # Step 3: Check validity, for each partition we check maxLeft1 < minRight2, and maxLeft2 < minRight1
+            # If both conditions hold, we found the answer!
             # Handle edge cases where partition is at the boundary
             maxLeft1 = float("-inf") if partition1 == 0 else nums1[partition1 - 1]
             minRight1 = float("inf") if partition1 == m else nums1[partition1]
@@ -44,6 +56,7 @@ class Solution:
             maxLeft2 = float("-inf") if partition2 == 0 else nums2[partition2 - 1]
             minRight2 = float("inf") if partition2 == n else nums2[partition2]
 
+            # Step 4: Calculate median
             # Check if we found a valid partition
             if maxLeft1 <= minRight2 and maxLeft2 <= minRight1:
                 # If total length is even
@@ -60,6 +73,14 @@ class Solution:
 
         # Should never reach here with valid input
         return -1
+
+        # Time Complexity: O(log(min(m, n)))
+        # Binary search runs on the smaller array, so it takes log(m) where m is the size of the smaller array
+        # Each iteration does constant-time operations
+
+        # Space Complexity: O(1)
+        # We only use a few variables regardless of input size
+        # No additional data structures are created
 
 
 # @lc code=end
