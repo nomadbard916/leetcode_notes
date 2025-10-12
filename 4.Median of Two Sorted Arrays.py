@@ -52,27 +52,28 @@ class Solution:
         left, right = 0, m
 
         while left <= right:
-            # maybe the naming "partition" is better to be "count", but as we're here already...
+            # the variable name "count" for arrays was "partition", but that's confusing in concept.
+
             # For a valid partition:
             # - All elements on the left ≤ all elements on the right
             # - max(left) and min(right) give us the median for even-length arrays
 
             # partition1 is the number of elements from nums1 on the left side
-            partition1 = (left + right) // 2
+            left_count_1 = (left + right) // 2
             # partition2 is the number of elements from nums2 on the left side, and it's influenced by partition 1.
             # The formula (m + n + 1) // 2 ensures the left side has enough elements:
             # -If total is even (e.g., 8 elements): left side needs 4 elements
             # - If total is odd (e.g., 9 elements): left side needs 5 elements (one more)
-            partition2 = (m + n + 1) // 2 - partition1
+            left_count_2 = (m + n + 1) // 2 - left_count_1
 
             # * Step 3: Check validity, for each partition we check maxLeft1 < minRight2, and maxLeft2 < minRight1
             # If both conditions hold, we found the answer!
             # Handle edge cases where partition is at the boundary
-            maxLeft1 = float("-inf") if partition1 == 0 else nums1[partition1 - 1]
-            minRight1 = float("inf") if partition1 == m else nums1[partition1]
+            maxLeft1 = float("-inf") if left_count_1 == 0 else nums1[left_count_1 - 1]
+            minRight1 = float("inf") if left_count_1 == m else nums1[left_count_1]
 
-            maxLeft2 = float("-inf") if partition2 == 0 else nums2[partition2 - 1]
-            minRight2 = float("inf") if partition2 == n else nums2[partition2]
+            maxLeft2 = float("-inf") if left_count_2 == 0 else nums2[left_count_2 - 1]
+            minRight2 = float("inf") if left_count_2 == n else nums2[left_count_2]
 
             # * Step 4: Calculate median
             # Check if we found a valid partition
@@ -84,10 +85,10 @@ class Solution:
                     return float(max(maxLeft1, maxLeft2))
             # Move partition to the right if maxLeft1 is too large
             elif maxLeft1 > minRight2:
-                right = partition1 - 1
+                right = left_count_1 - 1
             # Move partition to the left if maxLeft1 is too small
             else:
-                left = partition1 + 1
+                left = left_count_1 + 1
 
         # Should never reach here with valid input
         return -1
