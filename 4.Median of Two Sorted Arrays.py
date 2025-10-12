@@ -69,22 +69,24 @@ class Solution:
             # * Step 3: Check validity, for each partition we check maxLeft1 < minRight2, and maxLeft2 < minRight1
             # If both conditions hold, we found the answer!
             # Handle edge cases where partition is at the boundary
-            maxLeft1 = float("-inf") if left_count_1 == 0 else nums1[left_count_1 - 1]
-            minRight1 = float("inf") if left_count_1 == m else nums1[left_count_1]
+            max_left_1 = float("-inf") if left_count_1 == 0 else nums1[left_count_1 - 1]
+            min_right_1 = float("inf") if left_count_1 == m else nums1[left_count_1]
 
-            maxLeft2 = float("-inf") if left_count_2 == 0 else nums2[left_count_2 - 1]
-            minRight2 = float("inf") if left_count_2 == n else nums2[left_count_2]
+            max_left_2 = float("-inf") if left_count_2 == 0 else nums2[left_count_2 - 1]
+            min_right_2 = float("inf") if left_count_2 == n else nums2[left_count_2]
 
             # * Step 4: Calculate median
             # Check if we found a valid partition
-            if maxLeft1 <= minRight2 and maxLeft2 <= minRight1:
+            if max_left_1 <= min_right_2 and max_left_2 <= min_right_1:
                 # If total length is even
                 if (m + n) % 2 == 0:
-                    return (max(maxLeft1, maxLeft2) + min(minRight1, minRight2)) / 2
+                    return (
+                        max(max_left_1, max_left_2) + min(min_right_1, min_right_2)
+                    ) / 2
                 else:
-                    return float(max(maxLeft1, maxLeft2))
+                    return float(max(max_left_1, max_left_2))
             # Move partition to the right if maxLeft1 is too large
-            elif maxLeft1 > minRight2:
+            elif max_left_1 > min_right_2:
                 right = left_count_1 - 1
             # Move partition to the left if maxLeft1 is too small
             else:
