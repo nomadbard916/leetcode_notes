@@ -77,13 +77,26 @@ class Solution:
 
             # * Step 4: Calculate median
             # Check if we found a valid partition
+            # the valid scene looks like this visually
+            #         partition1    partition1
+            #         ↓             ↓
+            # nums1: [1, 3] | [5, 7]
+            #     left    right
+
+            # nums2: [2, 4] | [6, 8]
+            #     left    right
             if max_left_1 <= min_right_2 and max_left_2 <= min_right_1:
                 # If total length is even
+                # example like above
                 if (m + n) % 2 == 0:
                     return (
                         max(max_left_1, max_left_2) + min(min_right_1, min_right_2)
                     ) / 2
                 else:
+                    # example:
+                    # nums1 = [1, 3]
+                    # nums2 = [2]
+                    # apparently 2 is the median
                     return float(max(max_left_1, max_left_2))
             # Move partition to the right if maxLeft1 is too large
             elif max_left_1 > min_right_2:
