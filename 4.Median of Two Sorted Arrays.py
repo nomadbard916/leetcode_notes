@@ -49,9 +49,9 @@ class Solution:
         m, n = len(nums1), len(nums2)
 
         # * step2: Binary search on the smaller array to get the correct partition position
-        left, right = 0, m
+        l_ptr, r_ptr = 0, m
 
-        while left <= right:
+        while l_ptr <= r_ptr:
             # the variable name "count" for arrays was "partition", but that's confusing in concept.
 
             # For a valid partition:
@@ -59,7 +59,7 @@ class Solution:
             # - max(left) and min(right) give us the median for even-length arrays
 
             # partition1 is the number of elements from nums1 on the left side
-            left_count_1 = (left + right) // 2
+            left_count_1 = (l_ptr + r_ptr) // 2
             # partition2 is the number of elements from nums2 on the left side, and it's influenced by partition 1.
             # The formula (m + n + 1) // 2 ensures the left side has enough elements:
             # -If total is even (e.g., 8 elements): left side needs 4 elements
@@ -87,10 +87,10 @@ class Solution:
                     return float(max(max_left_1, max_left_2))
             # Move partition to the right if maxLeft1 is too large
             elif max_left_1 > min_right_2:
-                right = left_count_1 - 1
+                r_ptr = left_count_1 - 1
             # Move partition to the left if maxLeft1 is too small
             else:
-                left = left_count_1 + 1
+                l_ptr = left_count_1 + 1
 
         # Should never reach here with valid input
         return -1
