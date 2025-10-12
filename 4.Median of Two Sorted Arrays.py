@@ -24,10 +24,12 @@ class Solution:
         # Yes—through strategic partitioning.
 
         # in my own words:
+        # Planning to divide two arrays in middle by smaller part and bigger part,
+        # so the median will be the avg for the biggest in smaller and smallest in bigger.
         # ✓ Partition the first array to find the proper position for median
-        # ✓ Use binary search and swap arrays to search on the smaller array
+        # ✓ Plan to use binary search, so swap arrays to search on the smaller array for no-cost efficiency
         # ✓ The partition position of the second array is determined by the partition of array 1
-        # ✓ Check min/max of left and right parts
+        # ✓ Check boundary values i.e. min/max of left and right parts
         # We're checking TWO conditions simultaneously:
         # 1. maxLeft1 ≤ minRight2?
         # 2. maxLeft2 ≤ minRight1?
@@ -38,9 +40,6 @@ class Solution:
         # If maxLeft2 > minRight1 → partition1 is TOO FAR LEFT
         #                         → Move left pointer RIGHT
         # ✓ If not correct, move pointers until the answer is found
-
-        # we cut two arrays at partition position, and the positions don't have to be the same
-        # so now there are four parts: left1, right1, left2, right2
 
         # * step 1: ensure nums1 is the smaller array, to optimize binary search on smaller one
         # it's handy and does not cost much, so please do.
@@ -53,13 +52,14 @@ class Solution:
         left, right = 0, m
 
         while left <= right:
+            # maybe the naming "partition" is better to be "count", but as we're here already...
             # For a valid partition:
             # - All elements on the left ≤ all elements on the right
             # - max(left) and min(right) give us the median for even-length arrays
 
             # partition1 is the number of elements from nums1 on the left side
             partition1 = (left + right) // 2
-            # partition2 is the number of elements from nums2 on the left side
+            # partition2 is the number of elements from nums2 on the left side, and it's influenced by partition 1.
             # The formula (m + n + 1) // 2 ensures the left side has enough elements:
             # -If total is even (e.g., 8 elements): left side needs 4 elements
             # - If total is odd (e.g., 9 elements): left side needs 5 elements (one more)
