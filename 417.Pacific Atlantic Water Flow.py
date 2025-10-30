@@ -11,12 +11,22 @@ from typing import List, Set, Tuple
 
 class Solution:
     def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+        # Key Insight: Reverse the Flow Direction
+        # - Normal thinking (inefficient): For each cell, check if water can flow to both oceans.
+        # This requires exploring from 417 cells potentially, with many redundant paths.
+
+        # - Clever thinking (efficient): Start from the oceans and flow backward (upward in height).
+        # We only do 2 complete searches instead of checking every cell.
+        # Any cell visited by both searches can reach both oceans!
+
         # ! sol1: DFS
         """
         Find cells where water can flow to both Pacific and Atlantic oceans.
 
         Strategy: Instead of starting from each cell and checking if it reaches
-        both oceans, we start from both oceans and find all reachable cells.
+        both oceans, we start from both oceans and find all reachable cells,
+        that is going reversely to traverse to higher cell.
+
         The intersection gives us cells that can reach both oceans.
         """
         if not heights or not heights[0]:
@@ -70,6 +80,21 @@ class Solution:
 
         # find intersection: cells reachable from both oceans
         return list(pacific_reachable & atlantic_reachable)
+
+        # - Time Complexity: O(m × n)
+        # Each cell is visited at most once by Pacific DFS and once by Atlantic DFS
+        # Total: O(m × n) for Pacific + O(m × n) for Atlantic = O(m × n)
+
+        # - Space Complexity: O(m × n)
+        # Two sets storing reachable cells: O(m × n) each
+        # DFS recursion stack: O(m × n) in worst case (entire grid is one path)
+        # Total: O(m × n)
+
+        # The BFS solution has similar complexity but may have better cache locality in practice.
+
+        # DFS vs BFS Trade-offs
+        # - DFS: Simpler code, uses recursion stack
+        # - BFS: Iterative, better for finding shortest paths, more predictable memory usage
 
 
 # @lc code=end
