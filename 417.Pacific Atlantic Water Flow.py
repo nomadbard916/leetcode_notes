@@ -81,6 +81,8 @@ class Solution:
         # find intersection: cells reachable from both oceans
         return list(pacific_reachable & atlantic_reachable)
 
+        # ! sol2: BFS, and can even use multi-source (every cell visited at most once)
+
         # - Time Complexity: O(m × n)
         # Each cell is visited at most once by Pacific DFS and once by Atlantic DFS
         # Total: O(m × n) for Pacific + O(m × n) for Atlantic = O(m × n)
