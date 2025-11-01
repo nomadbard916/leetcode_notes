@@ -6,6 +6,7 @@
 #
 
 # @lc code=start
+from collections import deque
 from typing import List, Set, Tuple
 
 
@@ -81,7 +82,47 @@ class Solution:
         # find intersection: cells reachable from both oceans
         return list(pacific_reachable & atlantic_reachable)
 
-        # ! sol2: BFS, and can even use multi-source (every cell visited at most once)
+        # ! sol2: BFS, and is multi-source (every cell visited at most once)
+        if not heights or not heights[0]:
+            return []
+
+        m, n = len(heights), len(heights[0])
+        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+
+        def bfs(queue: deque) -> Set[Tuple[int, int]]:
+            # make all sources as visited upfront
+            visited = set(queue)
+
+            while queue:
+                r, c = queue.popleft()
+
+                for dr, dc in directions:
+                    nr, nc = r + dr, c + dc
+                    if (
+                        0 <= nr < m
+                        and 0 <= nc < n
+                        and (nr, nc) not in visited
+                        and heights[nr][nc] >= heights[r][c]
+                    ):
+                        visited.add((nr, nc))
+                        queue.append((nr, nc))
+            return visited
+
+        # initialize queues with all border cells (multi source)
+        pacific_q = deque()
+        atlantic_q = deque()
+
+        for c in range(n):
+            pacific_q.append((0, c))
+            atlantic_q.append((m - 1, c))
+        for r in range(m):
+            pacific_q.append((r, 0))
+            atlantic_q.append((r, n - 1))
+
+        pacific = bfs(pacific_q)
+        atlantic = bfs(atlantic_q)
+
+        return list(pacific & atlantic)
 
         # - Time Complexity: O(m × n)
         # Each cell is visited at most once by Pacific DFS and once by Atlantic DFS
