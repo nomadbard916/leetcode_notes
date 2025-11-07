@@ -1,0 +1,86 @@
+#
+# @lc app=leetcode id=329 lang=python3
+# @lcpr version=30201
+#
+# [329] Longest Increasing Path in a Matrix
+#
+
+# @lc code=start
+from typing import List
+
+
+class Solution:
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+        # !sol1: DFS with memo
+        # * Why DFS?
+
+        # - We need to explore all possible paths from each cell
+        # - DFS naturally follows a path to its end before backtracking
+
+        # * Why Memoization?
+        # - Without caching, we'd recalculate the same cell's longest path many times
+        # - Example: If cells A, B, and C all connect to cell D, we'd calculate D's longest path 3 times
+        # - Memoization stores results so each cell is computed only once
+        if not matrix or not matrix[0]:
+            return 0
+
+        rows, cols = len(matrix), len(matrix[0])
+
+        # memo: cache[i][]j stores the longest path starting from (i,j)
+        cache: List[List[int]] = [[0] * cols for _ in range(rows)]
+
+        def dfs(row: int, col: int) -> int:
+            # if already computed, return cached result
+            if cache[row][col] != 0:
+                return cache[row][col]
+
+            # base case: min path length is  (the cell itself)
+            max_length = 1
+
+            # Explore all 4 directions: up, down, left, right
+            directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+            for dr, dc in directions:
+                new_row, new_col = row + dr, col + dc
+
+                # Check if the new position is valid and has a greater value
+                if (
+                    0 <= new_row < rows
+                    and 0 <= new_col < cols
+                    and matrix[new_row][new_col] > matrix[row][col]
+                ):
+                    # Recursively find the longest path from the neighbor
+                    # Add 1 to include the current cell
+                    length = 1 + dfs(new_row, new_col)
+                    max_length = max(max_length, length)
+
+            # Cache the result before returning
+            cache[row][col] = max_length
+            return max_length
+
+        # try starting from every cell and find the maximum
+        result = 0
+        for i in range(rows):
+            for j in range(cols):
+                result = max(result, dfs(i, j))
+
+        return result
+
+
+# @lc code=end
+
+
+#
+# @lcpr case=start
+# [[9,9,4],[6,6,8],[2,1,1]]\n
+# @lcpr case=end
+
+# @lcpr case=start
+# [[3,4,5],[3,2,6],[2,2,1]]\n
+# @lcpr case=end
+
+# @lcpr case=start
+# [[1]]\n
+# @lcpr case=end
+
+#
