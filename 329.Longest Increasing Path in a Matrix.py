@@ -6,6 +6,7 @@
 #
 
 # @lc code=start
+from collections import deque
 from typing import List
 
 
@@ -77,6 +78,59 @@ class Solution:
         # - Cache array: O(m × n)
         # - Recursion stack: O(m × n) in worst case (imagine a path that goes through all cells)
         # - Total: O(m × n)
+
+        # ! sol2: BFS with topological sort
+        if not matrix or not matrix[0]:
+            return 0
+
+        rows, cols = len(matrix), len(matrix[0])
+
+        # count how many neighbors have smaller values (in-degree)
+        in_degree: List[List[int]] = [[0] * cols for _ in range(rows)]
+
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+        # calculate in-degree
+        for i in range(rows):
+            for j in range(cols):
+                for dr, dc in directions:
+                    ni, nj = i + dr, j + dc
+                    if (
+                        0 <= ni < rows
+                        and 0 <= nj < cols
+                        and matrix[ni][nj] < matrix[i][j]
+                    ):
+                        in_degree[i][j] += 1
+
+        # Start with cells that have no smaller neighbors (in-degree = 0)
+        queue: deque = deque
+        for i in range(rows):
+            for j in range(cols):
+                if in_degree[i][j] == 0:
+                    queue.append((i, j))
+
+        # process level by level (BFS)
+        max_length = 0
+        while queue:
+            max_length += 1
+            # process all cells at current level
+            for _ in range(len(queue)):
+                row, col = queue.popleft()
+
+                # Check all neighbors with larger values
+                for dr, dc in directions:
+                    new_row, new_col = row + dr, col + dc
+                    if (
+                        0 <= new_row < rows
+                        and 0 <= new_col < cols
+                        and matrix[new_row][new_col] > matrix[row][col]
+                    ):
+                        in_degree[new_row][new_col] -= 1
+                        # If all smaller neighbors processed, add to queue
+                        if in_degree[new_row][new_col] == 0:
+                            queue.append((new_row, new_col))
+
+        return max_length
 
 
 # @lc code=end
