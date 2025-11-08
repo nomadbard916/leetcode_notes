@@ -12,13 +12,13 @@ from typing import List
 class Solution:
     def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
         # !sol1: DFS with memo
+        # * it's totally fine to go plain DFS at first, but you'll immediately encounter TLE
         # * Why DFS?
-
         # - We need to explore all possible paths from each cell
         # - DFS naturally follows a path to its end before backtracking
 
         # * Why Memoization?
-        # - Without caching, we'd recalculate the same cell's longest path many times
+        # - Without caching, we'd recalculate the same cell's longest path many times, which is essentially "overlapping subproblems"
         # - Example: If cells A, B, and C all connect to cell D, we'd calculate D's longest path 3 times
         # - Memoization stores results so each cell is computed only once
         if not matrix or not matrix[0]:
@@ -65,6 +65,18 @@ class Solution:
                 result = max(result, dfs(i, j))
 
         return result
+
+        # Complexity Analysis
+        # Time Complexity: O(m × n)
+        # - We have m×n cells
+        # - Each cell is computed exactly once due to memoization
+        # - For each cell, we check 4 directions: O(1)
+        # - Total: O(m × n)
+
+        # Space Complexity: O(m × n)
+        # - Cache array: O(m × n)
+        # - Recursion stack: O(m × n) in worst case (imagine a path that goes through all cells)
+        # - Total: O(m × n)
 
 
 # @lc code=end
