@@ -132,6 +132,18 @@ class Solution:
 
         return max_length
 
+        # Complexity Analysis (Sol2 - BFS / Topological Sort)
+        # Time Complexity: O(m * n)
+        # - Computing the in-degree for every cell visits each cell and checks up to 4 neighbors: O(mn)
+        # - During the BFS, each cell is pushed/popped at most once and for each cell we inspect up to 4 neighbors: O(mn)
+        # - Total: O(mn)
+
+        # Space Complexity: O(m * n)
+        # - The in_degree matrix stores one integer per cell: O(mn)
+        # - The BFS queue can hold up to O(mn) cells in the worst case (e.g., all cells on the same level)
+        # - Additional constant-space arrays (directions) are O(1)
+        # - Total: O(mn)
+
 
 # @lc code=end
 
