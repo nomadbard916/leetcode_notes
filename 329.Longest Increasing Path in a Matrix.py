@@ -73,6 +73,7 @@ class Solution:
         # - Each cell is computed exactly once due to memoization
         # - For each cell, we check 4 directions: O(1)
         # - Total: O(m × n)
+        # - Plain DFS is O(2^(m+n)) in worst case? (exponential!)
 
         # Space Complexity: O(m × n)
         # - Cache array: O(m × n)
@@ -80,6 +81,17 @@ class Solution:
         # - Total: O(m × n)
 
         # ! sol2: BFS with topological sort
+        # Topological Sort Explanation
+        # This approach thinks of the problem differently:
+        # - Treat the matrix as a directed graph
+        # - Edge from A → B if A < B and they're adjacent
+        # - Process nodes in order from smallest values to largest
+
+        # In-degree concept:
+        # - In-degree = number of neighbors with smaller values
+        # - Cells with in-degree 0 have no smaller neighbors (they're local minimums)
+
+        # DAG doesn't have the problem for plain BFS to traverse a visited node
         if not matrix or not matrix[0]:
             return 0
 
@@ -127,6 +139,11 @@ class Solution:
                     ):
                         in_degree[new_row][new_col] -= 1
                         # If all smaller neighbors processed, add to queue
+                        # When in-degree = 0, it means:
+                        # ✅ All possible paths TO this cell are complete
+                        # ✅ We know the longest path TO this cell
+                        # ✅ This cell is now "ready" to contribute to its larger neighbors
+                        # ✅ It can act as a "starting point" for the next level
                         if in_degree[new_row][new_col] == 0:
                             queue.append((new_row, new_col))
 
