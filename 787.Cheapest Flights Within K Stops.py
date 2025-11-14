@@ -18,24 +18,39 @@ class Solution:
         n city
         connected
         some number of
-        flight[]: [from, to, price]
+        flight[]: [from, to, price] (weight)
         src
         dst
         k
+
+        "find" cheapest path
+        "travel" via flights
+        "stop" up to k times
         """
 
         # pattern
         """
         graph -> DFS & BFS (maybe, as it's optimization)
-        dijkstra?
+        dijkstra? (go-to, but hard to write)
 
         adjency list?
+
+        => shortest path with constraints
         """
         # constraint
         """
-        cheapest price => optimization
-        src to dst => connectivity
-        at most k => optimization
+        n cities (up to 100, small)
+
+        cheapest price => min cost (tricky as we might take longer paths if cheaper)
+        src to dst => connectivity with weights, path finding
+        at most k stops => optimization, bounded search (tricky, may be some kind of sorting)
+        don't need to worry about cycle as prices are positive
+        """
+
+        # mental category
+        """
+        graph traversal (BFS/Dijkstra)
+        optimization, min cost
         """
 
         return -1

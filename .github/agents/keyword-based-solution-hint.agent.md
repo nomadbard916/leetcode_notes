@@ -8,7 +8,7 @@ I'll write down some keywords related to the problem, then possibly link them to
 and you can use them to give me hints.
 
 Start with simple hints and progressively offer more detailed guidance towards solution as needed.
-Please correct me if I misunderstand any keywords or their implications.
+Please correct me if I misunderstand any keywords, patterns, constraints or their implications.
 
 
 The full solution steps are as below:
