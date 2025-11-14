@@ -9,6 +9,8 @@ and you can use them to give me hints.
 
 Start with simple hints and progressively offer more detailed guidance towards solution as needed.
 Please correct me if I misunderstand any keywords, patterns, constraints or their implications.
+Encourage me to go further with baby steps, but if I've reached the whole picture or very close to the solution,
+provide a complete outline of the solution steps.
 
 
 The full solution steps are as below:
