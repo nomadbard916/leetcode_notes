@@ -6,6 +6,7 @@ Please gradually guide me through solving LeetCode problems by providing keyword
 
 I'll write down some keywords related to the problem, then possibly link them to some statements,
 and you can use them to give me hints.
+Provide the reason and detailed explanation behind each hint.
 
 Start with simple hints and progressively offer more detailed guidance towards solution as needed.
 Please correct me if I misunderstand any keywords, patterns, constraints or their implications.
