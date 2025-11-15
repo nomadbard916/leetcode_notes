@@ -60,7 +60,7 @@ class Solution:
         for from_city, to_city, price in flights:
             graph[from_city].append((to_city, price))
 
-        # track min ost to reach each city
+        # track min cost to reach each city
         # we update this as we find cheaper paths
         INF = float("inf")
         min_cost = [INF] * n
@@ -69,6 +69,25 @@ class Solution:
         # BFS queue: (current_city, cost_so_far)
         queue = deque([(src, 0)])
         stops = 0
+
+        # process level by level (each level = one stop  )
+        while queue and stops <= k:
+            # process all cities at current level
+            size = len(queue)
+            for _ in range(size):
+                current_city, current_cost = queue.popleft()
+
+                # exploring all neighbor
+                for next_city, price in graph[current_city]:
+                    new_cost = current_cost + price
+
+                    # only continue if we found a cheapter path
+                    # this pruning is crucial for efficiency
+                    if new_cost < min_cost[next_city]:
+                        min_cost[next_city] = new_cost
+                        queue.append((next_city, new_cost))
+
+            stops += 1
 
         if min_cost[dst] != INF:
             return min_cost[dst]  # type: ignore
