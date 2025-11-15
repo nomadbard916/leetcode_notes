@@ -7,7 +7,7 @@
 
 # @lc code=start
 from collections import defaultdict, deque
-from typing import List
+from typing import List, Union
 
 
 class Solution:
@@ -53,6 +53,25 @@ class Solution:
         graph traversal (BFS/Dijkstra)
         optimization, min cost
         """
+        # ! sol1: BFS with state tracking
+
+        # build adjacency list
+        graph = defaultdict(list)
+        for from_city, to_city, price in flights:
+            graph[from_city].append((to_city, price))
+
+        # track min ost to reach each city
+        # we update this as we find cheaper paths
+        INF = float("inf")
+        min_cost = [INF] * n
+        min_cost[src] = 0
+
+        # BFS queue: (current_city, cost_so_far)
+        queue = deque([(src, 0)])
+        stops = 0
+
+        if min_cost[dst] != INF:
+            return min_cost[dst]  # type: ignore
 
         return -1
 
