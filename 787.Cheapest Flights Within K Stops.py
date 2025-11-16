@@ -16,6 +16,7 @@ class Solution:
     ) -> int:
         # keyword
         """
+        * nouns:
         n city
         connected
         some number of
@@ -24,25 +25,35 @@ class Solution:
         dst
         k
 
+        * verbs:
         "find" cheapest path
+        "minimize" cost
         "travel" via flights
-        "stop" up to k times
         """
 
         # pattern
         """
-        graph -> DFS & BFS (maybe, as it's optimization)
+        "cheapest" → optimization problem; how do we track cost?
+        "flights within K stops" → constrained path finding
+        "at most K stops" → limited intermediate nodes
+        graph with weighted weights -> shortest path variant, DFS & BFS (maybe, as it's optimization)
         dijkstra? (go-to, but hard to write)
 
         adjency list?
 
         => shortest path with constraints
         """
+
         # constraint
         """
         n cities (up to 100, small)
+        flights (directed edges): up to n * (n-1)
+        prices 1~10000
+        k stops 0~n-1
+        * key constraint: limited number of intermediate stops, not just shortest path
 
         cheapest price => min cost (tricky as we might take longer paths if cheaper)
+
         src to dst => connectivity with weights, path finding
         at most k stops => optimization, bounded search (tricky, may be some kind of sorting)
         don't need to worry about cycle as prices are positive
@@ -50,8 +61,12 @@ class Solution:
 
         # mental category
         """
-        graph traversal (BFS/Dijkstra)
+        graph traversal with weight (BFS with state tracking/Dijkstra)
         optimization, min cost
+
+        Category: Shortest path with constraints
+        Sub-category: Limited-depth shortest path
+        NOT standard Dijkstra (which finds absolute shortest) because we have stop limit
         """
         # ! sol1: BFS with state tracking
 
