@@ -68,6 +68,13 @@ class Solution:
         Sub-category: Limited-depth shortest path
         NOT standard Dijkstra (which finds absolute shortest) because we have stop limit
         """
+
+        # problem specific pattern keywords
+        """
+        state tracking: city, cost
+        BFS with state tracking
+        """
+        # * Dijkstra can be thought of immediately with weighted graph, but let's try BFS first...
         # ! sol1: BFS with state tracking
 
         # build adjacency list
@@ -108,6 +115,12 @@ class Solution:
             return min_cost[dst]  # type: ignore
 
         return -1
+
+        # Time Complexity: O(k × E) where E is number of flights
+        # - We process at most k+1 levels
+        # - Each flight can be explored multiple times (once per level)
+
+        # Space Complexity: O(n) for the queue and min_cost array
 
 
 # @lc code=end
