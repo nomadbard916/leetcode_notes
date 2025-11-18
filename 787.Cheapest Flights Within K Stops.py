@@ -76,8 +76,10 @@ class Solution:
         """
         # * Dijkstra can be thought of immediately with weighted graph, but let's try BFS first...
         # ! sol1: BFS with state tracking
+        # Key Insight: Process flights level by level where each level represents one stop.
+        # Track the minimum cost to reach each city at each level.
 
-        # build adjacency list
+        # build adjacency list: graph[from_city] = [(to_city, price), ...]
         graph = defaultdict(list)
         for from_city, to_city, price in flights:
             graph[from_city].append((to_city, price))
@@ -121,6 +123,8 @@ class Solution:
         # - Each flight can be explored multiple times (once per level)
 
         # Space Complexity: O(n) for the queue and min_cost array
+
+        # ! sol2: Dijkstra. bypass for now
 
 
 # @lc code=end
