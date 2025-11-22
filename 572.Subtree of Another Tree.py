@@ -22,7 +22,7 @@ class Solution:
         # nouns and keywords
         """
         - noun
-        subtree, escendants
+        subtree, descendants
         - verb
         consist
         """
@@ -92,7 +92,6 @@ class Solution:
         # Time | O (n × m) | For each of n nodes in root, we might compare up to m nodes of subRoot
         # Space | O(h₁ + h₂) | Recursion stack depth: height of root + height of subRoot
         # Where:
-
         # n = number of nodes in root
         # m = number of nodes in subRoot
         # h₁, h₂ = heights of respective trees
