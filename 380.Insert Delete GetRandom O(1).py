@@ -61,13 +61,50 @@ class RandomizedSet:
     """
 
     def __init__(self):
+        # List stores actual values - enables O(1) random access
         self.vals: list[int] = []
+        # HashMap stores value -> index mapping - enables O(1) lookup
         self.val_to_idx: dict[int, int] = {}
 
     def insert(self, val: int) -> bool:
+        """
+        Insert val if not present.
+        Returns True if inserted, False if already exists.
+
+        Time: O(1) average
+        """
+        if val in self.val_to_idx:
+            return False
+
+        # add to the end of list and record its index
+        self.val_to_idx[val] = len(self.vals)
+        self.vals.append(val)
         return True
 
     def remove(self, val: int) -> bool:
+        """
+        Remove val if present.
+        Returns True if removed, False if not found.
+
+        Key trick: Swap with last element to achieve O(1) removal.
+
+        Time: O(1) average
+        """
+        if val not in self.val_to_idx:
+            return False
+
+        # Get index of element to remove
+        idx_to_remove = self.val_to_idx[val]
+        last_val = self.vals[-1]
+
+        # Step 1: Move last element to the position of element to remove
+        self.vals[idx_to_remove] = last_val
+        self.val_to_idx[last_val] = idx_to_remove
+
+        # Step 2: Remove the last element (now a duplicate)
+        self.vals.pop()
+        del self.val_to_idx[val]
+
         return True
 
     def getRandom(self) -> int:
