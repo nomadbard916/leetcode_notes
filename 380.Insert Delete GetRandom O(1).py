@@ -108,6 +108,13 @@ class RandomizedSet:
         return True
 
     def getRandom(self) -> int:
+        """
+        random.choice() is O(1) expected because it does three O(1) operations when used with a Python list:
+
+        - len(seq) — O(1) for built-ins (the size is stored).
+        - choose a random index in [0, n) — random._randbelow(n) uses getrandbits/rejection sampling (expected constant-time).
+        - seq[index] — list indexing is O(1) (direct pointer arithmetic and dereference).
+        """
         return random.choice(self.vals)
 
 
