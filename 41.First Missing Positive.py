@@ -13,25 +13,36 @@ class Solution:
     def firstMissingPositive(self, nums: List[int]) -> int:
         # KWs
         """
-        - noun:
-        - verb:
+        - noun: array, (positive) integers
+        - verb: find
 
         """
 
         # pattern
         """
         # thought of binary mask immediately
+        - find missing positive -> search for gap
+        - smallest positive integer -> minimum finding
+        - not present in array -> presence check
         """
 
         # constraints
         """
-        unsorted
+        unsorted -> no ordering
         integer array
         return smallest positive integer
-        O(n) time , O(1) aux space
+        O(n) time -> linear ok, need to start from 1 sequentially
+        O(1) aux space -> may be in-place modification, no extra dict
         first missing
-        full integer space
+        full positive integer space
         nums array length not important
+        """
+
+        # problem specific pattern keywords
+        """
+        - index as hash key: position i stores value i+1
+        - cyclic sort pattern: place each number at its "correct position"
+        - marking with negation: use sign to mark presence
         """
 
         mask = [0] * (2**31 - 1)
