@@ -45,14 +45,8 @@ class Solution:
         - marking with negation: use sign to mark presence
         """
 
-        mask = [0] * (2**31 - 1)
-        for num in nums:
-            if num > 0:
-                compensate_i = num - 1
-                mask[compensate_i] = 1
-        for i, bin_val in enumerate(mask):
-            if bin_val == 0:
-                return i + 1
+        # ! sol1: cyclic sort
+        # give up for now. ROI not worth it.
 
         return 1
         # ! sol2: binary mask, buts uses O(n) space complexity
