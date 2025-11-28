@@ -46,9 +46,25 @@ class Solution:
         """
 
         # ! sol1: cyclic sort
-        # give up for now. ROI not worth it.
+        n = len(nums)
 
-        return 1
+        # step 1: place each number in its correct position
+        # number k should be at index k-1 (if k is in range [1,n])
+        for i in range(n):
+            # keep swapping until current position has correct value
+            # or value is out of range
+            while 1 <= nums[i] <= n and nums[nums[i] - 1] != nums[i]:
+                # swap nums[i] to its correct position
+                correct_idx = nums[i] - 1
+                nums[i], nums[correct_idx] = nums[correct_idx], nums[i]
+
+        # step 2: find the first position where numbers doesn't match
+        for i in range(n):
+            if nums[i] != i + 1:
+                return i + 1
+
+        return n + 1
+
         # ! sol2: binary mask, buts uses O(n) space complexity
 
 
