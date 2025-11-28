@@ -65,7 +65,15 @@ class Solution:
 
         return n + 1
 
-        # ! sol2: binary mask, buts uses O(n) space complexity
+        # ! sol2: just sort
+        nums.sort()
+        expected = 1
+        for id in nums:
+            if id == expected:
+                expected += 1
+            elif id > expected:
+                return expected
+        return expected
 
 
 # @lc code=end
