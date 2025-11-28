@@ -67,13 +67,13 @@ class Solution:
 
         # ! sol2: just sort
         nums.sort()
-        expected = 1
-        for id in nums:
-            if id == expected:
-                expected += 1
-            elif id > expected:
-                return expected
-        return expected
+        expected_missing = 1
+        for num in nums:
+            if num == expected_missing:
+                expected_missing += 1
+            elif num > expected_missing:
+                return expected_missing
+        return expected_missing
 
 
 # @lc code=end
