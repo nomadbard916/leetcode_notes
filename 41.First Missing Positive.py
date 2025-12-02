@@ -53,6 +53,8 @@ class Solution:
         at its "correct" position (number k goes to index k-1).
         """
         n = len(nums)
+        if n == 0:
+            return 1
 
         # step 1: place each number in its correct position
         # number k should be at index k-1 (if k is in range [1,n])
@@ -63,6 +65,10 @@ class Solution:
         for i in range(n):
             curr_num = nums[i]
             # keep swapping until current position has correct value or value is out of range
+            # Why the while loop doesn't cause O(n²):
+            # Each element is moved at most once to its target position
+            # Once placed correctly, it's never moved again
+            # Total swaps ≤ n
             while 1 <= curr_num <= n and nums[curr_num - 1] != curr_num:
                 # swap nums[i] to its correct position
                 correct_idx = curr_num - 1
