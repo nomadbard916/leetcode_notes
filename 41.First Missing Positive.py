@@ -46,10 +46,18 @@ class Solution:
         """
 
         # ! sol1: cyclic sort
+        """
+        Find the smallest missing positive integer using O(n) time and O(1) space.
+
+        Approach: Use the array itself as a hash table by placing each number
+        at its "correct" position (number k goes to index k-1).
+        """
         n = len(nums)
 
         # step 1: place each number in its correct position
         # number k should be at index k-1 (if k is in range [1,n])
+        # for example: [3,4,-1,1] => [1,-1,3,4]; [1,10000,3] => [1,10000,3]
+        # it's never creating new memory space
         for i in range(n):
             # keep swapping until current position has correct value
             # or value is out of range
@@ -65,7 +73,7 @@ class Solution:
 
         return n + 1
 
-        # ! sol2: just sort
+        # ! sol2: just sort, it should actually go first in interview
         nums.sort()
         expected_missing = 1
         for num in nums:
@@ -74,6 +82,14 @@ class Solution:
             elif num > expected_missing:
                 return expected_missing
         return expected_missing
+
+        """
+        | Approach | Time | Space | Meets Constraints? |
+        |----------|------|-------|-------------------|
+        | Sorting | O(n log n) | O(1) or O(n)* | ❌ Time too slow |
+        | Hash Set | O(n) | O(n) | ❌ Space too much |
+        | Cyclic Sort | O(n) | O(1) | ✅ Perfect! |
+        """
 
 
 # @lc code=end
