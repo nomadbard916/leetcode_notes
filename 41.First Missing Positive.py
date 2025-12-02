@@ -58,13 +58,17 @@ class Solution:
         # number k should be at index k-1 (if k is in range [1,n])
         # for example: [3,4,-1,1] => [1,-1,3,4]; [1,10000,3] => [1,10000,3]
         # it's never creating new memory space
+        # enumerate(nums) cannot be used here as it's bounded to the original arrangement
+        # and won't update in the process
         for i in range(n):
-            # keep swapping until current position has correct value
-            # or value is out of range
-            while 1 <= nums[i] <= n and nums[nums[i] - 1] != nums[i]:
+            curr_num = nums[i]
+            # keep swapping until current position has correct value or value is out of range
+            while 1 <= curr_num <= n and nums[curr_num - 1] != curr_num:
                 # swap nums[i] to its correct position
-                correct_idx = nums[i] - 1
-                nums[i], nums[correct_idx] = nums[correct_idx], nums[i]
+                correct_idx = curr_num - 1
+                nums[i], nums[correct_idx] = nums[correct_idx], curr_num
+                # refresh after it's updated
+                curr_num = nums[i]
 
         # step 2: find the first position where numbers doesn't match
         for i in range(n):
