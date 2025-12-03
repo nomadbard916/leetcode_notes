@@ -69,12 +69,13 @@ class Solution:
             # Each element is moved at most once to its target position
             # Once placed correctly, it's never moved again
             # Total swaps ≤ n
-            while 1 <= curr_num <= n and nums[curr_num - 1] != curr_num:
+            correct_idx = curr_num - 1
+            while 1 <= curr_num <= n and nums[correct_idx] != curr_num:
                 # swap nums[i] to its correct position
-                correct_idx = curr_num - 1
                 nums[i], nums[correct_idx] = nums[correct_idx], curr_num
-                # refresh after it's updated
+                # refresh after nums[i] updated
                 curr_num = nums[i]
+                correct_idx = curr_num - 1
 
         # step 2: find the first position where numbers doesn't match
         for i in range(n):
