@@ -102,6 +102,8 @@ class Solution:
         | Cyclic Sort | O(n) | O(1) | ✅ Perfect! |
         """
 
+        # *Python's `sort()` uses O(n) space for Timsort
+
 
 # @lc code=end
 
