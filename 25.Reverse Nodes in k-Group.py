@@ -20,15 +20,9 @@ class Solution:
     def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
         # nouns and verbs
         """
-        head
         linked list
         reverse every group of k
-        leave remainder as is
-        modified list
-        positive integer
-        k-group
-
-        change pointers
+        * leave remainder as is
         """
 
         # pattern kws
@@ -36,6 +30,7 @@ class Solution:
         linked list
         not alter - in place
         reverse
+        * k-group - fixed size chunks, need counter for tracking group boundaries
         dummy node
         prev, tail, next_group_start
         reverse sublist, head insertion, iterative reversal
@@ -43,12 +38,30 @@ class Solution:
 
         # structural kws
         """
+        * exactly k nodes -> group size validation
+        less than k nodes -> edge case handling
         positive integer
         not multiplier -> remain as is
         k at most 5000, relatively small
         val at most 1000, relatively small
         O(1) extra memory?
 
+        """
+
+        # mental categories
+        """
+        linked list manipulation
+        """
+
+        # build solution from keywords
+        """
+        * think of "reverse linked list" first, than add layers of orchestration
+        1. use dummy node to handle edge cases
+        2. count or look-ahead to verify k nodes exist
+        3. reverse k nodes using standard reversal pattern
+        4. connect reversed group back to main list
+        5. move pointers to next group
+        6. repeat until insufficient nodes remain
         """
 
 
