@@ -101,6 +101,55 @@ class Solution:
 
         return dummy.next
 
+        ## Complexity Analysis
+        # - **Time Complexity**: O(n), where n is the number of nodes
+        # - We visit each node exactly once
+        # - The getKthNode() helper moves forward k steps per group
+        # - Total operations: n (for reversal) + n (for look-ahead) = O(n)
+
+        # - **Space Complexity**: O(1)
+        # - Only using a fixed number of pointers
+        # - No extra data structures
+
+        """
+        ## Extended Learning Ideas
+
+        ### 1. **Why This Problem is Important**
+
+        This problem teaches you:
+        - **Multi-pointer technique**: Managing 4-5 pointers simultaneously
+        - **State machine thinking**: Tracking where you are in the process
+        - **Edge case handling**: Empty list, k=1, single group, etc.
+        - **Modular design**: Breaking down complex operations (verify → reverse → connect)
+
+        ### 2. **Variations to Practice**
+
+        Try modifying the problem:
+        - **Reverse alternate k groups**: Reverse 1st group, skip 2nd, reverse 3rd, etc.
+        - **Reverse last k nodes**: Only reverse the last group if it has k nodes
+        - **Reverse with m and n**: Reverse m nodes, skip n nodes, repeat
+
+        ### 3. **Common Mistakes**
+
+        - **Forgetting to check for k nodes**: Reversing without verification
+        - **Losing connection**: Not properly reconnecting reversed group
+        - **Off-by-one errors**: Miscounting k nodes
+        - **Modifying head without dummy**: Makes edge cases harder
+
+        ### 4. **Debugging Technique**
+
+        For linked list problems, always **draw it out**:
+        ```
+        Step 1: [dummy] -> 1 -> 2 -> 3 -> 4 -> 5
+                        ^              ^
+                    prev_group_end    kth_node
+
+        Step 2: After reversal
+        [dummy] -> 2 -> 1 -> 3 -> 4 -> 5
+                        ^
+                prev_group_end (moved)
+        """
+
 
 # @lc code=end
 
