@@ -70,33 +70,48 @@ class Solution:
                 k -= 1
             return curr
 
+        # Edge case: if k is 1 or list is empty, no change needed
         if not head or k == 1:
             return head
 
+        # Use dummy node to simplify edge cases
         dummy = ListNode(0)
         dummy.next = head
 
+        # prev_group_end: pointer to the last node of previous group
         prev_group_end = dummy
 
         while True:
+            # Step 1: Check if we have k nodes remaining
             kth_node = get_kth_node(prev_group_end, k)
 
+            # If we don't have k nodes, we're done
             if not kth_node:
                 break
 
+            # Step 2: Save the start of next group
             next_group_start = kth_node.next
 
+            # Step 3: Reverse the current group
+            # We need to reverse from prev_group_end.next to kth_node (inclusive)
             prev, curr = kth_node.next, prev_group_end.next
 
+            # * Standard reversal pattern for k nodes
             while curr != next_group_start:
                 temp = curr.next
                 curr.next = prev
                 prev = curr
                 curr = temp
 
+            # Step 4: Connect the reversed group back to the main list
+            # After reversal:
+            # - 'prev' points to the new head of reversed group (was kth_node)
+            # - 'prev_group_end.next' points to old head (now tail of reversed group)
             original_group_start = prev_group_end.next
-            prev_group_end.next = kth_node
+            prev_group_end.next = kth_node  # Connect previous part to new head
 
+            # Step 5: Move prev_group_end to the end of current reversed group
+            # (which is the original starting node)
             prev_group_end = original_group_start
 
         return dummy.next
