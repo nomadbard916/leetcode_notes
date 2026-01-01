@@ -78,6 +78,11 @@ class Solution:
         dummy = ListNode(0)
         dummy.next = head
 
+        # * for non-traversal nodes, essentially these should be anchored.
+        # - for the group to be traversed: start and end
+        # - the node right before the traversal group
+        # - the node right after the traversal group
+
         # prev_group_end: pointer to the last node of previous group
         prev_group_end = dummy
 
