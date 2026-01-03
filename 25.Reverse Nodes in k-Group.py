@@ -64,6 +64,7 @@ class Solution:
         6. repeat until insufficient nodes remain
         """
 
+        # ! sol1: iterative
         def get_kth_node(curr: Optional[ListNode], k: int) -> Optional[ListNode]:
             while curr and k > 0:
                 curr = curr.next
@@ -116,6 +117,48 @@ class Solution:
 
         return dummy.next
 
+        # ! sol2 : iterative
+        """
+        Recursive approach to reverse k-group.
+        More elegant but uses O(n/k) call stack space.
+        """
+
+        def reverseLinkedList(self, head: ListNode, k: int) -> ListNode:
+            """Reverse first k nodes of a linked list."""
+            prev = None
+            curr = head
+
+            while k > 0:
+                next_node = curr.next
+                curr.next = prev
+                prev = curr
+                curr = next_node
+                k -= 1
+
+            return prev
+
+        # Count if we have k nodes
+        curr = head
+        count = 0
+        while curr and count < k:
+            curr = curr.next
+            count += 1
+
+        # If we have k nodes, reverse them
+        if count == k:
+            # Reverse first k nodes
+            reversed_head = self.reverseLinkedList(head, k)
+
+            # head is now the tail of reversed group
+            # curr is the start of next group
+            # Recursively reverse next groups
+            head.next = self.reverseKGroup(curr, k)
+
+            return reversed_head
+
+        # Less than k nodes remaining, return as is
+        return head
+
         ## Complexity Analysis
         # - **Time Complexity**: O(n), where n is the number of nodes
         # - We visit each node exactly once
@@ -163,6 +206,16 @@ class Solution:
         [dummy] -> 2 -> 1 -> 3 -> 4 -> 5
                         ^
                 prev_group_end (moved)
+
+        One More Thing: The Pattern Generalizes
+        This "4 anchor points" pattern appears in many linked list problems:
+
+        - Reverse between positions m and n → Same 4 anchors
+        - Remove nth node from end → Need anchor before it
+        - Rotate list → Need to find cut points (anchors)
+        - Reorder list → Find middle (anchor) and reconnect
+
+        So you've just learned a transferable mental model! 🎉
         """
 
 
