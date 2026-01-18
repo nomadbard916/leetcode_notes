@@ -6,6 +6,9 @@
 #
 
 # @lc code=start
+from collections import Counter, defaultdict
+
+
 class FreqStack:
     """
     nouns and verbs:
@@ -30,13 +33,35 @@ class FreqStack:
     # what should I do when pop? find the first? it doesn't seem to care about the order
     # => Actually, it's the last, as it says "closest to the stack's top when tie"
 
+    # how to make test:
+    """
+    1. push once
+    2. pop once
+    3. push thrice with freq (2,1)
+    4. pop to check the one with freq 2 is popped
+    """
+
     def __init__(self):
+        self.freq_counter=Counter()
+        self.freq_vals_map = defaultdict(list)
+        self.max_freq = 0
 
 
     def push(self, val: int) -> None:
+        self.freq_counter[val]+=1
+        f=self.freq_counter[val]
+        self.freq_vals_map[f].append(val)
+        self.max_freq=max(self.max_freq, f)
+
 
 
     def pop(self) -> int:
+        # check from the freq_counter
+        val_to_pop = self.freq_vals_map[self.max_freq].pop()
+        self.freq_counter[val_to_pop]-=1
+        if not self.freq_vals_map[self.max_freq]:
+            self.max_freq-=1
+        return val_to_pop
 
 
 
