@@ -7,6 +7,7 @@
 
 # @lc code=start
 from collections import Counter, defaultdict
+from typing import DefaultDict, List
 
 
 class FreqStack:
@@ -42,8 +43,8 @@ class FreqStack:
     """
 
     def __init__(self):
-        self.freq_counter=Counter()
-        self.freq_vals_map = defaultdict(list)
+        self.freq_counter: Counter[int] = Counter()
+        self.freq_vals_map: DefaultDict[int, List[int]] = defaultdict(list)
         self.max_freq = 0
 
 
@@ -53,10 +54,7 @@ class FreqStack:
         self.freq_vals_map[f].append(val)
         self.max_freq=max(self.max_freq, f)
 
-
-
     def pop(self) -> int:
-        # check from the freq_counter
         val_to_pop = self.freq_vals_map[self.max_freq].pop()
         self.freq_counter[val_to_pop]-=1
         if not self.freq_vals_map[self.max_freq]:
