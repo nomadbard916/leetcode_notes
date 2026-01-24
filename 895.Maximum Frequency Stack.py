@@ -13,7 +13,11 @@ from typing import DefaultDict, List
 class FreqStack:
     """
     nouns and verbs:
-    push...top of the stack, stack, pop... remove and return, most frequent element, construct
+    frequency, stack
+    push...top of the stack, pop... remove and return,
+    construct
+    most frequent element/maximum,
+    most recent
 
     pattern kws: no?
 
@@ -21,7 +25,7 @@ class FreqStack:
     most frequent, val might be big int, calls may need to consider performance with 2* 10^4, remove and return, tie: closest to the stack's top
 
     map to algo:
-    most frequent => counter?
+    frequency & most frequent => counter?
 
     mental category: no?
 
@@ -87,7 +91,7 @@ class FreqStack:
         val_to_pop = self.group_by_freq[self.max_freq].pop()
         self.freq_counter[val_to_pop]-=1
 
-        # If no more elements at this frequency level, decrease max_freq
+        # If no more elements at this frequency level, decrease max_freq; move down when current level is emptied
         if not self.group_by_freq[self.max_freq]:
             self.max_freq-=1
 
