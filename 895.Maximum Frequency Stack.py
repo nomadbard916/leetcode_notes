@@ -43,22 +43,54 @@ class FreqStack:
     """
 
     def __init__(self):
+        # Track how many times each value appears
         self.freq_counter: Counter[int] = Counter()
-        self.freq_vals_map: DefaultDict[int, List[int]] = defaultdict(list)
+        # Group elements by their frequency level
+        # freq -> stack of elements with that frequency
+        self.group_by_freq: DefaultDict[int, List[int]] = defaultdict(list)
         self.max_freq = 0
 
 
     def push(self, val: int) -> None:
+        """
+        Push a value onto the frequency stack.
+
+        Process:
+        1. Increment the frequency of this value
+        2. Update max_freq if needed
+        3. Add value to the stack at its new frequency level
+
+        Time: O(1)
+        """
         self.freq_counter[val]+=1
-        f=self.freq_counter[val]
-        self.freq_vals_map[f].append(val)
-        self.max_freq=max(self.max_freq, f)
+
+        freq=self.freq_counter[val]
+        self.max_freq:int=max(self.max_freq, freq)
+
+        # Add this value to the stack at its frequency level
+        # This naturally maintains "most recent" order within same frequency
+        self.group_by_freq[freq].append(val)
 
     def pop(self) -> int:
-        val_to_pop = self.freq_vals_map[self.max_freq].pop()
+        """
+        Pop the most frequent element. If tie, pop most recent.
+
+        Process:
+        1. Get the stack at max_freq level
+        2. Pop from that stack (gives us most recent at that frequency)
+        3. Decrement the frequency of that value
+        4. If that frequency level is now empty, decrease max_freq
+
+        Time: O(1)
+        """
+        # Get the most recent element at maximum frequency
+        val_to_pop = self.group_by_freq[self.max_freq].pop()
         self.freq_counter[val_to_pop]-=1
-        if not self.freq_vals_map[self.max_freq]:
+
+        # If no more elements at this frequency level, decrease max_freq
+        if not self.group_by_freq[self.max_freq]:
             self.max_freq-=1
+
         return val_to_pop
 
 
