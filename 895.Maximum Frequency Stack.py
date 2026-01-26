@@ -51,12 +51,17 @@ class FreqStack:
     """
 
     def __init__(self):
+        # The Challenge:
+        # Traditional stack can't do this because it doesn't track frequencies.
+        # A simple frequency counter can't do this because it loses the "most recent" information.
+
         # Track how many times each value appears
         self.freq_counter: Counter[int] = Counter()
         # Group elements by their frequency level
         # freq -> stack of elements with that frequency
         # Each element can exist at multiple frequency levels simultaneously!
         self.freq_group_map: DefaultDict[int, List[int]] = defaultdict(list)
+
         self.max_freq = 0
 
 
@@ -101,6 +106,16 @@ class FreqStack:
             self.max_freq-=1
 
         return val_to_pop
+
+        # Complexity Analysis
+        # - Time Complexity:
+        # push(): O(1) - hash map updates and list append
+        # pop(): O(1) - list pop and hash map update
+
+        # - Space Complexity:
+        # O(n) where n is total number of elements pushed
+        # Each element creates at most one entry per frequency level
+        # In worst case, if all elements are the same, that element appears at freq levels 1, 2, 3...n
 
         """
         Q: I don't understand this: "If no more elements at this frequency level, decrease max_freq"
