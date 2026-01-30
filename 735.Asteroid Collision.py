@@ -6,6 +6,9 @@
 #
 
 # @lc code=start
+from typing import List
+
+
 class Solution:
     def asteroidCollision(self, asteroids: List[int]) -> List[int]:
         """
@@ -30,37 +33,29 @@ class Solution:
         * pattern kws:
         ?
         """
-        tmp_stack = []
+        stack = []
         # no need to sanity check
 
-        for i, a in enumerate(asteroids):
-            if i == 0:
-                tmp_stack.append(a)
-                continue
-
-            # start here
-            prev_a = asteroids[i-1]
-            if a * prev_a < 0:
-                # start comparison
-                # a smaller
-                if a < prev_a:
-                    # destroyed
+        for a in asteroids:
+            alive = True
+            while alive and stack and stack[-1] > 0 and a < 0:
+                if stack[-1] < -a:
+                    stack.pop()
                     continue
-                # a bigger
-                if a > prev_a:
-                    tmp_stack.pop()
-                    tmp_stack.append
-                # equal
-                elif a == prev_a:
-                    tmp_stack.pop()
-            else:
-                tmp_stack.append(a)
+                elif stack[-1] > -a:
+                    alive = False
+                # both destroy
+                else :
+                    stack.pop()
+                    alive= False
+            if alive:
+                stack.append(a)
+        return stack
 
-        return tmp_stack
+
 
 
 # @lc code=end
-
 
 
 #
@@ -81,4 +76,3 @@ class Solution:
 # @lcpr case=end
 
 #
-
