@@ -53,39 +53,41 @@ class Solution:
         * pattern kws:
         ?
         """
+        # * sol1
         stack: List[int] = []
         # no need to sanity check from problem requirement
 
         for asteroid in asteroids:
-            # let's assume we positive right-going ones are the normal
+            # Positive asteroid: assume it's the normality,
             # and just add to the tracking stack
             if asteroid > 0:
                 stack.append(asteroid)
+                continue
+
             # Negative asteroid - potential collision zone
-            else:
-                # Keep colliding while:
-                # 1. Stack has asteroids
-                # 2. Stack top is moving right (positive)
-                # 3. Stack top is smaller than current (in absolute value)
-                while stack and stack[-1] > 0 and stack[-1] < abs(asteroid):
-                    stack.pop()
+            # Keep colliding while:
+            # 1. Stack has asteroids
+            # 2. Stack top is moving right (positive)
+            # 3. Stack top is smaller than current (in absolute value)
+            while stack and stack[-1] > 0 and stack[-1] < abs(asteroid):
+                stack.pop()
 
-                # After collision loop, check final state:
+            # After collision loop, check final state:
 
-                # Case 1: Equal size collision - both destroyed
-                if stack and stack[-1] == abs(asteroid):
-                    stack.pop()
-                # Case 2: Stack empty OR stack top is also moving left
-                # No collision possible, add current asteroid
-                elif not stack or stack[-1] < 0:
-                    stack.append(asteroid)
-                # Case 3: Stack top is larger positive (current destroyed)
-                # Do nothing - current asteroid is destroyed
+            # Case 1: Equal size collision - both destroyed
+            if stack and stack[-1] == abs(asteroid):
+                stack.pop()
+            # Case 2: Stack empty OR stack top is also moving left
+            # No collision possible, add current asteroid
+            elif not stack or stack[-1] < 0:
+                stack.append(asteroid)
+            # Case 3: Stack top is larger positive (current destroyed)
+            # Do nothing - current asteroid is destroyed
 
 
         return stack
 
-        # sol2
+        # * sol2: using state tracker
         stack = []
         # no need to sanity check
 
