@@ -12,6 +12,17 @@ from typing import List
 class Solution:
     def asteroidCollision(self, asteroids: List[int]) -> List[int]:
         """
+        Main solution using stack to simulate collisions.
+
+        Core logic:
+        - Right-moving (+) asteroids go to stack (potential collision targets)
+        - Left-moving (-) asteroids collide with stack top if top is positive
+        - Same direction asteroids never collide
+
+        Time: O(n) - each asteroid pushed/popped at most once
+        Space: O(n) - stack storage
+        """
+        """
         * nouns and verbs:
         intergers in a row, indices... position, array, absolute value: size, sign: direction, same speed, state, explode: smaller one, both when same size , never meet: same direction
 
@@ -42,6 +53,39 @@ class Solution:
         * pattern kws:
         ?
         """
+        stack: List[int] = []
+        # no need to sanity check from problem requirement
+
+        for asteroid in asteroids:
+            # let's assume we positive right-going ones are the normal
+            # and just add to the tracking stack
+            if asteroid > 0:
+                stack.append(asteroid)
+            # Negative asteroid - potential collision zone
+            else:
+                # Keep colliding while:
+                # 1. Stack has asteroids
+                # 2. Stack top is moving right (positive)
+                # 3. Stack top is smaller than current (in absolute value)
+                while stack and stack[-1] > 0 and stack[-1] < abs(asteroid):
+                    stack.pop()
+
+                # After collision loop, check final state:
+
+                # Case 1: Equal size collision - both destroyed
+                if stack and stack[-1] == abs(asteroid):
+                    stack.pop()
+                # Case 2: Stack empty OR stack top is also moving left
+                # No collision possible, add current asteroid
+                elif not stack or stack[-1] < 0:
+                    stack.append(asteroid)
+                # Case 3: Stack top is larger positive (current destroyed)
+                # Do nothing - current asteroid is destroyed
+
+
+        return stack
+
+        # sol2
         stack = []
         # no need to sanity check
 
