@@ -107,22 +107,38 @@ class Solution:
 
         return stack
 
-        # * sol2: using state tracker
-        stack = []
+        # * sol2: using state tracker; recommended for its simplicity
+        stack: List[int] = []
         # no need to sanity check
 
         for a in asteroids:
+            # Right-moving asteroids never collide with past
+            if a > 0:
+                stack.append(a)
+                continue
+
             alive = True
-            while alive and stack and stack[-1] > 0 and a < 0:
-                if stack[-1] < -a:
+            while (
+                alive
+                and
+                # should collide as only right-moving asteroids can collide with left-moving ones;
+                # actually the part of a < 0 can be removed as it's considered before in "if a > 0:"
+                (stack and stack[-1] > 0 and a < 0)
+            ):
+                # both destroyed
+                if abs(stack[-1]) == abs(a):
+                    stack.pop()
+                    alive = False
+                    continue
+
+                if abs(stack[-1]) < abs(a):
                     stack.pop()
                     continue
-                elif stack[-1] > -a:
+
+                if abs(stack[-1]) > abs(a):
                     alive = False
-                # both destroy
-                else:
-                    stack.pop()
-                    alive = False
+                    continue
+
             if alive:
                 stack.append(a)
         return stack
