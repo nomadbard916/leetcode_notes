@@ -20,15 +20,24 @@ class Solution:
 
         * structural kws
         no? asteroids[i] != 0
+        absolute values (sizes)
+        directions: positive = right, negative = left; no two same position start
 
         * algo concepts:
+        collision: need to track interactions
+        final state after all collisions: process until stable
+        destroy based on size: comparison
+        order matters: sequential processing
         in a row => stack
 
         * mental categories:
-        ?
+        stack: for tracking right-moving asteroids
+        state machine: stable vs collision states
 
         * tricky kws:
-        explosion rules
+        moving in sae direction: no collision
+        equal size: both destroyed
+        explosion rules: remove from result
 
         * pattern kws:
         ?
@@ -51,6 +60,15 @@ class Solution:
             if alive:
                 stack.append(a)
         return stack
+
+        # Complexity Analysis
+        # - Time Complexity: O(n)
+        # Each asteroid enters stack exactly once
+        # Each asteroid leaves stack at most once
+        # Total operations = 2n max → O(n)
+
+        # - Space Complexity: O(n)
+        # Stack can hold all asteroids in worst case (e.g., all positive: [1,2,3,4,5])
 
 
 
