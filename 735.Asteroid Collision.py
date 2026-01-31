@@ -117,29 +117,32 @@ class Solution:
                 stack.append(a)
                 continue
 
-            alive = True
+            a_alive = True
             while (
-                alive
+                a_alive
                 and
                 # should collide as only right-moving asteroids can collide with left-moving ones;
                 # actually the part of a < 0 can be removed as it's considered before in "if a > 0:"
                 (stack and stack[-1] > 0 and a < 0)
             ):
                 # both destroyed
-                if abs(stack[-1]) == abs(a):
+                stack_top_abs = abs(stack[-1])
+                a_abs = abs(a)
+
+                if stack_top_abs == a_abs:
                     stack.pop()
-                    alive = False
+                    a_alive = False
                     continue
 
-                if abs(stack[-1]) < abs(a):
+                if stack_top_abs < a_abs:
                     stack.pop()
                     continue
 
-                if abs(stack[-1]) > abs(a):
-                    alive = False
+                if stack_top_abs > a_abs:
+                    a_alive = False
                     continue
 
-            if alive:
+            if a_alive:
                 stack.append(a)
         return stack
 
