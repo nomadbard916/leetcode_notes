@@ -65,15 +65,20 @@ class Solution:
                 continue
 
             # Negative asteroid - potential collision zone
-            # Keep colliding while:
-            # 1. Stack has asteroids
-            # 2. Stack top is moving right (positive)
-            # 3. Stack top is smaller than current (in absolute value)
-            while stack and stack[-1] > 0 and stack[-1] < abs(asteroid):
+            # Keep colliding  by popping the stack,while:
+            while (
+                # 1. Stack has asteroids
+                stack
+                and
+                # 2. Stack top is moving right (positive)
+                stack[-1] > 0
+                and
+                # 3. Stack top is smaller than current (in absolute value)
+                stack[-1] < abs(asteroid)
+            ):
                 stack.pop()
 
-            # After collision loop, check final state:
-
+            # After collision loop, check final state to handle cases that the loop never entered
             # Case 1: Equal size collision - both destroyed
             if stack and stack[-1] == abs(asteroid):
                 stack.pop()
@@ -83,7 +88,8 @@ class Solution:
                 stack.append(asteroid)
             # Case 3: Stack top is larger positive (current destroyed)
             # Do nothing - current asteroid is destroyed
-
+            else:
+                continue
 
         return stack
 
@@ -100,9 +106,9 @@ class Solution:
                 elif stack[-1] > -a:
                     alive = False
                 # both destroy
-                else :
+                else:
                     stack.pop()
-                    alive= False
+                    alive = False
             if alive:
                 stack.append(a)
         return stack
@@ -115,8 +121,6 @@ class Solution:
 
         # - Space Complexity: O(n)
         # Stack can hold all asteroids in worst case (e.g., all positive: [1,2,3,4,5])
-
-
 
 
 # @lc code=end
