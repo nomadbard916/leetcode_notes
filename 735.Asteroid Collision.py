@@ -137,9 +137,8 @@ class Solution:
                 # stack top destroyed
                 if stack_top_abs < a_abs:
                     stack.pop()
-                    # we can handle a_alive at the end like the below comment,
-                    # but writing here explicitly forces thinking clarity
-                    stack.append(a)
+                    # don't append it here immediately.
+                    # it may need more fighting
                     continue
 
                 # asteroid destroyed
@@ -147,8 +146,8 @@ class Solution:
                     a_alive = False
                     continue
 
-            # if a_alive:
-            #     stack.append(a)
+            if a_alive:
+                stack.append(a)
         return stack
 
         # Complexity Analysis
