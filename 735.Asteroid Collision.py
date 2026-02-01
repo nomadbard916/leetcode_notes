@@ -118,32 +118,37 @@ class Solution:
                 continue
 
             a_alive = True
-            while (
-                a_alive
-                and
+            while a_alive and (
                 # should collide as only right-moving asteroids can collide with left-moving ones;
+                (stack and stack[-1] > 0)
+                and
                 # actually the part of a < 0 can be removed as it's considered before in "if a > 0:"
-                (stack and stack[-1] > 0 and a < 0)
+                a < 0
             ):
-                # both destroyed
                 stack_top_abs = abs(stack[-1])
                 a_abs = abs(a)
 
+                # both destroyed
                 if stack_top_abs == a_abs:
                     stack.pop()
                     a_alive = False
                     continue
 
+                # stack top destroyed
                 if stack_top_abs < a_abs:
                     stack.pop()
+                    # we can handle a_alive at the end like the below comment,
+                    # but writing here explicitly forces thinking clarity
+                    stack.append(a)
                     continue
 
+                # asteroid destroyed
                 if stack_top_abs > a_abs:
                     a_alive = False
                     continue
 
-            if a_alive:
-                stack.append(a)
+            # if a_alive:
+            #     stack.append(a)
         return stack
 
         # Complexity Analysis
