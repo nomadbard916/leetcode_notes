@@ -36,25 +36,70 @@ class Solution:
         Intuition: Use stack to track indices of unmatched characters.
         The distance between unmatched positions gives valid length.
         """
-        # init with base for length calculation
-        stack = [-1]
+        # if we store char in stack and pop when matched,
+        # the position is lost immediately
+        # => store index instead
+
+        # init with base sentinel for length calculation
+        # * ## Mental Model: The "Boundary Marker" Concept
+        # Imagine you're walking and placing flags:
+        # 1. **See '('?** → Place a flag at your current position
+        # 2. **See ')'?** → Remove the last flag (you found its partner!)
+        # 3. **Measure distance** = Current position - Nearest remaining flag
+        # 4. **If no flags left?** → Place a flag here (this is a boundary wall)
+        # The flags aren't the parentheses themselves—they're **position markers** showing where unmatched characters are!
+
+        # ## Quick Reference: What Stack Contains
+        # Stack NEVER stores:  '(' or ')' characters
+        # Stack ALWAYS stores: Integer indices (positions)
+        # Why?
+        # - Characters tell you WHAT matched
+        # - Indices tell you WHERE and HOW LONG the valid part is
+        stack: list[int] = [-1]
         max_len = 0
         for i, char in enumerate(s):
             if char == "(":
                 stack.append(i)
                 continue
 
-            # * char == ')'
-            # try to match
+            # char == ')', matched and pop the opening
             stack.pop()
 
+            # special case: when a ')' is at the beginning and the sentinel is popped,
+            # it becomes the new base sentinel
             if not stack:
-                # No matching '(', this ')' becomes new base
                 stack.append(i)
                 continue
 
-            # Valid match found, calculate length
+            # length calculation:
+            # 🎧 Audio-Oriented Explanation
+            # Think of it like measuring a song's duration:
+            # ❌ Character approach = Counting how many notes you played
+            # - You: "I played 10 notes!"
+            # - But: Were they continuous? Or did you pause?
+            # - You don't know the actual song length!
+            # ✅ Index approach = Looking at the timestamps
+            # - Song starts at 0:05, ends at 0:23
+            # - Duration = 0:23 - 0:05 = 18 seconds
+            # - You know exactly how long the continuous segment is!
+
+            # The Three Key Insights
+            # 1️⃣ Why we need a "base" (-1 initially)
+            # Think of -1 as "before the song started"
+            # Without -1, when everything matches perfectly,
+            # your stack becomes empty and you can't calculate distance!
+            # 2️⃣ Why we push indices of '(' but not ')'
+            # Listen to this pattern:
+            # - '(' = "Start a timer" → Remember when it started (push index)
+            # - ')' = "Stop the timer" → Calculate duration (pop and measure)
+            # You only need to remember when things started, not when they ended!
+            # 3️⃣ The "new base" trick
+            # When you see ')' with no matching '(':
+            # It's like saying: "This unmatched character is a wall. Anything valid must come AFTER this point."
+
             # Current index - index of last unmatched character
+            # there should've been a "+1" for distance calculation,
+            # but it's done automatically by the sentinel
             max_len = max(max_len, i - stack[-1])
 
         return max_len
