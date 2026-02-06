@@ -28,6 +28,36 @@ class Solution:
         dynamic programming
         two-pass scanning
         """
+        # ! sol1: stack with index recording
+        """
+        Approach 2: Stack (Most Intuitive)
+        Time: O(n), Space: O(n)
+
+        Intuition: Use stack to track indices of unmatched characters.
+        The distance between unmatched positions gives valid length.
+        """
+        # init with base for length calculation
+        stack = [-1]
+        max_len = 0
+        for i, char in enumerate(s):
+            if char == "(":
+                stack.append(i)
+                continue
+
+            # * char == ')'
+            # try to match
+            stack.pop()
+
+            if not stack:
+                # No matching '(', this ')' becomes new base
+                stack.append(i)
+                continue
+
+            # Valid match found, calculate length
+            # Current index - index of last unmatched character
+            max_len = max(max_len, i - stack[-1])
+
+        return max_len
 
         #  Why you got stuck
         # Your code uses a boolean (is_open) and a stack of characters, then measures len(stack) for the answer. That fails because:
