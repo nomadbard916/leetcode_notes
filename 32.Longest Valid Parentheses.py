@@ -135,6 +135,43 @@ class Solution:
 
         return max_length
 
+        # ! sol3: dynamic programming
+        if not s:
+            return 0
+
+        n = len(s)
+        # dp[i] = longest valid ending at i
+        dp: list[int] = [0] * n
+        max_len = 0
+
+        for i in range(1, n):
+            # only ')' can end a valid substring
+            if s[i] == "(":
+                continue
+
+            if s[i - 1] == "(":
+                # case 1: ...()
+                # current pair adds 2, plus whatever was before this pair
+                dp[i] = (dp[i - 2] if i >= 2 else 0) + 2
+
+            elif i - dp[i - 1] > 0 and s[i - dp[i - 1] - 1] == "(":
+                # Case 2: ...))
+                # Example: "()(())"
+                #              ^
+                # We need to check if there's a matching '(' before the
+                # valid substring that ends at i-1
+
+                # Length = the valid substring ending at i-1
+                #        + 2 (current matching pair)
+                #        + whatever valid substring before the matching '('
+                dp[i] = dp[i - 1] + 2
+                if i - dp[i - 1] - 2 >= 0:
+                    dp[i] += dp[i - dp[i - 1] - 2]
+
+            max_len = max(max_len, dp[i])
+
+        return max_len
+
         #  Why you got stuck
         # Your code uses a boolean (is_open) and a stack of characters, then measures len(stack) for the answer. That fails because:
 
