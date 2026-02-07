@@ -26,8 +26,9 @@ class Solution:
         * mental categories:
         stack based matching
         dynamic programming
-        two-pass scanning
+        two-pass scanning (left to right, right to left)
         """
+
         # ! sol1: stack with index recording
         """
         Approach 2: Stack (Most Intuitive)
@@ -39,6 +40,8 @@ class Solution:
         # if we store char in stack and pop when matched,
         # the position is lost immediately
         # => store index instead
+        # When you match a pair, pop from stack
+        # The distance between current position and what's left on stack = valid length
 
         # init with base sentinel for length calculation
         # * ## Mental Model: The "Boundary Marker" Concept
@@ -55,9 +58,14 @@ class Solution:
         # Why?
         # - Characters tell you WHAT matched
         # - Indices tell you WHERE and HOW LONG the valid part is
-        stack: list[int] = [-1]
+        stack: list[int] = [-1]  # this -1 means "the actual position right before 0"
         max_len = 0
         for i, char in enumerate(s):
+            # Why we push indices of '(' but not ')'
+            # Listen to this pattern:
+            # '(' = "Start a timer" → Remember when it started (push index)
+            # ')' = "Stop the timer" → Calculate duration (pop and measure)
+            # You only need to remember when things started, not when they ended!
             if char == "(":
                 stack.append(i)
                 continue
@@ -66,7 +74,8 @@ class Solution:
             stack.pop()
 
             # special case: when a ')' is at the beginning and the sentinel is popped,
-            # it becomes the new base sentinel
+            # it becomes the new base sentinel for the beginning;
+            # all the calculations for local max are reset.
             if not stack:
                 stack.append(i)
                 continue
@@ -103,6 +112,28 @@ class Solution:
             max_len = max(max_len, i - stack[-1])
 
         return max_len
+
+        # ! sol2: Alternative Stack method Without Sentinel (More Code, Less Elegant)
+        # You can avoid the sentinel, but look at the mess:
+        stack = []
+        max_length = 0
+        last_unmatched = -1  # Separate variable!
+
+        for i, char in enumerate(s):
+            if char == "(":
+                stack.append(i)
+            else:
+                if stack:
+                    stack.pop()
+                    if stack:
+                        length = i - stack[-1]  # Case 1
+                    else:
+                        length = i - last_unmatched  # Case 2 - different logic!
+                    max_length = max(max_length, length)
+                else:
+                    last_unmatched = i  # Case 3 - more tracking!
+
+        return max_length
 
         #  Why you got stuck
         # Your code uses a boolean (is_open) and a stack of characters, then measures len(stack) for the answer. That fails because:
