@@ -149,24 +149,32 @@ class Solution:
             if s[i] == "(":
                 continue
 
+            # * CASE 1: Pattern "...()"
             if s[i - 1] == "(":
-                # case 1: ...()
-                # current pair adds 2, plus whatever was before this pair
-                dp[i] = (dp[i - 2] if i >= 2 else 0) + 2
+                # Simple: new pair (2) + whatever was before this pair
+                dp[i] = 2
+                if i >= 2:
+                    dp[i] += dp[i - 2]
+            # * CASE 2: Pattern "...))"
+            else:
+                # Step 1: Where should we look for the matching '('?
+                #         We need to jump OVER the valid substring ending at i-1
+                potential_match_pos = i - dp[i - 1] - 1
 
-            elif i - dp[i - 1] > 0 and s[i - dp[i - 1] - 1] == "(":
-                # Case 2: ...))
-                # Example: "()(())"
-                #              ^
-                # We need to check if there's a matching '(' before the
-                # valid substring that ends at i-1
+                # Step 2: Check if that position exists AND is a '('
+                if potential_match_pos >= 0 and s[potential_match_pos] == "(":
+                    # Step 3: Build up the length from THREE parts:
 
-                # Length = the valid substring ending at i-1
-                #        + 2 (current matching pair)
-                #        + whatever valid substring before the matching '('
-                dp[i] = dp[i - 1] + 2
-                if i - dp[i - 1] - 2 >= 0:
-                    dp[i] += dp[i - dp[i - 1] - 2]
+                    # Part A: Valid substring ending at i-1
+                    dp[i] = dp[i - 1]
+
+                    # Part B: Current matching pair
+                    dp[i] += 2
+
+                    # Part C: Any valid substring BEFORE the matching '('
+                    before_match = potential_match_pos - 1
+                    if before_match >= 0:
+                        dp[i] += dp[before_match]
 
             max_len = max(max_len, dp[i])
 
