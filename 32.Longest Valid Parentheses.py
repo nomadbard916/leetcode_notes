@@ -136,6 +136,14 @@ class Solution:
         return max_length
 
         # ! sol3: dynamic programming
+        # * "If I know the answer up to position i-1, how do I extend it to position i?"
+        """
+        Approach 1: Dynamic Programming
+        Time: O(n), Space: O(n)
+
+        Intuition: Build up solution from smaller subproblems.
+        dp[i] = length of longest valid parentheses ending at index i
+        """
         if not s:
             return 0
 
@@ -156,10 +164,11 @@ class Solution:
                 if i >= 2:
                     dp[i] += dp[i - 2]
             # * CASE 2: Pattern "...))"
+            # there's no need to consider more patterns like "...)))", as it's included in these two by DP
             else:
                 # Step 1: Where should we look for the matching '('?
                 #         We need to jump OVER the valid substring ending at i-1
-                potential_match_pos = i - dp[i - 1] - 1
+                potential_match_pos: int = i - dp[i - 1] - 1
 
                 # Step 2: Check if that position exists AND is a '('
                 if potential_match_pos >= 0 and s[potential_match_pos] == "(":
@@ -172,13 +181,16 @@ class Solution:
                     dp[i] += 2
 
                     # Part C: Any valid substring BEFORE the matching '('
-                    before_match = potential_match_pos - 1
+                    before_match: int = potential_match_pos - 1
                     if before_match >= 0:
                         dp[i] += dp[before_match]
 
             max_len = max(max_len, dp[i])
 
         return max_len
+
+        # actually, there's a sol 4 Two-Pass Scanning (Most Space Efficient) with stack,
+        # but let's skip that by now as that doesn't teach transferable patterns
 
         #  Why you got stuck
         # Your code uses a boolean (is_open) and a stack of characters, then measures len(stack) for the answer. That fails because:
