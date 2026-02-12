@@ -51,19 +51,26 @@ class Solution:
 
         """
 
-        # I can't think of the shape?
+        # Key Insights
+        # 🎯 Core Strategy: "Stack as a Pending Operations Queue"
+        # Mental Model (Audio-Oriented):
+        # Think of the stack as a "waiting room" where numbers wait to be added together:
+        # - When you see + or -: "Put this number in the waiting room" (push to stack)
+        # - When you see * or /: "Call the last person out and calculate NOW" (pop, calculate, push back)
+        # - At the end: "Sum everyone in the waiting room"
 
+        # ! sol1: plain stack
         if not s:
             return 0
 
         stack: List[int] = []
         current_num = 0
-        # default
-        operation = "+"
+        # Why we track "last operation" not "current operation":
+        # - When we process a number, we apply the PREVIOUS operator to it
+        # - This is because we don't know if the NEXT operator has higher precedence
+        operation = "+"  # default
 
         OPERATORS = "+-*/"
-
-        LAST_INDEX = len(s) - 1
 
         # I don't think there's need to record index
         for i, char in enumerate(s):
@@ -72,7 +79,9 @@ class Solution:
             if char.isdigit():
                 current_num = current_num * 10 + int(char)
 
-            if char in OPERATORS or i == LAST_INDEX:
+            # We need to process the last number even though there's no operator after it
+            # That's why we check: if (we hit an operator) OR (we're at the end)
+            if char in OPERATORS or i == len(s) - 1:
                 if operation == "+":
                     stack.append(current_num)
                 if operation == "-":
@@ -91,12 +100,22 @@ class Solution:
 
         return sum(stack)
 
-        # if not stack[-1]:
-        #     stack.append(int(char))
-        #     continue
-        # stack.append(int(char))
+        # * Complexity Analysis
+        # Stack Solution:
+        # - Time Complexity: O(n)
+        # Single pass through the string
+        # Each character processed once
+        # Stack operations (push/pop) are O(1)
+        # - Space Complexity: O(n)
+        # Stack can hold up to n/2 numbers in worst case
+        # Example: "1+2+3+4+5" → stack holds all 5 numbers
 
-        return 0
+        # Optimized Solution:
+        # - Time Complexity: O(n)
+        # Same single pass logic
+        # - Space Complexity: O(1)
+        # Only uses 3 variables: running_sum, last_value, current_number
+        # Trade-off: Slightly more complex logic but constant space
 
 
 # @lc code=end
