@@ -61,15 +61,18 @@ class Solution:
         # default
         operation = "+"
 
+        OPERATORS = "+-*/"
+
+        LAST_INDEX = len(s) - 1
+
         # I don't think there's need to record index
         for i, char in enumerate(s):
-            if char == " ":
-                continue
-
+            # don't skip space at the very beginning,
+            # or you'll prevent the last number from being processed by skipping the last index check
             if char.isdigit():
                 current_num = current_num * 10 + int(char)
 
-            if char in "+-*/":
+            if char in OPERATORS or i == LAST_INDEX:
                 if operation == "+":
                     stack.append(current_num)
                 if operation == "-":
@@ -78,11 +81,12 @@ class Solution:
                     multiplied = stack.pop() * current_num
                     stack.append(multiplied)
                 if operation == "/":
-                    divided = stack.pop() // current_num
+                    # it should truncate toward 0, so don't just use //,
+                    # it's only correct for positive
+                    divided = int(stack.pop() / current_num)
                     stack.append(divided)
 
-                if i < len(s) - 1:
-                    operation = char
+                operation = char
                 current_num = 0
 
         return sum(stack)
