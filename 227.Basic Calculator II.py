@@ -43,6 +43,7 @@ class Solution:
 
         * tricky kws:
         */ must go before +-
+        double figure
 
         * problem specific kws
         ?
@@ -56,6 +57,40 @@ class Solution:
             return 0
 
         stack: List[int] = []
+        current_num = 0
+        # default
+        operation = "+"
+
+        # I don't think there's need to record index
+        for i, char in enumerate(s):
+            if char == " ":
+                continue
+
+            if char.isdigit():
+                current_num = current_num * 10 + int(char)
+
+            if char in "+-*/":
+                if operation == "+":
+                    stack.append(current_num)
+                if operation == "-":
+                    stack.append(-current_num)
+                if operation == "*":
+                    multiplied = stack.pop() * current_num
+                    stack.append(multiplied)
+                if operation == "/":
+                    divided = stack.pop() // current_num
+                    stack.append(divided)
+
+                if i < len(s) - 1:
+                    operation = char
+                current_num = 0
+
+        return sum(stack)
+
+        # if not stack[-1]:
+        #     stack.append(int(char))
+        #     continue
+        # stack.append(int(char))
 
         return 0
 
