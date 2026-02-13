@@ -79,8 +79,17 @@ class Solution:
             if char.isdigit():
                 current_num = current_num * 10 + int(char)
 
-            # We need to process the last number even though there's no operator after it
-            # That's why we check: if (we hit an operator) OR (we're at the end)
+            # ### Step 1: "When does processing happen?"
+            # Key realization: We process a number when we **encounter the NEXT operator**
+            # Step 2: "What triggers processing?"
+            # Two cases:
+            # - We hit an operator → Process the number we just built
+            # - We reach the end of string → Process the last number we built
+            # To really internalize this, try removing the i == len(s) - 1 condition and:
+            # 1. Run the test cases
+            # 2. See which ones fail
+            # 3. Add print statements to trace execution
+            # 4. See exactly when/why the last number doesn't get processed
             if char in OPERATORS or i == len(s) - 1:
                 if operation == "+":
                     stack.append(current_num)
