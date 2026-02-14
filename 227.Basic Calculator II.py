@@ -109,6 +109,47 @@ class Solution:
 
         return sum(stack)
 
+        # ! sol2: no stack, only running sum
+        """
+        Space-optimized version that tracks sum without using stack.
+
+        Key Idea:
+        - running_sum: accumulates numbers we can safely add
+        - last_value: stores the last computed value (for * and / operations)
+
+        Time: O(n), Space: O(1)
+        """
+        if not s:
+            return 0
+
+        running_sum: int = 0
+        last_value: int = 0
+        current_number: int = 0
+        operation: str = "+"
+
+        for i, char in enumerate(s):
+            if char.isdigit():
+                current_number = current_number * 10 + int(char)
+
+            if char in "+-*/" or i == len(s) - 1:
+                if i == len(s) - 1 or char != " ":
+                    if operation == "+":
+                        running_sum += last_value
+                        last_value = current_number
+                    elif operation == "-":
+                        running_sum += last_value
+                        last_value = -current_number
+                    elif operation == "*":
+                        last_value = last_value * current_number
+                    elif operation == "/":
+                        last_value = int(last_value / current_number)
+
+                    if i < len(s) - 1:
+                        operation = char
+                    current_number = 0
+
+        return running_sum + last_value
+
         # * Complexity Analysis
         # Stack Solution:
         # - Time Complexity: O(n)
