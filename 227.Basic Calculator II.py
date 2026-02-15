@@ -72,7 +72,6 @@ class Solution:
 
         OPERATORS = "+-*/"
 
-        # I don't think there's need to record index
         for i, char in enumerate(s):
             # don't skip space at the very beginning,
             # or you'll prevent the last number from being processed by skipping the last index check
@@ -104,7 +103,10 @@ class Solution:
                     divided = int(stack.pop() / current_num)
                     stack.append(divided)
 
-                operation = char
+                # there should've been check to ensure operation not modified to number
+                # on the last element,
+                # but as the iteration finishes on the last elem, it can just be skipped
+                operation: str = char
                 current_num = 0
 
         return sum(stack)
