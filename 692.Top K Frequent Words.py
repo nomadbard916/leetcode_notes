@@ -97,24 +97,15 @@ class Solution:
         # We want to keep lexicographically smaller, so larger gets popped
         heap: List[tuple(int, str)] = []
 
-        for word, freq in freq_map.keys():
+        for word, freq in freq_map.items():
             # For min-heap to keep top K:
-            # - Use positive freq (smaller freq = smaller priority = gets evicted)
-            # - Use reverse of word (larger word = sm
-            heapq.heappush(heap, (freq, word))
-
-            if len(heap) > k:
-                heapq.heappop(heap)
+            # Use negative freq for max-heap behavior, but this alone isn't enough
+            # because equal frequencies would sort words in reverse order
+            heapq.heappush(heap, (-freq, word))
 
         # Step 3: Extract and sort result
-        # Pop from heap and reverse order
-        # Since heap pops in ascending order of (freq, word),
-        # we need to reverse to get descending frequency
-        while heapq:
-            result.append(heapq.heappop()[1])
-
-        # Reverse to get highest frequency first
-        result.reverse()
+        for _ in range(k):
+            result.append(heapq.heappop(heap)[1])
 
         return result
 
