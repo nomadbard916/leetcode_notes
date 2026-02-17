@@ -6,6 +6,7 @@
 #
 
 # @lc code=start
+import heapq
 from collections import Counter
 from typing import List
 
@@ -44,10 +45,28 @@ class Solution:
 
         * problem specific pattern kws
         """
-        # sol1: naive counter
+        # ! sol1: naive counter
         freq_map = Counter(words)
         sorted_words = sorted(freq_map.keys(), key=lambda word: (-freq_map[word], word))
         return sorted_words[:k]
+
+        # ! sol2: heap
+        result: List[str] = []
+        freq_map = Counter(words)
+
+        heap: List[tuple(int, str)] = []
+
+        for word, freq in freq_map.keys():
+            heapq.heappush(heap, (freq, words))
+
+            if len(heap) > k:
+                heapq.heappop(heap)
+
+        while heapq:
+            result.append(heapq.heappop()[1])
+
+        result.reverse()
+        return result
 
 
 # @lc code=end
