@@ -46,26 +46,76 @@ class Solution:
         * problem specific pattern kws
         """
         # ! sol1: naive counter
+        """
+        Main solution using sorting approach.
+
+        Time Complexity: O(n log n) where n is unique words
+        Space Complexity: O(n) for the frequency counter
+
+        Args:
+            words: List of strings
+            k: Number of top frequent words to return
+
+        Returns:
+            List of k most frequent words sorted by frequency (desc)
+            and lexicographically (asc)
+        """
+        # Step 1: Count frequency of each word
         freq_map = Counter(words)
+
+        # Step 2: Sort by two criteria
+        # Primary: frequency (descending) → use negative for desc order
+        # Secondary: word itself (ascending) → lexicographical order
         sorted_words = sorted(freq_map.keys(), key=lambda word: (-freq_map[word], word))
+
+        # Step 3: Return first k elements
         return sorted_words[:k]
 
         # ! sol2: heap
+        """
+        Alternative solution using Min-Heap (more optimal for large datasets).
+
+        Time Complexity: O(n log k) where n is total words
+        Space Complexity: O(n) for frequency map + O(k) for heap
+
+        Key insight: Maintain a min-heap of size k.
+        For min-heap, we want to keep the LARGEST k items,
+        so we evict the SMALLEST when heap size exceeds k.
+
+        Python's heapq is a min-heap, so we need to reverse the comparison:
+        - For frequency: use positive (smaller freq gets evicted)
+        - For lexicographical: use reverse (larger alphabetically gets evicted)
+        """
         result: List[str] = []
+
+        # Step 1: Count frequencies
         freq_map = Counter(words)
 
+        # Step 2: Use min-heap with size k
+        # Heap element: (freq, reverse_word, word)
+        # We want to keep high frequency, so low frequency gets popped
+        # We want to keep lexicographically smaller, so larger gets popped
         heap: List[tuple(int, str)] = []
 
         for word, freq in freq_map.keys():
-            heapq.heappush(heap, (freq, words))
+            # For min-heap to keep top K:
+            # - Use positive freq (smaller freq = smaller priority = gets evicted)
+            # - Use reverse of word (larger word = sm
+            heapq.heappush(heap, (freq, word))
 
             if len(heap) > k:
                 heapq.heappop(heap)
 
+        # Step 3: Extract and sort result
+        # Pop from heap and reverse order
+        # Since heap pops in ascending order of (freq, word),
+        # we need to reverse to get descending frequency
         while heapq:
             result.append(heapq.heappop()[1])
 
+        # Reverse to get highest frequency first
         result.reverse()
+
         return result
 
 
