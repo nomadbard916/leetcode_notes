@@ -118,6 +118,49 @@ class Solution:
 
         return result
 
+        # ! sol3 heap most optimized
+        """
+        Most optimized heap solution with proper custom comparison.
+
+        Time Complexity: O(n log k)
+        Space Complexity: O(n)
+        """
+        freq_map = Counter(words)
+
+        # Python's heapq creates min-heap
+        # We want to maintain k largest items (by our custom criteria)
+        # So the "smallest" item (by our criteria) should be evicted
+
+        # Custom comparison for min-heap:
+        # - Lower frequency should be evicted → use +freq
+        # - When freq ties, lexicographically larger should be evicted → use reverse
+
+        class WordFreq:
+            def __init__(self, word: str, freq: int):
+                self.word = word
+                self.freq = freq
+
+            def __lt__(self, other: "WordFreq") -> bool:
+                # Define "less than" for min-heap
+                # Smaller items get evicted when heap exceeds k
+                if self.freq != other.freq:
+                    return self.freq < other.freq  # Lower freq is "smaller"
+                return self.word > other.word  # Larger word is "smaller"
+
+            def __repr__(self) -> str:
+                return f"{self.word}:{self.freq}"
+
+        heap: List[WordFreq] = []
+
+        for word, freq in freq_map.items():
+            heapq.heappush(heap, WordFreq(word, freq))
+            if len(heap) > k:
+                heapq.heappop(heap)
+
+        # Extract words and reverse (heap gives ascending order)
+        result = [item.word for item in sorted(heap, reverse=True)]
+        return result
+
 
 # @lc code=end
 
