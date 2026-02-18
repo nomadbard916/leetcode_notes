@@ -73,34 +73,31 @@ class Solution:
 
         # ! sol2: heap
         """
-        Alternative solution using Min-Heap (more optimal for large datasets).
+        Alternative solution using Max-Heap (more optimal for large datasets).
 
-        Time Complexity: O(n log k) where n is total words
-        Space Complexity: O(n) for frequency map + O(k) for heap
+        Time: O(n + m log m + k log m)
+        - O(n) for Counter
+        - O(m log m) for pushing m unique words into heap
+        - O(k log m) for popping k items
+        - Since we push ALL words, this simplifies to O(n + m log m)
 
-        Key insight: Maintain a min-heap of size k.
-        For min-heap, we want to keep the LARGEST k items,
-        so we evict the SMALLEST when heap size exceeds k.
+        Space: O(m) for freq_map + O(m) for heap = O(m)
 
-        Python's heapq is a min-heap, so we need to reverse the comparison:
-        - For frequency: use positive (smaller freq gets evicted)
-        - For lexicographical: use reverse (larger alphabetically gets evicted)
+        Key insight: Maintain a max-heap
+        word is still in ascending order, so when popping from heap,
+        the lexicographically smaller one is popped
         """
         result: List[str] = []
 
         # Step 1: Count frequencies
         freq_map = Counter(words)
 
-        # Step 2: Use min-heap with size k
-        # Heap element: (freq, reverse_word, word)
-        # We want to keep high frequency, so low frequency gets popped
-        # We want to keep lexicographically smaller, so larger gets popped
+        # Step 2: Use heap, freq for max heap behavior and word for min
         heap: List[tuple(int, str)] = []
-
         for word, freq in freq_map.items():
             # For min-heap to keep top K:
             # Use negative freq for max-heap behavior, but this alone isn't enough
-            # because equal frequencies would sort words in reverse order
+            # word remains unchanged as lexicographical order is considered in min-heap behavior
             heapq.heappush(heap, (-freq, word))
 
         # Step 3: Extract and sort result

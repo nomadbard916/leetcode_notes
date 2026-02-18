@@ -5,32 +5,27 @@
 #
 
 # @lc code=start
+from collections import Counter
+from heapq import heappop, heappush
 from typing import List
-import collections
-import heapq
 
 
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        # priority queue, aka. heap queue in python implementation
-        counter = collections.Counter(nums)
-        heap = []
+        counter = Counter(nums)
+        heap: tuple[int, int] = []
 
         for num, count in counter.items():
-            # priority takes order by first element of tuple counts[num]
-            heapq.heappush(heap, (count, num))
+            # priority takes order by first element of tuple (count, num)
+            # if count cannot be compared i.e. duplication, num is compared next
+            heappush(heap, (count, num))
 
             # always keep element count <= k with smallest popped first
             if len(heap) > k:
-                heapq.heappop(heap)
+                heappop(heap)
 
         # turn heap to list, taking only num
-        return [num for count, num in heap]
-
-
-
-
+        return [num for _, num in heap]
 
 
 # @lc code=end
-
