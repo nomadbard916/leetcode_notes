@@ -73,34 +73,36 @@ class Solution:
 
         # ! sol2: heap
         """
-        Alternative solution using Max-Heap (more optimal for large datasets).
+        Heap solution using max-heap behavior via negation.
 
-        Time: O(n + m log m + k log m)
-        - O(n) for Counter
-        - O(m log m) for pushing m unique words into heap
-        - O(k log m) for popping k items
-        - Since we push ALL words, this simplifies to O(n + m log m)
+        Time Complexity: O(n + m log m) where n is total words, m is unique words
+        Space Complexity: O(m) for frequency map and heap
 
-        Space: O(m) for freq_map + O(m) for heap = O(m)
+        Key insight: Use negative frequency to simulate max-heap behavior.
+        Python's heapq is a min-heap, so:
+        - Negate frequency: -freq makes higher frequencies come out first
+        - Lexicographical order: When -freq ties, Python compares word naturally
 
-        Key insight: Maintain a max-heap
-        word is still in ascending order, so when popping from heap,
-        the lexicographically smaller one is popped
+        This is simpler and more elegant than maintaining a size-k heap!
         """
         result: List[str] = []
 
         # Step 1: Count frequencies
         freq_map = Counter(words)
 
-        # Step 2: Use heap, freq for max heap behavior and word for min
+        # Step 2: Build heap with all words
+        # Tuple: (-freq, word)
+        # - Negative freq for max-heap behavior (higher freq = smaller -freq value)
+        # - Word for lexicographical tie-breaking
         heap: List[tuple(int, str)] = []
         for word, freq in freq_map.items():
-            # For min-heap to keep top K:
-            # Use negative freq for max-heap behavior, but this alone isn't enough
-            # word remains unchanged as lexicographical order is considered in min-heap behavior
+            # Negate frequency to get max-heap behavior
+            # When frequencies tie, Python automatically compares words lexicographically
             heapq.heappush(heap, (-freq, word))
 
-        # Step 3: Extract and sort result
+        # Step 3: Pop k elements
+        # They come out in descending frequency order
+        # With lexicographical order for ties
         for _ in range(k):
             result.append(heapq.heappop(heap)[1])
 
