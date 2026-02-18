@@ -108,20 +108,19 @@ class Solution:
 
         # ! sol3 heap most optimized
         """
-        Most optimized heap solution with proper custom comparison.
+        Optimized O(n log k) solution using size-k min-heap with custom comparator.
 
-        Time Complexity: O(n log k)
-        Space Complexity: O(n)
+        Time Complexity: O(n log k) where n is total words
+        Space Complexity: O(n) for frequency map + O(k) for heap
+
+        Key insight: Maintain a heap of size k.
+        We want to KEEP the k largest items (highest freq, smallest word when tie).
+        So we EVICT the smallest items (lowest freq, largest word when tie).
+
+        For a min-heap, the smallest item is at top and gets popped.
+        So we define "smallest" as what we want to evict!
         """
         freq_map = Counter(words)
-
-        # Python's heapq creates min-heap
-        # We want to maintain k largest items (by our custom criteria)
-        # So the "smallest" item (by our criteria) should be evicted
-
-        # Custom comparison for min-heap:
-        # - Lower frequency should be evicted → use +freq
-        # - When freq ties, lexicographically larger should be evicted → use reverse
 
         class WordFreq:
             def __init__(self, word: str, freq: int):
@@ -129,8 +128,18 @@ class Solution:
                 self.freq = freq
 
             def __lt__(self, other: "WordFreq") -> bool:
-                # Define "less than" for min-heap
-                # Smaller items get evicted when heap exceeds k
+                """
+                Define "less than" for min-heap comparison.
+                "Smaller" items get evicted when heap exceeds k.
+
+                We want to KEEP:
+                - High frequency words
+                - Lexicographically smaller words when freq ties
+
+                So we want to EVICT (define as "smaller"):
+                - Low frequency words
+                - Lexicographically larger words when freq ties
+                """
                 if self.freq != other.freq:
                     return self.freq < other.freq  # Lower freq is "smaller"
                 return self.word > other.word  # Larger word is "smaller"
@@ -145,9 +154,10 @@ class Solution:
             if len(heap) > k:
                 heapq.heappop(heap)
 
-        # Extract words and reverse (heap gives ascending order)
-        result = [item.word for item in sorted(heap, reverse=True)]
-        return result
+        # Extract and sort the result
+        # Heap is in arbitrary order, so we need to sort properly
+        result = sorted(heap, key=lambda x: (-x.freq, x.word))
+        return [item.word for item in result]
 
 
 # @lc code=end
