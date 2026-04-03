@@ -15,19 +15,36 @@ class Solution:
     def smallestRange(self, nums: List[List[int]]) -> List[int]:
         """
         * nouns and verbs
-        sorted integers
+        k sorted integers, range[a, b]
+        find, cover, includes (at least one from each list), minimize
         * pattern kws
         two pointers?
+        smallest range -> sliding window or greedy
+        k sorted lists -> merge k lists, heap/priority queue
+        at least one from each -> coverage constrain
         * structure kws
+        sorted: order can be exploited
         non-decreasing order, smallest range: one number from each of k list
         smaller rule:  range [a, b] is smaller than range [c, d] if b - a < d - c or a < c if b - a == d - c
         * map kws to algo
+        k sorted lists => min-heap for merge
+        smallest range => track current min & max in heap
+        at least one from each => maintain exactly k representatives
+        minimize b-a => greedy: advance the min element
+
         * mental model
+        heap: we can always know the current minimum
+        track global max: as heap gives min, we need to track max ourselves
+        sliding window across sorted merge -> advance pointer of the list owning the current min
         * tricky kws
         1<=k<=3500 and 1<=len<=50, total 165000 => cannot brute force
+        smallest range
         * pattern specific kws
         """
-        # * take the smallest and biggest, and shrink? is this greedy?
+
+        """
+        thoughts process
+        # take the smallest and biggest, and shrink? is this greedy?
         # like backtracking, take numbers and unmake choice?
         # record (val, list, idx) in heap?
 
@@ -38,6 +55,10 @@ class Solution:
         # make the range first anyway?
 
         # visualize the overlapping first
+        """
+
+        # ! LC 632 = LC 76 (Minimum Window Substring) applied to k sorted lists,
+        # where the heap replaces the explicit merge + sort step and saves memory.
 
         # * as the range keeps changing, just keep them floating with impossibly wide range
         res_range = [float("-inf"), float("inf")]
@@ -73,6 +94,18 @@ class Solution:
             curr_max = max(curr_max, next_val)
 
         return res_range  # ty:ignore[invalid-return-type]
+
+        # complexities
+        # Time O(N log k) where N = total elements across all lists, log k for each heap operation
+        # Space O(k) — the heap holds exactly k elements at any time
+
+        # why not use max heap and track min?
+        # The Fundamental Asymmetry:
+        # The lists are sorted ascending. So:
+        # - Advancing a list → next element is larger or equal
+        # - We want to raise the floor (min) → must advance the min-owner ✅
+        # - Advancing the max-owner → next element even larger → widens range ❌
+        # This means the algorithm is inherently min-first. The min is the one that needs to move, so you need O(log k) access to the min and its identity — which is exactly what a min-heap gives you.
 
 
 # @lc code=end
