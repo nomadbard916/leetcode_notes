@@ -56,12 +56,12 @@ class Solution:
                 res_range = [curr_min, curr_max]
 
             next_elem_idx = elem_idx + 1
-            if next_elem_idx < len(nums[list_idx]):
-                next_val = nums[list_idx][next_elem_idx]
-                heapq.heappush(min_heap, (next_val, list_idx, next_elem_idx))
-                curr_max = max(curr_max, next_val)
-            else:
+            if next_elem_idx >= len(nums[list_idx]):
                 break
+
+            next_val = nums[list_idx][next_elem_idx]
+            heapq.heappush(min_heap, (next_val, list_idx, next_elem_idx))
+            curr_max = max(curr_max, next_val)
 
         return res_range  # ty:ignore[invalid-return-type]
 
