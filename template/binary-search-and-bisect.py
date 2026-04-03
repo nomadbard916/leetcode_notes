@@ -201,6 +201,7 @@ def right_bound(nums: List[int], target: int) -> int:
     return right if nums[right] == target else -1
 
 
+# For reference only, the above already covered.
 # from lucifer: 在实际的写代码过程中，我不会使用寻找满足条件的值模板，而是直接使用最左或者最右插入模板。
 # 为什么呢？因为后者包含了前者，并还有前者实现不了的功能。比如我要实现寻找满足条件的值，
 # 就可直接使用最左插入模板找到插入索引 i，只不过最后判断一下 nums[i] 是否等于 target 即可，
