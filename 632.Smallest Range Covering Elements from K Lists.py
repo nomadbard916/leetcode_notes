@@ -38,8 +38,11 @@ class Solution:
         # make the range first anyway?
 
         # visualize the overlapping first
+
+        # * as the range keeps changing, just keep them floating with impossibly wide range
         res_range = [float("-inf"), float("inf")]
 
+        # * init the heap with the first and smallest element of each list
         curr_max: float | int = float("-inf")
         # for each heap item: (value, list_index, elem_index)
         min_heap: list[tuple[int, int, int]] = []
@@ -49,18 +52,24 @@ class Solution:
             heapq.heappush(min_heap, (curr_val, list_idx, 0))
             curr_max = max(curr_max, curr_val)
 
+        # * greedy loop
         while min_heap:
             curr_min, list_idx, elem_idx = heapq.heappop(min_heap)
 
+            # update answer if current window is smaller
             if curr_max - curr_min < res_range[1] - res_range[0]:
                 res_range = [curr_min, curr_max]
 
+            # Try to advance: push the NEXT element from the same list
             next_elem_idx = elem_idx + 1
-            if next_elem_idx >= len(nums[list_idx]):
+            curr_list = nums[list_idx]
+            # out of bound: This list is exhausted → we can no longer cover all lists → stop, early return
+            if next_elem_idx >= len(curr_list):
                 break
 
-            next_val = nums[list_idx][next_elem_idx]
+            next_val = curr_list[next_elem_idx]
             heapq.heappush(min_heap, (next_val, list_idx, next_elem_idx))
+
             curr_max = max(curr_max, next_val)
 
         return res_range  # ty:ignore[invalid-return-type]
