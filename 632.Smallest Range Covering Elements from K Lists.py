@@ -74,7 +74,7 @@ class Solution:
         res_range = [float("-inf"), float("inf")]
 
         # * init the heap with the first and smallest element of each list
-        curr_max: float | int = float("-inf")
+        curr_max = float("-inf")
         # for each heap item: (value, list_index, elem_index)
         min_heap: list[tuple[int, int, int]] = []
 
@@ -88,6 +88,9 @@ class Solution:
             curr_min, list_idx, elem_idx = heapq.heappop(min_heap)
 
             # update answer if current window is smaller
+            # Tie-breaking is free because current_min is monotonically non-decreasing.
+            # The algorithm naturally encounters the smallest left boundary first.
+            # No explicit tie-break logic needed.
             if curr_max - curr_min < res_range[1] - res_range[0]:
                 res_range = [curr_min, curr_max]
 
