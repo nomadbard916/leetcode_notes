@@ -60,6 +60,16 @@ class Solution:
         # ! LC 632 = LC 76 (Minimum Window Substring) applied to k sorted lists,
         # where the heap replaces the explicit merge + sort step and saves memory.
 
+        # * Key Insights
+        # Why always advance the minimum?
+        # At any moment, your window is [min, max]. To shrink the window:
+        # - You can't lower max (it would exclude something)
+        # - You CAN try to raise min → advance the list that owns the current minimum
+
+        # Advancing any other list would either keep min the same or widen the window. This is the greedy proof.
+        # Why stop when a list is exhausted?
+        # Once a list has no more elements, you can never maintain coverage of all k lists — so no better answer exists.
+
         # * as the range keeps changing, just keep them floating with impossibly wide range
         res_range = [float("-inf"), float("inf")]
 
@@ -91,13 +101,14 @@ class Solution:
             next_val = curr_list[next_elem_idx]
             heapq.heappush(min_heap, (next_val, list_idx, next_elem_idx))
 
+            # as the lists are sorted, the next value is very likely bigger than the current max
             curr_max = max(curr_max, next_val)
 
         return res_range  # ty:ignore[invalid-return-type]
 
-        # complexities
-        # Time O(N log k) where N = total elements across all lists, log k for each heap operation
-        # Space O(k) — the heap holds exactly k elements at any time
+        # * complexities
+        # - Time O(N log k) where N = total elements across all lists, log k for each heap operation
+        # - Space O(k) — the heap holds exactly k elements at any time
 
         # why not use max heap and track min?
         # The Fundamental Asymmetry:
