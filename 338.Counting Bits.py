@@ -6,6 +6,8 @@
 #
 
 # @lc code=start
+from __future__ import annotations
+
 from typing import List
 
 
@@ -38,11 +40,36 @@ class Solution:
 
         return dp
 
-    # * time & space complexity
-    # Approach,Time Complexity,Space Complexity
-    # Brute Force (bin().count),O(nlogn),O(n) for output
-    # DP — Lowest Set Bit,O(n),O(n)
-    # DP — Even/Odd,O(n),O(n)
+        # ! sol2: DP with even/odd pattern
+        # Observation:
+        #   - Even number i: binary is just (i // 2) shifted left → same number of 1s
+        #     e.g. 6 = 110, 3 = 11 → both have two 1s
+        #   - Odd number i: one more 1 than i // 2
+        #     e.g. 7 = 111, 3 = 11 → 7 has one more 1 than 3
+        #
+        # Recurrence:
+        #   dp[i] = dp[i >> 1] + (i & 1)
+        #           ↑ half of i   ↑ 1 if odd, 0 if even
+        dp: List[int] = [0] * (n + 1)
+        for i in range(1, n + 1):
+            dp[i] = dp[i >> 1] + (i & 1)
+            # i >> 1  is same as i // 2  (right-shift drops the last bit)
+            # i & 1   is 1 if odd, 0 if even (checks the last bit)
+
+        return dp
+
+        # ! sol 3: Brute Force
+        # For every number i, manually count its set bits.
+
+        # bin(i) gives e.g. '0b1011', so we strip the prefix and count '1's.
+        # Easy to understand, but not optimal.
+        return [bin(i).count("1") for i in range(n + 1)]
+
+        # * time & space complexity
+        # Approach,Time Complexity,Space Complexity
+        # Brute Force (bin().count),O(nlogn),O(n) for output
+        # DP — Lowest Set Bit,O(n),O(n)
+        # DP — Even/Odd,O(n),O(n)
 
 
 # @lc code=end
