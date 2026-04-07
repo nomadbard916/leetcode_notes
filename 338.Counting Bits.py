@@ -33,6 +33,18 @@ class Solution:
         #   i=5: 0b0101  → dp[5 & 4] + 1 = dp[4] + 1 = 2
         #   i=6: 0b0110  → dp[6 & 5] + 1 = dp[4] + 1 = 2
         #   i=7: 0b0111  → dp[7 & 6] + 1 = dp[6] + 1 = 3
+
+        # So your instinct — "find the number that has exactly one fewer 1, and build from there" — is exactly right.
+        # The key question is just: how do you reliably find that number?
+        # That's what i & (i-1) does. It doesn't go to i-1 in decimal.
+        # Instead it surgically removes the lowest set bit of i, giving you a number that:
+        # - is guaranteed to have exactly one fewer 1 than i
+        # - is guaranteed to be < i, so it's already computed in our DP table
+
+        # So the full restatement of the insight in your own words:
+        # "For any number i, find the number that has exactly one fewer 1-bit — that's i & (i-1) — and just add 1."
+        # That's precisely dp[i] = dp[i & (i-1)] + 1.
+        # You had the right idea, just needed the right tool to find that "one less" number reliably. 🎯
         dp: List[int] = [0] * (n + 1)
 
         for i in range(1, n + 1):
@@ -46,6 +58,31 @@ class Solution:
         #     e.g. 6 = 110, 3 = 11 → both have two 1s
         #   - Odd number i: one more 1 than i // 2
         #     e.g. 7 = 111, 3 = 11 → 7 has one more 1 than 3
+        #         decimal   binary    last bit    odd/even?
+        # ──────────────────────────────────────────
+        # 0       0000         0          even
+        # 1       0001         1          odd
+        # 2       0010         0          even
+        # 3       0011         1          odd
+        # 4       0100         0          even
+        # 5       0101         1          odd
+        # 6       0110         0          even
+        # 7       0111         1          odd
+
+        # Why Does & 1 Extract the Last Bit?
+        # 1 in binary is 0001 — it has a 1 only in the last position, and 0 everywhere else.
+        # AND (&) works bit by bit: 1 & 1 = 1, and anything & 0 = 0.
+        # So i & 1 masks out every bit except the last one:
+        # 6  =  ...0110
+        # 1  =  ...0001
+        #         ──────  AND
+        #         ...0000  →  0  (even ✅)
+
+        # 7  =  ...0111
+        # 1  =  ...0001
+        #         ──────  AND
+        #         ...0001  →  1  (odd ✅)
+        # All the upper bits get zeroed out. Only the last bit survives. That's all & 1 does — it's a bit mask that isolates position 0.
         #
         # Recurrence:
         #   dp[i] = dp[i >> 1] + (i & 1)
