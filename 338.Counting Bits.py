@@ -100,6 +100,15 @@ class Solution:
 
         # bin(i) gives e.g. '0b1011', so we strip the prefix and count '1's.
         # Easy to understand, but not optimal.
+        # A number `i` in binary has exactly **⌊log₂(i)⌋ + 1** digits, so it's O(log n)
+        # ```
+        # i = 1   →  "1"       →  1 digit   (log₂(1) = 0)
+        # i = 2   →  "10"      →  2 digits  (log₂(2) = 1)
+        # i = 4   →  "100"     →  3 digits  (log₂(4) = 2)
+        # i = 8   →  "1000"    →  4 digits  (log₂(8) = 3)
+        # i = 16  →  "10000"   →  5 digits  (log₂(16) = 4)
+        # ```
+        # # and repeating n times gives O(n log n)
         return [bin(i).count("1") for i in range(n + 1)]
 
         # * time & space complexity
