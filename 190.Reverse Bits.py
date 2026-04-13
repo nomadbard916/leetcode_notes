@@ -38,6 +38,21 @@ class Solution:
             n >>= 1
         return result
 
+        # ! sol 2: Explicit positional placement  (O(32) = O(1) time, O(1) space)
+        # Intuition:
+        #   More explicit version. At iteration i (0-indexed from LSB),
+        #   bit i of n goes to bit (31 - i) of result.
+        #   We extract it with (n >> i) & 1, then shift it into place.
+        #
+        # This is mathematically identical to Approach 1, but written to make the
+        # "mirror position" invariant explicit: bit_i → bit_(31-i).
+
+        result: int = 0
+        for i in range(32):
+            bit: int = (n >> i) & 1  # extract bit at position i
+            result |= bit << (31 - i)  # place it at mirror position 31-i
+        return result
+
 
 # @lc code=end
 
