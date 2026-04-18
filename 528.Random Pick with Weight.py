@@ -55,6 +55,13 @@ class Solution:
         dart = random.random() * self.total
         return bisect.bisect_left(self.prefix_sum, dart)
 
+        # Why not just use bisect_right?
+        # With a float dart, bisect_right would work in practice
+        # because a random float hitting an exact integer boundary has probability zero.
+        # But bisect_left is the correct choice because it matches the semantic:
+        # prefix_sum [1, 4, 6] means bucket 0 owns [0, 1) — hitting 1.0 exactly belongs to bucket 1,
+        # and bisect_left faithfully enforces that.
+
     #     Complexity
     # Operation,Time Complexity,Space Complexity
     # __init__,O(n) — One pass to build prefix sums,O(n)
