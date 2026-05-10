@@ -6,7 +6,6 @@
 #
 
 # @lc code=start
-from __future__ import annotations
 
 from typing import List
 
@@ -20,7 +19,7 @@ class Solution:
         - area
         * pattern kws
         - DFS?
-        - overlapping?
+        - overlapping problems?
         * constraint kws
         1 <= m, n <= 300
         the largest area can only be (smaller of m or n) ^2
@@ -29,15 +28,42 @@ class Solution:
         * build mental model
         indexing  cell?
         hash map to record each cell, record: (is_1, biggest area)
-        check upper-left cells repeatedly
+        check upper-left cells repeatedly, more specifically: up, left, upper-left
         check the upper-left diagonal cell
         * tricky kws
         * pattern specific kws
         * impl
         """
-        ans = 0
+        # ! sol1: 2D DP
+        # tracking side instead of area
+        if not matrix or not matrix[0]:
+            return 0
+        m = len(matrix)
+        n = len(matrix[0])
+        max_side = 0
 
-        return ans
+        dp: List[List[int]] = [[0] * n for _ in range(m)]
+
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j] == '0':
+                    continue
+
+                # first row or col: at most a 1x1 square
+                if i == 0 or j == 0:
+                    dp[i][j] = 1
+                else:
+
+                    top = dp[i-1][j]
+                    left = dp[i][j-1]
+                    diagonal = dp[i-1][j-1]
+
+                    dp[i][j]= min(top, left, diagonal) +1
+                max_side = max(max_side, dp[i][j])
+
+
+
+        return max_side ** 2
 
 # @lc code=end
 
