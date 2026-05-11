@@ -98,6 +98,12 @@ class Solution:
 
         return max_side ** 2
 
+        # Complexity
+        # Approach| Time| Space
+        # 2DDP | O(m × n) | O(m × n)
+        # 1D rolling DP | O(m × n) | O(n)
+        # In-place DP | O(m × n) | O(1) extra
+
 # @lc code=end
 
 
