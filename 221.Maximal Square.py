@@ -37,6 +37,30 @@ class Solution:
         * impl
         """
         # ! sol1: 2D DP
+        # ─────────────────────────────────────────────────────────────────────────────
+        # Approach 1 – 2D DP (classic)
+        #
+        # Key insight:
+        #   dp[i][j] = side length of the largest all-1 square whose
+        #              BOTTOM-RIGHT CORNER is at cell (i, j).
+        #
+        #   Recurrence (when matrix[i][j] == '1'):
+        #       dp[i][j] = min(dp[i-1][j],   ← square ending just above
+        #                      dp[i][j-1],   ← square ending just to the left
+        #                      dp[i-1][j-1]) ← square ending diagonally above-left
+        #                  + 1
+        #
+        #   Intuition for the min:
+        #     Imagine trying to extend the bottom-right corner of a square.
+        #     The new square can only be as large as the SMALLEST of the three
+        #     neighbors allows — like a chain being limited by its weakest link.
+        #     - If the top neighbor guarantees height h, left guarantees width h,
+        #       and diagonal guarantees the corner h×h block exists, then all
+        #       three must agree for the new square to be (h+1)×(h+1).
+        #
+        #   Time : O(m × n)
+        #   Space: O(m × n) – the dp table (reducible to O(n), see Approach 2)
+        # ─────────────────────────────────────────────────────────────────────────────
         # tracking side instead of area
         if not matrix or not matrix[0]:
             return 0
@@ -97,6 +121,55 @@ class Solution:
                 max_side = max(max_side, dp[i][j])
 
         return max_side ** 2
+
+        # ! sol2: 1D DP
+        # ─────────────────────────────────────────────────────────────────────────────
+        # Approach 2 – 1D DP (space-optimised)
+        #
+        # Observation:
+        #   At row i we only need the PREVIOUS row's dp values plus the
+        #   current row's values computed so far.  We can use a single 1-D
+        #   array and one extra variable (prev) to remember the diagonal.
+        #
+        #   Think of it as a "rolling" row:
+        #       prev          = dp[i-1][j-1]  (diagonal, saved before overwrite)
+        #       dp_row[j-1]   = dp[i][j-1]   (left, already updated)
+        #       dp_row[j]     = dp[i-1][j]   (top, still the old value before update)
+        #
+        #   Time : O(m × n)
+        #   Space: O(n) – just one row + one scalar
+        # ─────────────────────────────────────────────────────────────────────────────
+        if not matrix or not matrix[0]:
+            return 0
+
+        m = len(matrix)
+        n = len(matrix[0])
+        max_side = 0
+
+        # Represents dp values for the PREVIOUS row (initialized to 0)
+        prev_row = [0]*n
+
+        for i in range(m):
+            curr_row = [0]*n
+
+            for j in range(n):
+                if matrix[i][j]==1:
+                    curr_row[j] = 1
+                else:
+                    # same column, row above
+                    top = prev_row[j]
+                    # same row, column to the left
+                    left = prev_row[j-1]
+                    # diagonal: row above, col to left
+                    diagonal = prev_row[j-1]
+
+                    curr_row[j] = min(top, left, diagonal) + 1
+                max_side = max(max_side, curr_row[j])
+
+            prev_row = curr_row
+        return max_side **2
+
+
 
         # Complexity
         # Approach| Time| Space
