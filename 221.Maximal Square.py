@@ -186,6 +186,27 @@ class Solution:
         #   Time : O(m × n)
         #   Space: O(1) extra  (ignoring the mutation of input)
         # ─────────────────────────────────────────────────────────────────────────────
+        if not matrix or not matrix[0]:
+            return 0
+        m = len(matrix)
+        n = len(matrix[0])
+        max_side = 0
+
+        for i in range(m):
+            for j in range(n):
+                # convert char -> int in-place
+                matrix[i][j] = int(matrix[i][j])
+
+                if matrix[i][j] and i > 0 and j >0:
+                    matrix[i][j] = min(
+                        matrix[i-1][j],
+                        matrix[i][j-1],
+                        matrix[i-1][j-1],
+                    )+1
+
+                    max_side = max(max_side, matrix[i][j])
+
+        return max_side **2
 
 
 
