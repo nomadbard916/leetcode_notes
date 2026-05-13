@@ -153,21 +153,39 @@ class Solution:
             curr_row = [0]*n
 
             for j in range(n):
-                if matrix[i][j]==1:
-                    curr_row[j] = 1
-                else:
-                    # same column, row above
-                    top = prev_row[j]
-                    # same row, column to the left
-                    left = prev_row[j-1]
-                    # diagonal: row above, col to left
-                    diagonal = prev_row[j-1]
+                if matrix[i][j]=='1':
+                    # if top, left and diagonal don't exist at all
+                    if i == 0 or j == 0:
+                        curr_row[j] = 1
+                    else:
+                        # same column, row above
+                        top = prev_row[j]
+                        # same row, column to the left
+                        left = prev_row[j-1]
+                        # diagonal: row above, col to left
+                        diagonal = prev_row[j-1]
 
-                    curr_row[j] = min(top, left, diagonal) + 1
-                max_side = max(max_side, curr_row[j])
+                        curr_row[j] = min(top, left, diagonal) + 1
+                    max_side = max(max_side, curr_row[j])
 
+            # advance the rolling window
             prev_row = curr_row
         return max_side **2
+
+        # ! sol3: in-place DP
+        # ─────────────────────────────────────────────────────────────────────────────
+        # Approach 3 – In-place DP (mutating the input)
+        #
+        # If mutating the original matrix is acceptable (sometimes asked in
+        # interviews as a follow-up), we can skip the dp array entirely and
+        # store side lengths directly in matrix[i][j] (as integers).
+        #
+        # Exactly the same recurrence; saves O(m×n) extra space.
+        # (In Python we convert each cell from a string char to an int.)
+        #
+        #   Time : O(m × n)
+        #   Space: O(1) extra  (ignoring the mutation of input)
+        # ─────────────────────────────────────────────────────────────────────────────
 
 
 
