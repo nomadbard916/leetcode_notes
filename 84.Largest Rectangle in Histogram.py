@@ -18,6 +18,7 @@ class Solution:
         # Monotonic Stack Pattern:
         # This problem showcases the monotonic stack technique - maintaining stack elements in a specific order (increasing/decreasing). This pattern appears in many problems.
 
+        # * if the problem wants to ask for max square in matrix, it's #221
         # !sol1
         # Approach: Use a stack to keep track of indices of bars in increasing order.
         # When we find a bar shorter than the top of stack, we calculate area with

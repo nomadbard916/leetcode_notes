@@ -36,6 +36,8 @@ class Solution:
         * pattern specific kws
         * impl
         """
+
+        # * if the problem wants to ask for max rectangle in histogram, it's #84 with monotonic stack
         # ! sol1: 2D DP
         # ─────────────────────────────────────────────────────────────────────────────
         # Approach 1 – 2D DP (classic)
@@ -154,14 +156,14 @@ class Solution:
 
             for j in range(n):
                 if matrix[i][j]=='1':
-                    # if top, left and diagonal don't exist at all
+                    # first row or col; top, left and diagonal don't exist at all
                     if i == 0 or j == 0:
                         curr_row[j] = 1
                     else:
                         # same column, row above
                         top = prev_row[j]
                         # same row, column to the left
-                        left = prev_row[j-1]
+                        left = curr_row[j-1]
                         # diagonal: row above, col to left
                         diagonal = prev_row[j-1]
 
@@ -204,7 +206,7 @@ class Solution:
                         matrix[i-1][j-1],
                     )+1
 
-                    max_side = max(max_side, matrix[i][j])
+                max_side = max(max_side, matrix[i][j])
 
         return max_side **2
 
