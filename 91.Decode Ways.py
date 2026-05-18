@@ -35,35 +35,24 @@ class Solution:
         * problem specific pattern
         """
         n = len(s)
-        dp = [0] * n
 
-        for i, digit_char in enumerate(s):
-            if i == 0:
-                if digit_char == 0:
-                    dp[i] = 0
-                else:
-                    dp[i] = 1
-                continue
-            if i == 1:
-                if digit_char == 0:
-                    dp[i] = dp[i - 1]
-                else:
-                    dp[i] = dp[i] + dp[i - 1]
-                continue
+        # dp[i] = number of ways to decode s[:i]
+        # dp[0] = 1  → empty prefix: one way to decode nothing (base case)
+        # dp[1] = 1 if s[0] != '0' else 0
+        dp = [0] * (n + 1)
+        dp[0] = 1
+        dp[1] = 1 if s[0] != "0" else 0
 
-            if digit_char == "0":
-                dp[i] = dp[i - 1]
-                continue
-
-            # consider only 1 digit
-            if s[i - 1] != "0":
+        for i in range(2, n + 1):
+            one_digit = int(s[i - 1])
+            if one_digit != 0:
                 dp[i] += dp[i - 1]
-            # consider two digits
+
             two_digits = int(s[i - 2 : i])
             if 10 <= two_digits <= 26:
                 dp[i] += dp[i - 2]
 
-        return dp[-1]
+        return dp[n]
 
 
 # @lc code=end
