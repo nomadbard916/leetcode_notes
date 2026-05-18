@@ -18,8 +18,12 @@ class Solution:
         - rules:
         prefix 0 not allowed
         1~26
+        letter mapping
         - different ways
         - grouping
+        - partition
+        - count
+        - map
         * pattern kws
         - backtracking?
         - two pointer? ...no
@@ -30,10 +34,15 @@ class Solution:
         answer in 32-bit integer
         * map to algo
         * mental model
+        - consider one-digit or two-digits
+        - identical to climbing stairs
         * tricky
         - each code cannot start from 0
         - code range can only be 1~26
         * problem specific pattern
+        dp[i] = number of ways to decode s[:i]
+        - 1-char step: if s[i-1] != '0' → dp[i] += dp[i-1]
+        - 2-char step: if 10 ≤ int(s[i-2:i]) ≤ 26 → dp[i] += dp[i-2]
         """
         #! sol1: DP table
         n = len(s)
