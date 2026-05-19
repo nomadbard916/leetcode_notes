@@ -44,13 +44,31 @@ class Solution:
         - 1-char step: if s[i-1] != '0' → dp[i] += dp[i-1]
         - 2-char step: if 10 ≤ int(s[i-2:i]) ≤ 26 → dp[i] += dp[i-2]
         """
+
+        # * Key Insights
+        # 1. This is Climbing Stairs in disguise.
+        # At each character, you decide: "do I consume 1 digit or 2?"
+        # If valid, both branches contribute. This produces the same recurrence as Fibonacci.
+        # 2. The dp table visualized for "226":
+        # i | s[:i] | dp[i] | reasoning
+        # 0 | "" | 1 | base case: empty = 1 way
+        # 1 | "2" | 1 | "B"
+        # 2 | "22" | 2 | "BB" or "V"
+        # 3 | "226" | 3 | "BBF", "VF", "BZ"
+        # 3. Zero is a trap character — it has two failure modes:
+        # s[i] == '0' → 1-digit step is dead
+        # s[i-2:i] starts with '0' (e.g. "06") → 2-digit step is dead (checked by 10 ≤ x ≤ 26)
+        # 4. Space optimization is clean here — since each dp[i] only looks back 2 positions,
+        # you can replace the array with two rolling variables (prev1, prev2), reducing space from O(n) to O(1).
+
         #! sol1: DP table
         n = len(s)
 
         # dp[i] = number of ways to decode s[:i]
         # n+1: sentinel
         dp = [0] * (n + 1)
-        # dp[0] = 1  → empty prefix: one way to decode nothing (base case)
+        # dp[0] = 1  → empty prefix: one way to decode nothing (base case),
+        # though it won't happen in test cases
         dp[0] = 1
         dp[1] = 1 if s[0] != "0" else 0
 
