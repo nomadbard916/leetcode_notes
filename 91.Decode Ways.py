@@ -112,8 +112,33 @@ class Solution:
 
         return prev1
 
+        # ! sol3: Memoized Recursion (top-down DFS)
+        # Useful if the problem gains more branching conditions later.
+        from functools import lru_cache
+
+        n: int = len(s)
+
+        @lru_cache(maxsize=None)
+        def dfs(i: int) -> int:
+            """Number of ways to decode s[i:]"""
+            if i == n:
+                return 1  # consumed entire string: one valid decode
+            if s[i] == "0":
+                return 0  # can't start a new token with '0'
+
+            # Option A: take 1 digit
+            ways: int = dfs(i + 1)
+
+            # Option B: take 2 digits (if in range)
+            if i + 1 < n and int(s[i : i + 2]) <= 26:
+                ways += dfs(i + 2)
+
+            return ways
+
+        return dfs(0)
+
         # Time:  O(n)
-        # Space: O(1)
+        # Space: O(n)  (call stack + memo)
 
 
 # @lc code=end
