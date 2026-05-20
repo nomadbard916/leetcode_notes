@@ -91,6 +91,30 @@ class Solution:
         # Time:  O(n)
         # Space: O(n)
 
+        # ! sol2: space-optimized DP
+        # We only ever need dp[i-1] and dp[i-2]
+        # prev2 = dp[i-2], prev1 = dp[i-1], curr = dp[i]
+        prev2: int = 1  # dp[0]: empty prefix
+        prev1: int = 1 if s[0] != "0" else 0  # dp[1]
+
+        for i in range(2, len(s) + 1):
+            curr: int = 0
+
+            one_digit: int = int(s[i - 1])
+            if one_digit != 0:
+                curr += prev1  # inherit ways from one step back
+
+            two_digit: int = int(s[i - 2 : i])
+            if 10 <= two_digit <= 26:
+                curr += prev2  # inherit ways from two steps back
+
+            prev2, prev1 = prev1, curr  # slide window forward
+
+        return prev1
+
+        # Time:  O(n)
+        # Space: O(1)
+
 
 # @lc code=end
 
