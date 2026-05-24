@@ -6,6 +6,7 @@
 #
 
 # @lc code=start
+from __future__ import annotations
 
 
 class TrieNode:
@@ -44,8 +45,9 @@ class WordDictionary:
     def addWord(self, word: str) -> None:
         """Insert word into the Trie character by character."""
         node = self.root
-        for ch in word:
-            idx = ord(ch) - ord("a")
+        for char in word:
+            # map 'a'=0 … 'z'=25
+            idx = ord(char) - ord("a")
             if node.children[idx] is None:
                 node.children[idx] = TrieNode()
             node = node.children[idx]
@@ -59,21 +61,34 @@ class WordDictionary:
         return self._dfs(word, 0, self.root)
 
     def _dfs(self, word: str, idx: int, node: TrieNode) -> bool:
+        """
+        DFS through the Trie matching word[idx:] against subtree rooted at node.
+
+        Base case : idx == len(word) → we consumed the full pattern;
+                    success iff this node marks a complete word.
+        Wildcard  : try every non-None child recursively.
+        Literal   : follow the single matching child (if it exists).
+        """
+        # ending condition
         if idx == len(word):
             return node.is_end
 
         ch = word[idx]
 
+        # ── wildcard '.' ────────────────────────────────────────────────────────
         if ch == ".":
+            # Branch into every existing child; short-circuit on first match
             for child in node.children:
                 if child is not None and self._dfs(word, idx + 1, child):
                     return True
             return False
 
+        # ── literal character ────────────────────────────────────────────────────
         child_idx = ord(ch) - ord("a")
         child = node.children[child_idx]
         if child is None:
             return False
+
         return self._dfs(word, idx + 1, child)
 
 
