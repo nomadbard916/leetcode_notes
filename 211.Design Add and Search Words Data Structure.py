@@ -24,6 +24,14 @@ class WordDictionary:
     search   — O(26^W) worst case (W wildcards), O(M) best case (no wildcards)
     """
 
+    # Problem Understanding
+    # You are asked to design a class with two operations:
+    # - addWord(word) — store a word
+    # - search(word) — return True if any stored word matches the pattern;
+    # . in the pattern matches any single character
+    # The challenge is that . can appear anywhere in the query, meaning you can't simply do prefix lookups —
+    # you may have to explore multiple branches at any character position.
+
     # ─────────────────────────────────────────────
     # Approach 1: Trie + Recursive DFS  (PRIMARY)
     # ─────────────────────────────────────────────
@@ -90,6 +98,27 @@ class WordDictionary:
             return False
 
         return self._dfs(word, idx + 1, child)
+
+        # Key Insights
+        # - Why Trie and not a hash set?
+        # A hash set is O(1) for exact lookup, but when . appears in the middle (e.g. "b.d"),
+        # you'd have to compare the pattern against every stored word using regex — O(N·M).
+        # A Trie naturally mirrors the character-by-character structure of the problem.
+        # - The wildcard = branching decision.
+        # In a standard Trie search, at each position you follow exactly one child pointer.
+        # When you hit ., you must follow all existing children.
+        # This is DFS with branching — and since only existing children are tried,
+        # the realistic branching factor is much lower than 26.
+        # The worst case O(26^W) only occurs with patterns like "....." against a very dense dictionary.
+        # - is_end vs. depth.
+        # A common mistake is returning True just because you reached a node at the right depth.
+        # You must also check is_end = True. The word "ba" and "bad" both exist as paths in the same Trie;
+        # is_end is the only thing that distinguishes them.
+        # - BFS vs DFS.
+        # Both iterate over the same state space. DFS (recursion) short-circuits on the first match and
+        # is natural for sequential pattern matching.
+        # BFS (frontier set) is easier to reason about iteratively and
+        # avoids deep call stacks for very long words with many wildcards.
 
 
 # Your WordDictionary object will be instantiated and called as such:
