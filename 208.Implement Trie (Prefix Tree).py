@@ -6,6 +6,9 @@
 #
 
 # @lc code=start
+from __future__ import annotations
+
+
 class TrieNode:
     def __init__(self) -> None:
         """
@@ -90,6 +93,12 @@ class Trie:
 
         # If we successfully traversed the prefix, it exists
         return True
+
+        # complexity
+        # Approach,addWord,search (no wildcards),search (all wildcards),Space
+        # Trie + DFS,O(M),O(M),O(26^W) worst,O(N·M·26)
+        # Trie + BFS,O(M),O(M),O(26^W) worst,O(N·M·26)
+        # Hash set + regex,O(M),O(N·M),O(N·M),O(N·M)
 
 
 # Your Trie object will be instantiated and called as such:
