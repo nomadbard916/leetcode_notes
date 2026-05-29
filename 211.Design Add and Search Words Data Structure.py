@@ -121,6 +121,84 @@ class WordDictionary:
         # avoids deep call stacks for very long words with many wildcards.
 
 
+# ──────────────────────────────────────────────────────────────────────────────
+# Approach 2: Trie + Iterative BFS using a frontier set
+# ──────────────────────────────────────────────────────────────────────────────
+# Instead of call-stack recursion, maintain a set of "currently active nodes."
+# At each character position, advance every node in the frontier.
+# For '.' advance to ALL children; for a literal, advance to the one child.
+#
+# Advantage  : no call-stack overhead; easier to reason about in iterative style
+# Disadvantage: set overhead; slightly more memory at peak
+#
+# Time / Space: same asymptotic as Approach 1
+
+
+class WordDictionaryBFS:
+    def __init__(self) -> None:
+        self.root = TrieNode()
+
+    def addWord(self, word: str) -> None:
+        node = self.root
+        for ch in word:
+            idx = ord(ch) - ord("a")
+            if node.children[idx] is None:
+                node.children[idx] = TrieNode()
+            node = node.children[idx]
+        node.is_end = True
+
+    def search(self, word: str) -> bool:
+        frontier: set[TrieNode] = {self.root}  # active nodes at current depth
+
+        for ch in word:
+            next_frontier: set[TrieNode] = set()
+
+            if ch == ".":
+                for node in frontier:
+                    for child in node.children:
+                        if child is not None:
+                            next_frontier.add(child)
+            else:
+                idx = ord(ch) - ord("a")
+                for node in frontier:
+                    child = node.children[idx]
+                    if child is not None:
+                        next_frontier.add(child)
+
+            if not next_frontier:
+                return False  # dead end — no paths survive
+            frontier = next_frontier
+
+        # After consuming all characters, any node with is_end=True is a match
+        return any(node.is_end for node in frontier)
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Approach 3: Hash Set + re.fullmatch  (Naive / Baseline)
+# ──────────────────────────────────────────────────────────────────────────────
+# Store all words in a plain set.
+# On search, convert '.' to the regex dot and match every stored word.
+#
+# addWord : O(M)
+# search  : O(N * M)  — N words, each matched against a pattern of length M
+# Useful for:  correctness testing; small dictionaries; quick prototyping.
+# Unsuitable for: large N or frequent searches (linear scan every time).
+
+import re
+
+
+class WordDictionaryNaive:
+    def __init__(self) -> None:
+        self._words: set[str] = set()
+
+    def addWord(self, word: str) -> None:
+        self._words.add(word)
+
+    def search(self, word: str) -> bool:
+        pattern = re.compile(word)  # '.' is already a regex wildcard — perfect
+        return any(pattern.fullmatch(w) for w in self._words)
+
+
 # Your WordDictionary object will be instantiated and called as such:
 # obj = WordDictionary()
 # obj.addWord(word)
