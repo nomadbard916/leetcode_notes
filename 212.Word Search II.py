@@ -21,14 +21,16 @@ class Solution:
         - return all words on the board
         - word: letters of sequentially adjacent cells
         - adjacent cells: horizontally or vertically neighboring
+        - find: search/locate
         * pattern kws
         - grid backtracking
         - DFS from each boarad cell
         - keep looking up the same prefix: trie
         - prefix pruning
         - trie for all words
+        - finding multiple targets simultaneously => trie
         * constraint kws
-        - same letter cell may not be used more than once in a word
+        - same letter cell may not be used more than once in a word => in-place visited flag
         - 1 <= m,n <= 12
         - lower case English letter
         - 1 <= words.length <= 3 * 104
@@ -37,13 +39,16 @@ class Solution:
         * map kws to algo
         - matrix/board: backtracking
         - track visited cells during DFS/backtracking
+        - pruning dead branches: remove exhausted trie nodes
         * mental model
+        - Brute Force: DFS per word → O(W × M × N × 4^L) — TLE for large inputs
+        - Optimal: Build Trie from all words, single DFS pass over board → all words checked simultaneously
         * tricky kws
         - many words, small board => need shared prefix pruning
         - unique words => no duplicate result output
         - board size small, word list large => optimize by prefix structure
         * pattern specific kws
-        - use trie + DFS to prune invalid prefixes early
+        - use trie + DFS backtracking to prune invalid prefixes early
         - avoid duplicates via trie end-market / visited result set
         """
 
