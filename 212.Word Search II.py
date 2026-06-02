@@ -129,15 +129,15 @@ class Solution:
             if not curr_node.children and curr_node.word is None:
                 del parent_node.children[ch]
 
-            # ── Step 3: Trigger DFS from every board cell ───────────
-            for r in range(rows):
-                for c in range(cols):
-                    # Quick pre-check: only start DFS if this char is
-                    # a first letter of any word (i.e., in Trie root's children)
-                    if board[r][c] in root.children:
-                        dfs(r, c, root)
+        # ── Step 3: Trigger DFS from every board cell ───────────
+        for r in range(rows):
+            for c in range(cols):
+                # Quick pre-check: only start DFS if this char is
+                # a first letter of any word (i.e., in Trie root's children)
+                if board[r][c] in root.children:
+                    dfs(r, c, root)
 
-            return result
+        return result
 
 
 # @lc code=end
