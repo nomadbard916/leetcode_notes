@@ -73,6 +73,9 @@ class Solution:
         # bottom-up so we don't revisit them. This makes the algorithm
         # significantly faster on dense boards with many short words.
 
+        rows, cols = len(board), len(board[0])
+        result: list[str] = []
+
         # ── Step 1: Build the Trie ──────────────────────────────
         root = TrieNode()
         for word in words:
@@ -82,9 +85,14 @@ class Solution:
                 if ch not in node.children:
                     node.children[ch] = TrieNode()
                 node = node.children[ch]
-            node.word = word  # mark terminal with full word
-        rows, cols = len(board), len(board[0])
-        result: list[str] = []
+            # mark terminal with full word, so you have the "goal" for backtracking to check
+            # How to spot the usage between is_end and word going forward
+            # The trigger is: "will I know what I found when I find it?"
+            # If yes → is_end is fine (you already have the word in hand).
+            # If no → you need the terminal to tell you (store word, or at minimum a word index).
+            # This exact pattern appears whenever a Trie is used for multi-pattern matching during simultaneous traversal — where the searcher and the recognizer are walking in lockstep and the recognizer has to hand the name of the matched pattern back up to the searcher. Aho-Corasick, which is the industrial version of this algorithm, does the same thing: each terminal carries the matched pattern, because the automaton runs on its own and needs to announce what it found.
+            # The boolean is_end belongs to lookup mode. The stored word belongs to discovery mode.
+            node.word = word
 
         # ── Step 2: DFS + Backtracking ──────────────────────────
         def dfs(r: int, c: int, parent_node: TrieNode):
