@@ -6,6 +6,7 @@
 #
 
 # @lc code=start
+from __future__ import annotations
 
 from typing import List, Optional
 
@@ -73,6 +74,12 @@ class Solution:
         # bottom-up so we don't revisit them. This makes the algorithm
         # significantly faster on dense boards with many short words.
 
+        # Key Insights
+        # 1. Trie as a shared prefix highway. Every character match on the board advances both the DFS position and the Trie position simultaneously. When the Trie dead-ends, the DFS prunes instantly — no need to keep going even if letters match.
+        # 2. Store the word string at the terminal node. Instead of a boolean flag, storing node.word = "oath" lets you append to results directly without reconstructing the path. After appending, set it to None to prevent duplicate results (the same word may be reachable via different paths).
+        # 3. In-place visited marking with '#'. Instead of a separate visited matrix, temporarily set board[r][c] = '#'. Since '#' is never in any word, the condition board[nr][nc] != '#' blocks re-entry. This saves O(M×N) space per DFS call. Don't forget to restore after recursion — that's the backtrack.
+        # 4. Bottom-up Trie pruning — the key optimization. After a word is found and all DFS paths from a node are exhausted, if curr_node has no children and no remaining word, delete it from its parent's children map. This shrinks the Trie over time, so future DFS calls skip dead branches entirely. On dense boards with many short words, this is the difference between TLE and AC.
+
         rows, cols = len(board), len(board[0])
         result: list[str] = []
 
@@ -120,6 +127,14 @@ class Solution:
             # so any DFS branch that reaches here won't re-enter this cell.
             board[r][c] = "#"
 
+            # When you'd carry a separate structure instead
+            # | Situation | Why In-Place Fails |
+            # | --- | --- |
+            # | **Graph with node objects (not a grid)** | No grid cell to corrupt; nodes don't have a "placeholder" value. |
+            # | **Problem forbids mutating input** | API contract or concurrent readers. |
+            # | **Multiple simultaneous DFS traversals** | Corruption from one walk would confuse another. |
+            # | **The "corrupt" sentinel is a valid value** | No safe placeholder character exists. |
+
             # ── Explore 4 neighbors ──
             for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
                 nr, nc = r + dr, c + dc
@@ -146,6 +161,12 @@ class Solution:
                     dfs(r, c, root)
 
         return result
+
+        # Complexity Analysis
+        # | Metric | Approach 1 (Brute Force) | Approach 2 (Trie + DFS) |
+        # | :--- | :--- | :--- |
+        # | **Time** | $O(W \times M \times N \times 4 \times 3^{L-1})$ | $O(M \times N \times 4 \times 3^{L-1})$ (amortized) |
+        # | **Space** | $O(L)$ (recursion stack) | $O(W \times L)$ (Trie) + $O(L)$ (stack) |
 
 
 # @lc code=end
