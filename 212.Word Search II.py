@@ -162,11 +162,61 @@ class Solution:
 
         return result
 
+        # ─────────────────────────────────────────────────────────────
+        # Approach 1: Brute Force — DFS for each word independently
+        # ─────────────────────────────────────────────────────────────
+        # Simple to reason about, but repeats work for shared prefixes.
+        # Use this to build intuition before jumping to Trie.
+        rows, cols = len(board), len(board[0])
+        result: list[str] = []
+
+        def dfs(r: int, c: int, word: str, idx: int) -> bool:
+            # base case: matched all characters
+            if idx == len(word):
+                return True
+
+            # boundary or mismatch
+            if r < 0 or r >= rows or c < 0 or c >= cols:
+                return False
+
+            if board[r][c] != word[idx]:
+                return False
+
+            # mark visited (temporarily corrupt the cell)
+            original = board[r][c]
+            board[r][c] = "#"
+
+            found = (
+                dfs(r + 1, c, word, idx + 1)
+                or dfs(r - 1, c, word, idx + 1)
+                or dfs(r, c + 1, word, idx + 1)
+                or dfs(r, c - 1, word, idx + 1)
+            )
+
+            board[r][c] = original  # Restore (backtrack)
+            return found
+
+        # trigger dfs for each word
+        for word in words:
+            found_word = False
+            for r in range(rows):
+                for c in range(cols):
+                    if dfs(r, c, word, 0):
+                        result.append(word)
+                        found_word = True
+                        break
+                if found_word:
+                    break
+        return result
+
         # Complexity Analysis
         # | Metric | Approach 1 (Brute Force) | Approach 2 (Trie + DFS) |
         # | :--- | :--- | :--- |
         # | **Time** | $O(W \times M \times N \times 4 \times 3^{L-1})$ | $O(M \times N \times 4 \times 3^{L-1})$ (amortized) |
         # | **Space** | $O(L)$ (recursion stack) | $O(W \times L)$ (Trie) + $O(L)$ (stack) |
+
+        # The factor of W disappears because all words are searched in a single DFS pass. The 3^(L-1) (not 4^L) comes from backtracking:
+        # at the first step you have 4 directions, but at every subsequent step you can't go back where you came from, so at most 3.
 
 
 # @lc code=end
